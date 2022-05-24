@@ -1,0 +1,48 @@
+context RentalContext {
+	/** 
+	 * Represents a contract that can be deployed to a RentalContext-Microservice
+	 */
+	structure RentalContract <aggregate, entity> {
+		string address <identifier>,
+		Owner owner,
+		Tenant tenant,
+		RentalObject object,
+		date endDate,
+		
+		/**
+		 * Initializes contract state.
+		 */
+		procedure initContract(Owner owner, RentalObject obj),
+		
+		/**
+		 * If amount equals the rental object, the message sender (tenant)
+		 * will aquire access to the rental object. 
+		 */
+		procedure grantAccessTo(Tenant tenant, date endDate),
+		
+		/**
+		 * Owner removes object for rent and therefore disables the contract.
+		 */
+		procedure exit()
+	}
+	
+	enum STATE {
+		START, END, INIT, ONGOING
+	}
+
+	structure Tenant<entity> {
+		string blockchainAddress <identifier>,
+		string name
+	}
+	
+	structure RentalObject<entity> {
+		long id <identifier>,
+		long pricePerDay
+	}
+	
+	structure Owner<entity> {
+	  	string blockchainAddress <identifier>,
+	  	string name,
+	  	function boolean approveTenant(string address)
+	}	
+}

@@ -1,0 +1,12 @@
+@startuml ChargeBookingManagement 
+
+[*] -> Idle
+Idle --> Reading: read
+Reading --> Idle
+Idle --> Creating
+Creating --> Idle
+Idle --> Canceling
+Canceling --> Idle
+Idle -> [*]
+
+@enduml

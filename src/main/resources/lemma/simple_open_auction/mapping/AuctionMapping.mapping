@@ -1,0 +1,46 @@
+import microservices from "../services/AuctionService.services" as AuctionService
+import technology from "../../common/technology/Solidity.technology" as Solidity
+
+@technology(Solidity)
+type AuctionService::Auction::SimpleOpenAuctionContext.SimpleOpenAuction {
+	aspects {
+		Solidity::_aspects.ContractType (
+			isContract = true
+		);
+		Solidity::_aspects.StateBehavior (
+			plantuml = "~/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/plantuml/simple_open_auction/auction.plantuml"
+		);
+	}
+	
+	beneficiary:Solidity::_types.address {
+		aspects {
+			Solidity::_aspects.Payable;
+		}
+	}
+	
+	highestBidder:Solidity::_types.address {
+		aspects {
+			Solidity::_aspects.Payable;
+		}
+	}
+	
+	
+	pendingReturns {
+		aspects {
+			Solidity::_aspects.Mapping(
+				key = "address",
+				value = "uint"
+			);
+		}
+	}
+}
+
+@technology(Solidity)
+type AuctionService::Auction::SimpleOpenAuctionContext.HighestBidIncreased {
+	bidder: Solidity::_types.address;
+}
+
+@technology(Solidity)
+type AuctionService::Auction::SimpleOpenAuctionContext.AuctionEnded {
+	winner: Solidity::_types.address;
+}

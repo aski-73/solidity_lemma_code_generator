@@ -1,0 +1,9 @@
+import datatypes from "../domain/SimpleOpenAuctionContext.data" as Auction
+
+public functional microservice de.fhdo.AuctionService {
+	public interface AuctionInterface {
+		public bid();
+		public auctionEnded();
+		public withdraw();
+	}
+}

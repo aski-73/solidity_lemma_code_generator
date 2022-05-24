@@ -1,0 +1,27 @@
+context SimpleOpenAuctionContext {
+	structure SimpleOpenAuction<applicationService> {
+		string beneficiary,
+		int auctionEndTime,
+		string highestBidder,
+		int highestBid,
+		// Allowed withdrawals of previous bids
+		unspecified pendingReturns,
+		boolean ended,
+		int biddingTime,
+		// Represents the ctor
+		procedure ctor(string beneficiaryAddress, int biddingTime),
+		procedure bid(),
+		function boolean withdraw(),
+		procedure auctionEnd()
+	}
+	
+	structure HighestBidIncreased<valueObject, domainEvent> {
+		string bidder,
+		int amount
+	}
+	
+	structure AuctionEnded<valueObject, domainEvent> {
+		string winner,
+		int amount
+	}
+}

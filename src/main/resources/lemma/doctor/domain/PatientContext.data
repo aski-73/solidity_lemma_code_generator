@@ -1,0 +1,20 @@
+context PatientLibraryContext {
+	structure PatientLib<domainService> {
+		function int getId(Patient self),
+		function string getPatientName(Patient self),
+		function string getPatientEmail(Patient aDiagnosis),
+		procedure setId(Patient self, int id),
+		procedure setPatientName(Patient self, string patient_name),
+		procedure setPatientEmail(Patient self, string patient_email)
+	}
+	
+	structure Patient <entity> {
+		int id <identifier>,
+		string patient_name,
+		string patient_email
+	}	
+	
+	structure PatientPseudoRestContract<applicationService> {
+		function Patient getPatient(int id)
+	}
+}

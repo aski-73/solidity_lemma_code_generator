@@ -1,0 +1,24 @@
+@startuml Purchase 
+skinparam Monochrome true
+skinparam Shadowing false
+hide empty description
+
+[*] -> Created
+Created: entry/ seller = payable(msg.sender)
+Created: entry/ value = msg.value / 2
+Created --> Inactive: abort \n[sent from seller]
+Inactive: entry/ emit Aborted()
+Inactive: entry/ transfer balance to seller
+Created --> Locked: confirmPurchase \n[msg.value == 2*value]
+Locked: entry/ emit PurchaseConfirmed()
+Locked: entry/ buyer = payable(msg.sender)
+Locked --> Release: confirmReceived [sent from buyer]
+Release: entry/ emit ItemReceived()
+Release: entry/ transfer value to buyer
+Release --> Inactive: refundSeller [sent from seller]
+Inactive: entry/ emit SellerRefunded()
+Inactive: entry/ transfer 3*value to seller
+Inactive --> [*]
+
+
+@enduml

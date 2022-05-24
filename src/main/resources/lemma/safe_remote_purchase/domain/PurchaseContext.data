@@ -1,0 +1,36 @@
+context PurchaseContext {
+	/**
+	 * Represents the Purchase Contract. Unlike the reference
+	 * Contract this one does not contain modifiers, since
+	 * they are realized through guards in the state machine.
+	 */
+	structure Purchase {
+		int value,
+		string seller,
+		string buyer,
+		procedure abort(),
+		procedure confirmPurchase(),
+		procedure confirmReceived(),
+		procedure refundSeller()
+	}
+	
+	structure Aborted <valueObject, domainEvent> {}
+	
+	structure PurchaseConfirmed <valueObject, domainEvent> {}
+	
+	structure ItemReceived <valueObject, domainEvent> {}
+	
+	structure SellerRefunded <valueObject, domainEvent> {}	
+	
+	// Only the buyer can call this function.
+	structure OnlyBuyer <valueObject, domainEvent> {}	
+	
+	// Only the seller can call this function.
+	structure OnlySeller <valueObject, domainEvent> {}	
+	
+	// The function cannot be called at the current state.
+	structure InvalidState <valueObject, domainEvent> {}	
+	
+	// The provided value has to be even.
+	structure ValueNotEven <valueObject, domainEvent> {}	
+}

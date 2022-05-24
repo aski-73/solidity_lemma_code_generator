@@ -1,0 +1,44 @@
+context ChargeBookingManagementContext {
+	structure ChargeBookingManagement<applicationService> {
+		unspecified chargeBookings,
+		procedure createBooking(Booking b),
+		function Booking readBooking(int id),
+		procedure updateBooking(
+			int id, 
+			string bookingStart, 
+			string bookingEnd,
+			int verifyCode
+		),
+		procedure cancelBooking(int id),
+		
+		procedure checkBookingExists(int id),
+		procedure checkBookingNotExists(int id)
+	}
+	
+	structure Booking<entity> {
+		int id <identifier>,
+        string bookerId,
+        string parkingSpaceId,
+        string bookingStart,
+        string bookingEnd,
+        string parkingPricePerHour,
+        string chargingPricePerKWh,
+        int verifyCode,
+        boolean isCanceled
+	}
+	
+	structure ChargeBookingCreated<valueObject, domainEvent>  {
+		Booking b
+	}
+	
+	structure ChargeBookingUpdated<valueObject, domainEvent>  {
+		int id, 
+		string bookingStart,
+		string bookingEnd,
+		int verifyCode
+	}
+
+	structure ChargeBookingCanceled<valueObject, domainEvent>  {
+		int id
+	}
+}

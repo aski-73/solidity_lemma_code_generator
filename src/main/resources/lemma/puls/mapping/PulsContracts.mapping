@@ -1,0 +1,38 @@
+import microservices from "../services/ChargeBookingManagementContext.services" as ChargeBookingManagementContext
+import technology from "../../common/technology/Solidity.technology" as Solidity
+
+@technology(Solidity)
+type ChargeBookingManagementContext::BookingManagement::ChargeBookingManagementContext.ChargeBookingManagement {
+	
+	aspects {
+		Solidity::_aspects.ContractType (
+			isContract = true
+		);
+	}
+	
+	chargeBookings {
+		aspects {
+			Solidity::_aspects.Mapping (
+				key = "uint",
+				value = "Invoice"
+			);
+		}
+	}
+	
+	op checkBookingExists {
+		aspects {
+			Solidity::_aspects.Modifier (
+				^for = "createBooking"
+			);
+		}
+	}
+	
+	op checkBookingNotExists {
+		aspects {
+			Solidity::_aspects.Modifier (
+				^for = "readBooking updateBooking cancelBooking"
+			);
+		}
+	}
+	
+} 

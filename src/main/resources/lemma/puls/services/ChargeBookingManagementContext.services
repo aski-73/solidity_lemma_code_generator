@@ -1,0 +1,19 @@
+import datatypes from "../domain/ChargeBookingManagementContext.data" as BookingManagement 
+
+
+public functional microservice de.fhdo.lemma.model_processing.code_generation.solidity.ChargeBookingManagement {
+	/**
+	 * Represents the API usable by other MS
+	 */
+	interface ChargeBookingManagement {
+		public createBooking();
+		public readBooking(sync out b: BookingManagement::ChargeBookingManagementContext.Booking);
+		public updateBooking(
+			sync in id: int, 
+			sync in bookingStart: string,
+			sync in bookingEnd: string,
+			sync in verifyCode: int
+		);
+		public cancelBooking(sync in id: int);
+	}
+}

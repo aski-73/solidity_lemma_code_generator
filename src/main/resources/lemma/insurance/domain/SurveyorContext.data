@@ -1,0 +1,30 @@
+
+context InsuranceContext {
+	list EglibleReporters { string s }
+	list CrashLogs { CrashLogDto d }
+	/**
+	 * Proxy contract between car and policy contract
+	 */
+	structure SurveyorContract<aggregate, entity> {
+		string address <identifier>,
+		CrashLogs logs <part>,
+		EglibleReporters reporters <part>,
+		procedure recordCrashEvent(CrashLogDto log),// only eglible reporters can report a crash. Calls InsuranceProviderContract
+		procedure addReporter(string address),		// adds public key of a car sensors EOA
+		procedure removeReporter(string address)
+	}
+	
+	structure CrashLog <entity> {
+		int id <identifier>,
+		string carId, // e. g. VIN
+		string description // may be an error code or full text description
+	}
+	
+	/**
+	 * Represents a crash reported by a car sensor
+	 */
+	structure CrashLogDto <valueObject> {
+		string carId, // e. g. VIN
+		string description // may be an error code or full text description
+	}
+}

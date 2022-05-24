@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intermediate:IntermediateServiceModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediate="http://www.fhdo.de/lemma/service/intermediate" xmlns:intermediate_1="http://www.fhdo.de/lemma/data/intermediate" sourceModelUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/lemma/services/Node.services">
+  <imports name="RentalContext" importUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/intermediate/data models/RentalContext.xmi" importTypeName="DATATYPES"/>
+  <microservices sourceModelUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/lemma/services/Node.services" name="de.fhdo.lemma.behavior.stateful_solidity.Node" qualifiedName="de.fhdo.lemma.behavior.stateful_solidity.Node" type="INFRASTRUCTURE" visibility="ARCHITECTURE" effectivelyImplemented="true">
+    <interfaces name="RentalContractApi" qualifiedName="de.fhdo.lemma.behavior.stateful_solidity.Node.RentalContractApi" visibility="ARCHITECTURE" hasImplementedOperations="true">
+      <operations name="handle" qualifiedName="de.fhdo.lemma.behavior.stateful_solidity.Node.RentalContractApi.handle" visibility="OclUndefined">
+        <parameters name="input" qualifiedName="de.fhdo.lemma.behavior.stateful_solidity.Node.RentalContractApi.handle.input" exchangePattern="IN" communicationType="SYNCHRONOUS">
+          <type xsi:type="intermediate_1:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+          <originalType xsi:type="intermediate_1:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        </parameters>
+      </operations>
+    </interfaces>
+  </microservices>
+</intermediate:IntermediateServiceModel>

@@ -1,0 +1,17 @@
+@startuml Reporting
+skinparam Monochrome true
+skinparam Shadowing false
+
+
+state Reporting {
+    state out <<exitPoint>>
+
+    [*] -> Unconfirmed
+    Unconfirmed -> out <<exitPoint>>: approveClaim \n[sent from\n policy.insurer.address]
+    InsurerObjection -> out: acceptOffer \n[sent from\npolicy.insurer.address]
+    Unconfirmed --> InsurerObjection: rejectClaim \n[sent from policy.insurer.address]
+    InsurerObjection ---> CustomerObjection: rejectOffer \n[sent from\n policy.insurer.address]
+    CustomerObjection ---> InsurerObjection: proposeOffer \n[sent from\n policy.insured.address]
+}
+
+@enduml

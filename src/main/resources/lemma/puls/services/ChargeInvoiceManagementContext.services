@@ -1,0 +1,16 @@
+import datatypes from "../domain/ChargeInvoiceManagementContext.data" as InvoiceManagement 
+
+
+public functional microservice de.fhdo.lemma.model_processing.code_generation.solidity.ChargeInvoiceManagement {
+	/**
+	 * Represents the API usable by other MS
+	 */
+	interface ChargeInvoiceManagement {
+		public createBooking(
+			sync in id: int,
+			sync in bookingId: int,
+			sync in invoiceAmount: string
+		);
+		public readBooking(sync out b: InvoiceManagement::ChargeInvoiceManagementContext.Invoice);
+	}
+}

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intermediate:IntermediateDataModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediate="http://www.fhdo.de/lemma/data/intermediate" sourceModelUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/lemma/domain/RentalContext.data">
+  <contexts name="RentalContext" qualifiedName="RentalContext">
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="RentalContract" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.RentalContract">
+      <featureNames>ENTITY</featureNames>
+      <operations name="initContract" qualifiedName="RentalContext.RentalContract.initContract">
+        <parameters name="owner" qualifiedName="RentalContext.RentalContract.initContract.owner">
+          <type xsi:type="intermediate:IntermediateComplexType" name="Owner" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.Owner"/>
+          <originalType xsi:type="intermediate:IntermediateComplexType" name="Owner" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.Owner"/>
+        </parameters>
+        <parameters name="obj" qualifiedName="RentalContext.RentalContract.initContract.obj">
+          <type xsi:type="intermediate:IntermediateComplexType" name="RentalObject" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.RentalObject"/>
+          <originalType xsi:type="intermediate:IntermediateComplexType" name="RentalObject" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.RentalObject"/>
+        </parameters>
+      </operations>
+      <operations name="grantAccessTo" qualifiedName="RentalContext.RentalContract.grantAccessTo">
+        <parameters name="tenant" qualifiedName="RentalContext.RentalContract.grantAccessTo.tenant">
+          <type xsi:type="intermediate:IntermediateComplexType" name="Tenant" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.Tenant"/>
+          <originalType xsi:type="intermediate:IntermediateComplexType" name="Tenant" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.Tenant"/>
+        </parameters>
+      </operations>
+      <operations name="check" qualifiedName="RentalContext.RentalContract.check"/>
+      <operations name="exit" qualifiedName="RentalContext.RentalContract.exit"/>
+      <dataFields name="address" qualifiedName="RentalContext.RentalContract.address">
+        <featureNames>IDENTIFIER</featureNames>
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+      <dataFields name="owner" qualifiedName="RentalContext.RentalContract.owner">
+        <type xsi:type="intermediate:IntermediateComplexType" name="Owner" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.Owner"/>
+        <originalType xsi:type="intermediate:IntermediateComplexType" name="Owner" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.Owner"/>
+      </dataFields>
+      <dataFields name="tenant" qualifiedName="RentalContext.RentalContract.tenant">
+        <type xsi:type="intermediate:IntermediateComplexType" name="Tenant" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.Tenant"/>
+        <originalType xsi:type="intermediate:IntermediateComplexType" name="Tenant" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.Tenant"/>
+      </dataFields>
+      <dataFields name="object" qualifiedName="RentalContext.RentalContract.object">
+        <type xsi:type="intermediate:IntermediateComplexType" name="RentalObject" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.RentalObject"/>
+        <originalType xsi:type="intermediate:IntermediateComplexType" name="RentalObject" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.RentalObject"/>
+      </dataFields>
+      <dataFields name="endDate" qualifiedName="RentalContext.RentalContract.endDate">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="date" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="date" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="Tenant" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.Tenant">
+      <featureNames>ENTITY</featureNames>
+      <dataFields name="blockchainAddress" qualifiedName="RentalContext.Tenant.blockchainAddress">
+        <featureNames>IDENTIFIER</featureNames>
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+      <dataFields name="name" qualifiedName="RentalContext.Tenant.name">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="RentalObject" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.RentalObject">
+      <featureNames>ENTITY</featureNames>
+      <dataFields name="id" qualifiedName="RentalContext.RentalObject.id">
+        <featureNames>IDENTIFIER</featureNames>
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="long" origin="BUILTIN" kind="PRIMITIVE" size="64"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="long" origin="BUILTIN" kind="PRIMITIVE" size="64"/>
+      </dataFields>
+      <dataFields name="pricePerDay" qualifiedName="RentalContext.RentalObject.pricePerDay">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="long" origin="BUILTIN" kind="PRIMITIVE" size="64"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="long" origin="BUILTIN" kind="PRIMITIVE" size="64"/>
+      </dataFields>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="Owner" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="RentalContext.Owner">
+      <featureNames>ENTITY</featureNames>
+      <operations name="approveTenant" qualifiedName="RentalContext.Owner.approveTenant">
+        <returnType>
+          <type xsi:type="intermediate:IntermediatePrimitiveType" name="boolean" origin="BUILTIN" kind="PRIMITIVE" size="1"/>
+          <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="boolean" origin="BUILTIN" kind="PRIMITIVE" size="1"/>
+        </returnType>
+        <parameters name="address" qualifiedName="RentalContext.Owner.approveTenant.address">
+          <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+          <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        </parameters>
+      </operations>
+      <dataFields name="blockchainAddress" qualifiedName="RentalContext.Owner.blockchainAddress">
+        <featureNames>IDENTIFIER</featureNames>
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+      <dataFields name="name" qualifiedName="RentalContext.Owner.name">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateEnumeration" name="STATE" origin="DATA_MODEL" kind="ENUMERATION" qualifiedName="RentalContext.STATE">
+      <fields name="START" qualifiedName="RentalContext.STATE.START"/>
+      <fields name="END" qualifiedName="RentalContext.STATE.END"/>
+      <fields name="INIT" qualifiedName="RentalContext.STATE.INIT"/>
+      <fields name="ONGOING" qualifiedName="RentalContext.STATE.ONGOING"/>
+    </complexTypes>
+  </contexts>
+</intermediate:IntermediateDataModel>

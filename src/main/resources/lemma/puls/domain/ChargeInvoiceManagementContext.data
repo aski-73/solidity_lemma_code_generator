@@ -1,0 +1,17 @@
+context ChargeInvoiceManagementContext {
+	structure ChargeInvoiceManagement<applicationService> {
+		unspecified invoices,
+		procedure createInvoice(Invoice i),
+		function Invoice readInvoice(int id)
+	}
+	
+	structure Invoice<entity> {
+		int id <identifier>,
+		int bookingId,
+		string invoiceAmount
+	}
+	
+	structure ChargeInvoiceCreated<valueObject, domainEvent> {
+		Invoice i
+	}
+}

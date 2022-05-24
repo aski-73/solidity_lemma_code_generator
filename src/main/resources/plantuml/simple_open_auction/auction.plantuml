@@ -1,0 +1,15 @@
+@startuml SimpleOpenAuction
+skinparam Monochrome true
+skinparam Shadowing false
+hide empty description
+
+[*] -> Init
+Init: entry/ auctionEndTime = now + biddingTime
+Init --> Bid: bid [now <= auctionEndTime & msg.value > highestBid]
+Bid -> Bid: bid [now <= auctionEndTime & msg.value > highestBid]
+Bid: entry/ bid()
+Bid --> AuctionEnd: auctionEnd [now >= auctionEndTime & !ended]
+AuctionEnd: entry/ auctionEnd()
+AuctionEnd -> [*]
+
+@enduml

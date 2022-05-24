@@ -1,0 +1,29 @@
+context DiagnosisContext {
+	/**
+	 * In Paper Tonelli2019 it's called Diagnosis (a library)
+	 */
+	structure DiagnosisLib<domainService> {
+		function int getId(Diagnosis self),
+		function string getName(Diagnosis self),
+		function string getDescription(Diagnosis self),
+		procedure setId(Diagnosis self, int id),
+		procedure setName(Diagnosis self, string name),
+		procedure setDescription(Diagnosis self, string description)
+	}
+	
+	/**
+	 * In Paper Tonelli2019 it's called aDiagnosis (a structure)
+	 */
+	structure Diagnosis <entity> {
+		int id <identifier>,
+		string disease_name,
+		string disease_description
+	}
+	
+		/**
+	 * In Paper Tonelli2019 it's a contract
+	 */
+	structure DiagnosisPseudoRestContract<applicationService> {
+		function Diagnosis getDiagnosis(int id)
+	}
+}

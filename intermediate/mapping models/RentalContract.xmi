@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intermediate:IntermediateServiceModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:intermediate="http://www.fhdo.de/lemma/service/intermediate" sourceModelUri="">
+  <imports name="ContractNode" importUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/intermediate/service models/Node.xmi" importTypeName="MICROSERVICES"/>
+  <imports name="SolidityTechnology" importUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/lemma/technology/Solidity.technology" importTypeName="TECHNOLOGY"/>
+  <imports name="RentalContext" importUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/intermediate/mapping models/RentalContract/RentalContext_RentalContext.xmi" importTypeName="DATATYPES"/>
+</intermediate:IntermediateServiceModel>

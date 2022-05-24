@@ -1,0 +1,21 @@
+import microservices from "../services/Node.services" as ContractNode
+import technology from "../../common/technology/Solidity.technology" as SolidityTechnology
+
+
+/**
+ * MappingDSL is used for shifting the technology assignments from the service models to its own model
+ * in order to provide a better separation.
+ */
+@technology(SolidityTechnology)
+type ContractNode::DoctorContext::DoctorContext.DoctorLib {
+	aspects {
+//		SolidityTechnology::_aspects.ExtensionFunction(
+//			using = "PatientLib", // Library name
+//			^for = "PatientLib.Patient"
+//		);
+		SolidityTechnology::_aspects.ContractType(
+			isLibrary = true
+		);
+	}
+} 
+

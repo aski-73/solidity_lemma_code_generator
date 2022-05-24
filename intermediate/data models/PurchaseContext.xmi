@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intermediate:IntermediateDataModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediate="http://www.fhdo.de/lemma/data/intermediate" sourceModelUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/lemma/safe_remote_purchase/domain/PurchaseContext.data">
+  <contexts name="PurchaseContext" qualifiedName="PurchaseContext">
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="Purchase" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="PurchaseContext.Purchase">
+      <operations name="abort" qualifiedName="PurchaseContext.Purchase.abort"/>
+      <operations name="confirmPurchase" qualifiedName="PurchaseContext.Purchase.confirmPurchase"/>
+      <operations name="confirmReceived" qualifiedName="PurchaseContext.Purchase.confirmReceived"/>
+      <operations name="refundSeller" qualifiedName="PurchaseContext.Purchase.refundSeller"/>
+      <dataFields name="value" qualifiedName="PurchaseContext.Purchase.value">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+      </dataFields>
+      <dataFields name="seller" qualifiedName="PurchaseContext.Purchase.seller">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+      <dataFields name="buyer" qualifiedName="PurchaseContext.Purchase.buyer">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="Aborted" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="PurchaseContext.Aborted">
+      <featureNames>VALUE_OBJECT</featureNames>
+      <featureNames>DOMAIN_EVENT</featureNames>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="PurchaseConfirmed" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="PurchaseContext.PurchaseConfirmed">
+      <featureNames>VALUE_OBJECT</featureNames>
+      <featureNames>DOMAIN_EVENT</featureNames>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="ItemReceived" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="PurchaseContext.ItemReceived">
+      <featureNames>VALUE_OBJECT</featureNames>
+      <featureNames>DOMAIN_EVENT</featureNames>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="SellerRefunded" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="PurchaseContext.SellerRefunded">
+      <featureNames>VALUE_OBJECT</featureNames>
+      <featureNames>DOMAIN_EVENT</featureNames>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="OnlyBuyer" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="PurchaseContext.OnlyBuyer">
+      <featureNames>VALUE_OBJECT</featureNames>
+      <featureNames>DOMAIN_EVENT</featureNames>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="OnlySeller" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="PurchaseContext.OnlySeller">
+      <featureNames>VALUE_OBJECT</featureNames>
+      <featureNames>DOMAIN_EVENT</featureNames>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="InvalidState" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="PurchaseContext.InvalidState">
+      <featureNames>VALUE_OBJECT</featureNames>
+      <featureNames>DOMAIN_EVENT</featureNames>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="ValueNotEven" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="PurchaseContext.ValueNotEven">
+      <featureNames>VALUE_OBJECT</featureNames>
+      <featureNames>DOMAIN_EVENT</featureNames>
+    </complexTypes>
+  </contexts>
+</intermediate:IntermediateDataModel>

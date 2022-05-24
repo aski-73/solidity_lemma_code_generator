@@ -1,0 +1,35 @@
+import microservices from "../services/Node.services" as ContractNode
+import technology from "../technology/Solidity.technology" as SolidityTechnology
+
+
+/**
+ * MappingDSL is used for shifting the technology assignments from the service models to its own model
+ * in order to provide a better separation.
+ */
+@technology(SolidityTechnology)
+type ContractNode::PolicyContext::PolicyContext.PolicyContract {
+	aspects {
+		SolidityTechnology::_aspects.StateBehavior(
+			plantuml = '
+				[*] --> created: init
+				created: entry/ insurer = Insurer(0x7F181DeF2E46196a239aC423a2b77e2E6A4d54a6, "MeineVersichungAG")
+				created: entry/ secureSrc: address = 0x2C0716A9D184b42353272a3AbCD7084DE2f3967B
+				stageTwo: entry/ insured: address = 0x1023aE3D76272dA1916E680f55Bc53D56340B86c
+				stageTwo: entry/ insuredName: string = "andi"
+				created --> stageOne: pay 5 ether [sent from company]
+				stageOne --> stageTwo: pay 1 ether
+				stageTwo: entry/ startDate: uint = now
+				stageTwo: entry/ endDate: uint = now + 180 days
+				stageTwo --> damage: report [sent from secureSrc & now >= startDate & now <= endDate]
+				damage: entry/ transfer(5 ether , insured)
+				damage: entry/ transfer(1 ether , company)
+				stageTwo --> noproblems: check [now >= endDate]
+				noproblems: entry/ transfer(6 ether , company)
+				damage --> [*]: exit
+				noproblems --> [*]: exit
+			',
+			file = ""
+		);
+	}
+} 
+

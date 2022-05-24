@@ -1,0 +1,26 @@
+@startuml PolicyContract
+skinparam Monochrome true
+skinparam Shadowing false
+skinparam sequenceMessageAlign direction
+
+hide empty description
+
+state Reporting {
+    state out <<exitPoint>>
+}
+
+[*] -> NoClaim
+
+NoClaim -> CrashOccured: crashDetected \n[sent from\n policy.surveyor]
+CrashOccured -> NoClaim: skipCrash [sent from\n policy.insured.address]
+CrashOccured -> Reporting: reportCrash \n[sent from\n policy.insured.address]
+
+Reporting -> Court: callCourt \n[sent from policy.insurer.addresss \n || sent from policy.insured.address]
+
+out --> ClaimApproved: approveClaim
+Court --> ClaimApproved: courtDecision [sent from policy.court]
+ClaimApproved --> NoClaim: claimMoney [sent from policy.insured.address]
+NoClaim --> [*]: terminateContract \n[sent from\n policy.insured.address]
+
+
+@enduml

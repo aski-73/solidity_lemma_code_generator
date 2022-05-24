@@ -1,0 +1,61 @@
+
+context PolicyContext {
+	
+	/**
+	 * Representing possible states of a policy contract 
+	 */
+	enum STATE {
+		NO_CLAIM,
+		CRASH_OCCURED,
+		UNCONFIRMED,
+		CLAIM_APPROVED,
+		CUSTOMER_OBJECTION,
+		INSURER_OBJECTION,
+		COURT
+	}
+	
+	list EglibleReporters { string s }
+
+	/**
+	 * Represents a customer contract 
+	 */
+	structure PolicyContract <aggregate, entity> {
+		string address <identifier>,
+		Policy policy <part>,
+		procedure crashDetected(), 	// car detected a crash
+		procedure reportCrash(),   	// insured reports crash
+		procedure skipCrash(),		// insured ignores crash
+		procedure rejectClaim(),	// insurer rejects claim of insured
+		procedure rejectOffer(),	// insurer rejects offer of insured
+		procedure proposeOffer(), 	// insured proposes an offer to the insurer
+		procedure acceptOffer(), 	// insurer accepts offer of insured
+		procedure approveClaim(),	// insurer accepts claim of insured
+		procedure claimMoney(), 	// insurer gets money
+		procedure callCourt(),		// court gets involved
+		procedure terminateContract()  // insured terminates the contract
+	}
+	
+	structure Insurer<entity> {
+		string address <identifier>,
+		string name
+	}
+	
+	structure Insured <entity> {
+		string address <identifier>,
+		string name,
+		string carId
+	}
+	
+	structure Policy <entity> {
+		int id <identifier>,
+		string api,
+		int sum,		 	// What the insurer pays in case of coverage
+		int premium, 		// What the insured has to pay
+		date begin,
+		date end,
+		Insurer insurer,
+		Insured insured,
+		string surveyor, 	// public key of surveyor address
+		string court
+	}
+}

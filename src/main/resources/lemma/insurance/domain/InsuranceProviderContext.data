@@ -1,0 +1,32 @@
+import datatypes from "./PolicyContext.data" as PolicyContext
+
+context InsuranceContext {
+	list Contracts { PolicyContext::PolicyContext.PolicyContract c }
+	
+	/**
+	 * Represents the insurer. Manages all customer contracts
+	 */
+	structure InsuranceProviderContract<aggregate, entity> {
+		string address <identifier>,
+		Contracts contracts <part>,
+		procedure addContract(PolicyContext::PolicyContext.PolicyContract c),
+		procedure removeContract(string address),
+		
+		procedure triggerCrashDetection(string carIdnsta) // can only be called by the surveyor contract
+	}
+	
+	/**
+	 * Represents the data structure used in order to create a new policy contract
+	 */
+	structure PolicyContractDto <valueObject> {
+		string api,
+		int sum,		 	// What the insurer pays in case of coverage
+		int premium, 		// What the insured has to pay
+		date begin,
+		date end,
+		PolicyContext::PolicyContext.Insurer insurer,
+		PolicyContext::PolicyContext.Insured insured,
+		string surveyor, 	// public key of surveyor address
+		string court
+	}
+}

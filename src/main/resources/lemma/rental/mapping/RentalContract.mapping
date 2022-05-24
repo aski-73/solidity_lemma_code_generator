@@ -1,0 +1,26 @@
+import microservices from "../services/Node.services" as ContractNode
+import technology from "../technology/Solidity.technology" as SolidityTechnology
+
+
+/**
+ * MappingDSL is used for shifting the technology assignments from the service models to its own model
+ * in order to provide a better separation.
+ */
+@technology(SolidityTechnology)
+type ContractNode::RentalContext::RentalContext.RentalContract {
+	aspects {
+		SolidityTechnology::_aspects.StateBehavior(
+			plantuml = '
+				[*] --> created: init
+				created: initContract(Owner(payable(0x7F181DeF2E46196a239aC423a2b77e2E6A4d54a6), "andi"), RentalObject(1234, 0.5 ether))
+				created --> ongoing: pay 5 ether
+				ongoing: entry/ grantAccess(now + 30 days, "0x12345", "max mustermann")
+				ongoing: exit/ pay 5 ether to owner
+				ongoing --> created: check [now >= endDate]
+				created -> [*]: exit() [sent from owner]
+			',
+			file = ""
+		);
+	}
+} 
+

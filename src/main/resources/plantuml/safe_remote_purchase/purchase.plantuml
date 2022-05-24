@@ -1,0 +1,16 @@
+@startuml Purchase 
+skinparam Monochrome true
+skinparam Shadowing false
+hide empty description
+
+[*] -> Created
+Created: entry/ seller = payable(msg.sender)
+Created: entry/ value = msg.value / 2
+Created --> Inactive: abort() \n[sent from seller]
+Created --> Locked: confirmPurchase() \n[msg.value == 2*value]
+Locked --> Release: confirmReceived() [sent from buyer]
+Release --> Inactive: refundSeller() [sent from seller]
+Inactive --> [*]
+
+
+@enduml

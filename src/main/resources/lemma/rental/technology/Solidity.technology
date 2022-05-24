@@ -1,0 +1,31 @@
+technology Solidity {
+	
+	types {
+		primitive type bool based on boolean default;
+				
+		/**
+		 * In Solidity uint and int are aliases for uint256 and int256, respectively.
+		 */
+		primitive type ^int;
+		primitive type int8 based on byte default;
+		primitive type int16 based on short default;
+		primitive type int32 based on int default;
+		primitive type int64 based on long default;
+		primitive type int128;
+		primitive type int256;
+		primitive type float32 based on float default;
+		primitive type float64 based on double default;
+		
+		primitive type ^string based on string, char default;
+		primitive type ^date based on date default;
+		primitive type none based on unspecified default;
+		primitive type address based on string;
+	}
+	
+	service aspects {
+		aspect StateBehavior <singleval> for types {
+			string plantuml<mandatory>;
+			string file<mandatory>;
+		}
+	}
+}

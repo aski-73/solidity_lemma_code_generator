@@ -1,0 +1,25 @@
+@startuml PolicyContract
+skinparam Monochrome true
+skinparam Shadowing false
+
+[*] -> NoClaim: start [sent from\n policy.insurer.address]
+NoClaim --> CrashOccured: crashDetected \n[sent from\n policy.surveyor]
+CrashOccured --> NoClaim: skipCrash \n[sent from\n policy.insured.address]
+CrashOccured --> Unconfirmed: reportCrash \n[sent from\n policy.insured.address]
+Unconfirmed -> ClaimApproved: approveClaim \n[sent from\n policy.insurer.address]
+InsurerObjection -> ClaimApproved: acceptOffer \n[sent from\npolicy.insurer.address]
+Unconfirmed --> InsurerObjection: rejectClaim \n[sent from policy.insurer.address]
+InsurerObjection ---> CustomerObjection: rejectOffer \n[sent from\n policy.insurer.address]
+CustomerObjection ---> InsurerObjection: proposeOffer \n[sent from\n policy.insured.address]
+
+
+Unconfirmed --> Court: callCourt \n[sent from policy.insurer.addresss\n || sent from policy.insured.address]
+InsurerObjection --> Court: callCourt \n[sent from policy.insurer.addresss\n || sent from policy.insured.address]
+CustomerObjection --> Court: callCourt \n[sent from policy.insurer.addresss\n || sent from policy.insured.address]
+
+Court --> ClaimApproved: courtDecision \n[sent from policy.court]
+ClaimApproved --> NoClaim: claimMoney \n[sent from policy.insured.address]
+NoClaim -> [*]: terminateContract \n[sent from\n policy.insured.address]
+
+
+@enduml

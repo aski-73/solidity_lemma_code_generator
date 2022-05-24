@@ -1,0 +1,42 @@
+import microservices from "../services/PurchaseService.services" as PurchaseService
+import technology from "../../common/technology/Solidity.technology" as Solidity
+
+@technology(Solidity)
+type PurchaseService::PurchaseContext::PurchaseContext.Purchase {
+	/**
+	 * Adds behavior to the contract. Either file path to .plantuml file
+	 * or plantuml code
+	 */
+	aspects {
+		Solidity::_aspects.ContractType(isContract = true);
+		Solidity::_aspects.StateBehavior(
+			plantuml = "~/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/plantuml/safe_remote_purchase/purchase_explicit_corrected.plantuml"
+		);
+	}
+	
+	/**
+	 * Realizes: 'address payable buyer'
+	 */
+	buyer: Solidity::_types.address {
+		aspects {Solidity::_aspects.Payable;}
+	}
+	
+	/**
+	 * Realizes: 'address payable seller'
+	 */
+	seller: Solidity::_types.address {
+		aspects {Solidity::_aspects.Payable;}
+	}
+}
+
+@technology(Solidity)
+type PurchaseService::PurchaseContext::PurchaseContext.OnlyBuyer {aspects{Solidity::_aspects.Error;}}
+
+@technology(Solidity)
+type PurchaseService::PurchaseContext::PurchaseContext.OnlySeller {aspects{Solidity::_aspects.Error;}}
+
+@technology(Solidity)
+type PurchaseService::PurchaseContext::PurchaseContext.InvalidState {aspects{Solidity::_aspects.Error;}}
+
+@technology(Solidity)
+type PurchaseService::PurchaseContext::PurchaseContext.ValueNotEven {aspects{Solidity::_aspects.Error;}}

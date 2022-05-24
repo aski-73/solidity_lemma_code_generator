@@ -1,0 +1,20 @@
+@startuml SimpleOpenAuction
+skinparam Monochrome true
+skinparam Shadowing false
+hide empty description
+
+[*] -> Init
+Init: entry/ auctionEndTime = now + biddingTime
+Init --> Bid: bid [now <= auctionEndTime & msg.value > highestBid]
+Bid -> Bid: bid [now <= auctionEndTime & msg.value > highestBid]
+Bid: entry/ pendingReturns[highestBidder] += highestBid
+Bid: entry/ highestBidder = msg.sender
+Bid: entry/ highestBid = msg.value
+Bid: entry/ emit HighestBidIncreased(msg.sender, msg.value)
+Bid --> AuctionEnd: auctionEnd [now >= auctionEndTime & !ended]
+AuctionEnd: entry/ ended = true
+AuctionEnd: entry/ emit AuctionEnded(highestBidder, highestBid)
+AuctionEnd: entry/ sent highestBid to beneficiary
+AuctionEnd -> [*]
+
+@enduml

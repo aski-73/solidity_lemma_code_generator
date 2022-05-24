@@ -1,0 +1,10 @@
+import datatypes from "../domain/PurchaseContext.data" as PurchaseContext
+
+public functional microservice de.fhdo.Purchase {
+	public interface PurchaseInterface {
+		public abort();
+		public confirmPurchase();
+		public confirmReceived();
+		public refundSeller();
+	}
+}

@@ -1,0 +1,7 @@
+import datatypes from "../domain/RentalContext.data" as RentalContext
+
+infrastructure microservice de.fhdo.lemma.model_processing.code_generation.stateful_solidity.Node {
+	interface RentalContractApi {
+		public handle(sync in input: string);
+	}
+}

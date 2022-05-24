@@ -1,0 +1,18 @@
+import datatypes from "../domain/DiagnosisContext.data" as DiagnosisContext
+import datatypes from "../domain/DoctorContext.data" as DoctorContext
+
+infrastructure microservice de.fhdo.lemma.model_processing.code_generation.stateful_solidity.Node {
+	
+	/**
+	 * Contains the methods that are exposed by the smart contract.
+	 * Those methods are available in the Smart Contract Wrapper class.
+	 */
+	interface DoctorPseudoRest {
+
+		public submitOrder(
+			sync in idPatient: int, 
+			sync in idDiagnosis: int, 
+			sync in amount: int,
+			sync out d: DoctorContext::DoctorContext.Doctor);
+	}
+}

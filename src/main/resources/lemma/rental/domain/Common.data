@@ -1,0 +1,14 @@
+version v1 {
+	structure Contract <entity> {
+		string address <identifier>
+	}
+
+	structure Message <valueObject> {
+        string sender,
+        long value
+	}
+
+	enum CURRENCY_UNIT {
+    	ETHER, WEI
+	}
+}

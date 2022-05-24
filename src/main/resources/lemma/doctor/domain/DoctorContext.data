@@ -1,0 +1,42 @@
+import datatypes from "./DiagnosisContext.data" as DiagnosisContext
+import datatypes from "./PatientContext.data" as PatientLibrary
+
+
+context DoctorContext {
+	/**
+	 * In Paper Tonelli2019 it's the struct aDoctor ( a structure)
+	 */
+	structure Doctor {
+		int id <identifier>,
+		int amount,
+		int appointmentDate,
+		PatientLibrary::PatientLibraryContext.Patient patient,
+		DiagnosisContext::DiagnosisContext.Diagnosis disease
+	}
+	
+	/**
+	 * In Paper Tonelli2019 it's a library
+	 */
+	structure DoctorLib {
+		function int getId(Doctor self),
+		function int getAmount(Doctor self),
+		function int getAppointmentDate(Doctor self),
+		function PatientLibrary::PatientLibraryContext.Patient getPatient(Doctor self),
+		function DiagnosisContext::DiagnosisContext.Diagnosis getDiagnosis(Doctor self),
+		
+		procedure setId(int id, Doctor self),
+		procedure setAmount(int amount, Doctor self),
+		procedure setAppointmentDate(int appointmentDate, Doctor self),
+		procedure setPatient(Doctor self, int id, string patient_name, string disease_email),
+		procedure setDiagnosis(Doctor self, int id, string disease_name, string disease_description)
+	}
+	
+	/**
+	 * In Paper Tonelli2019 a contract
+	 */
+	structure DoctorPseudoRest {
+		hide unspecified DiseaseRestContract,
+		hide unspecified PatientsRestContract,
+		function Doctor submitOrder(int idPatient, int idDiagnosis, int amount)
+	}
+}
