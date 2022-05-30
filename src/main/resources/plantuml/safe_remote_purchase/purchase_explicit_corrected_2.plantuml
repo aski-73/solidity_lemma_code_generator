@@ -25,7 +25,7 @@ Release --> Refunding: refundSeller() [sent from seller]
 Refunding: entry/ emit SellerRefunded()
 Refunding: entry/ transfer 3 * value to seller
 Refunding --> Inactive
-Inactive -> [*]
+Inactive --> [*]
 
 
 @enduml

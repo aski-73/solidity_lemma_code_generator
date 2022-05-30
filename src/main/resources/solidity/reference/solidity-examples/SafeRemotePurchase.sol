@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.4;
 
-import "../rental/gc/RentalContractBase.sol";
-
 contract Purchase {
     uint public value;
     address payable public seller;

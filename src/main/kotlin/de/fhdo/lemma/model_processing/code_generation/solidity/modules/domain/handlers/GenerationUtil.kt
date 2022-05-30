@@ -135,14 +135,14 @@ class GenerationUtil {
 
         fun mapToFieldVisibility(eObject: IntermediateDataField): Visibility {
             return if (eObject.isHidden)
-                Visibility.PRIVATE
-            else
                 Visibility.INTERNAL
+            else
+                Visibility.PUBLIC
         }
 
         fun mapToDataOperationVisibility(eObject: IntermediateDataOperation): Visibility {
             return if (eObject.isHidden) {
-                Visibility.PRIVATE
+                Visibility.INTERNAL
             } else {
                 Visibility.PUBLIC
             }

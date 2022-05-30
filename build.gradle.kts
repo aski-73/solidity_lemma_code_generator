@@ -82,6 +82,11 @@ dependencies {
     // Meivsm (State UML to Solidity)
     implementation(files("./lib/meivsm-compiler-1.0.jar"))
 
+    // ANTLR. Needed because without meivsm won't run (ClassNotFound Exception on TokenSource class)
+    // https://mvnrepository.com/artifact/org.antlr/antlr4
+    implementation("org.antlr:antlr4:4.10.1")
+
+
 
     // Apache Common
     implementation("org.apache.commons:commons-lang3:$apacheCommonVersion")

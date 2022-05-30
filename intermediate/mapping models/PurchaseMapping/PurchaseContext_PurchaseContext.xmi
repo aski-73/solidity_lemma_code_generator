@@ -16,12 +16,12 @@
         <properties name="plantuml" type="string">
           <featureNames>MANDATORY</featureNames>
         </properties>
-        <propertyValues value="~/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/plantuml/safe_remote_purchase/purchase_explicit_corrected.plantuml" property="//@contexts.0/@complexTypes.0/@aspects.1/@properties.0"/>
+        <propertyValues value="/home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/plantuml/safe_remote_purchase/purchase_explicit_corrected.plantuml" property="//@contexts.0/@complexTypes.0/@aspects.1/@properties.0"/>
       </aspects>
-      <operations name="abort" qualifiedName="PurchaseContext.Purchase.abort"/>
-      <operations name="confirmPurchase" qualifiedName="PurchaseContext.Purchase.confirmPurchase"/>
-      <operations name="confirmReceived" qualifiedName="PurchaseContext.Purchase.confirmReceived"/>
-      <operations name="refundSeller" qualifiedName="PurchaseContext.Purchase.refundSeller"/>
+      <operations name="abort" qualifiedName="PurchaseContext.Purchase.abort" hidden="true"/>
+      <operations name="confirmPurchase" qualifiedName="PurchaseContext.Purchase.confirmPurchase" hidden="true"/>
+      <operations name="confirmReceived" qualifiedName="PurchaseContext.Purchase.confirmReceived" hidden="true"/>
+      <operations name="refundSeller" qualifiedName="PurchaseContext.Purchase.refundSeller" hidden="true"/>
       <dataFields name="value" qualifiedName="PurchaseContext.Purchase.value">
         <type xsi:type="intermediate:IntermediateImportedTechnologySpecificType" name="int32" origin="TECHNOLOGY" kind="PRIMITIVE" qualifiedName="Solidity._types.int32" import="//@imports.0"/>
         <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>

@@ -8,10 +8,10 @@ context PurchaseContext {
 		int value,
 		string seller,
 		string buyer,
-		procedure abort(),
-		procedure confirmPurchase(),
-		procedure confirmReceived(),
-		procedure refundSeller()
+		hide procedure abort(),
+		hide procedure confirmPurchase(),
+		hide procedure confirmReceived(),
+		hide procedure refundSeller()
 	}
 	
 	structure Aborted <valueObject, domainEvent> {}

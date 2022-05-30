@@ -2,10 +2,10 @@
 <intermediate:IntermediateDataModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediate="http://www.fhdo.de/lemma/data/intermediate" sourceModelUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/lemma/safe_remote_purchase/domain/PurchaseContext.data">
   <contexts name="PurchaseContext" qualifiedName="PurchaseContext">
     <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="Purchase" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="PurchaseContext.Purchase">
-      <operations name="abort" qualifiedName="PurchaseContext.Purchase.abort"/>
-      <operations name="confirmPurchase" qualifiedName="PurchaseContext.Purchase.confirmPurchase"/>
-      <operations name="confirmReceived" qualifiedName="PurchaseContext.Purchase.confirmReceived"/>
-      <operations name="refundSeller" qualifiedName="PurchaseContext.Purchase.refundSeller"/>
+      <operations name="abort" qualifiedName="PurchaseContext.Purchase.abort" hidden="true"/>
+      <operations name="confirmPurchase" qualifiedName="PurchaseContext.Purchase.confirmPurchase" hidden="true"/>
+      <operations name="confirmReceived" qualifiedName="PurchaseContext.Purchase.confirmReceived" hidden="true"/>
+      <operations name="refundSeller" qualifiedName="PurchaseContext.Purchase.refundSeller" hidden="true"/>
       <dataFields name="value" qualifiedName="PurchaseContext.Purchase.value">
         <type xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
         <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>

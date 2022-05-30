@@ -25,6 +25,8 @@ internal class MainContext {
         lateinit var currentMicroservice: IntermediateMicroservice
             private set
 
+        internal val meivsm: net.aveyon.meivsm.Api = net.aveyon.meivsm.App()
+
         var license: String = "GPL-3.0"
 
         var pragma: String = "<0.9.0"

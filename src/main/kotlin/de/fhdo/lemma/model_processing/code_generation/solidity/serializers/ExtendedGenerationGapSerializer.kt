@@ -4,6 +4,7 @@ import de.fhdo.lemma.model_processing.code_generation.solidity.SolidityParser
 import de.fhdo.lemma.model_processing.code_generation.solidity.handlers.VisitingCodeGenerationHandlerI
 import net.aveyon.intermediate_solidity.SmartContract
 import net.aveyon.intermediate_solidity.SmartContractModel
+import net.aveyon.intermediate_solidity.Visibility
 import net.aveyon.intermediate_solidity.impl.*
 import net.aveyon.intermediate_solidity_extractor.IntermediateSolidityExtractor
 import org.eclipse.emf.ecore.EObject
@@ -60,11 +61,17 @@ private class ExtendedGenerationGapSerializerBase {
             val baseInterface = generateBaseInterface(it, targetFolderPath)
             // code generation
             val baseInterfaceSerialized = extractor.generateSmartContractModel(baseInterface)
+            val baseInterfaceFile = File(targetFolderPath + "/" + baseInterface.name)
+            baseInterfaceFile.createNewFile()
+            baseInterfaceFile.bufferedWriter().use { out -> out.write(baseInterfaceSerialized) }
             print(baseInterfaceSerialized)
 
             // Generate a base implementation for the generated interface
             val baseImpl = generateBaseImpl(it, baseInterface, targetFolderPath)
             val baseImplSerialized = extractor.generateSmartContractModel(baseImpl)
+            val baseImplFile = File(targetFolderPath + "/" + baseImpl.name)
+            baseImplFile.createNewFile()
+            baseImplFile.bufferedWriter().use { out -> out.write(baseImplSerialized) }
             print(baseImplSerialized)
         }
 
@@ -80,14 +87,18 @@ private class ExtendedGenerationGapSerializerBase {
      */
     private fun generateBaseInterface(node: SmartContract, targetFolderPath: String): SmartContractModel {
         val model = SmartContractModelImpl(license, pragma)
-
+        model.name = node.name + "Base.sol"
         val baseInterface = InterfaceImpl(node.name + "Base")
 
-        // Copy all methods that are not hidden. Visibility is always public in order to build the contract interface
+        // Copy all methods that are not private or internal. Visibility is always public in order to build the contract interface
         // Not external, so that the implementing contract can call the methods
-        node.definitions.functions.forEach {
-            baseInterface.definitions.functions.add(FunctionImpl(it))
-        }
+        node.definitions.functions
+            .filter { it.visibility != Visibility.INTERNAL && it.visibility != Visibility.PRIVATE }
+            .forEach {
+                val f = FunctionImpl(it);
+                f.expressions.clear()
+                baseInterface.definitions.functions.add(f)
+            }
 
         // Enumerations, errors, events, structures stay at the base impl class
 
@@ -97,9 +108,11 @@ private class ExtendedGenerationGapSerializerBase {
         if (userDefinedInterface != null) {
             baseInterface.extends.add(userDefinedInterface.second.definitions.interfaces[0])
 
-            model.imports.add(ImportedConceptImpl(
-                userDefinedInterface.first,
-                userDefinedInterface.second.definitions)
+            model.imports.add(
+                ImportedConceptImpl(
+                    userDefinedInterface.first,
+                    userDefinedInterface.second.definitions
+                )
             )
         }
 
@@ -173,13 +186,15 @@ private class ExtendedGenerationGapSerializerBase {
         targetFolderPath: String
     ): SmartContractModel {
         val model = SmartContractModelImpl(license, pragma)
+        model.name = node.name + ".sol"
 
         val baseImpl = SmartContractImpl(node)
 
         // Import the baseInterface
         model.imports.add(
             ImportedConceptImpl(
-                targetFolderPath + baseInterface.definitions.interfaces[0].name + ".sol",
+//                targetFolderPath + baseInterface.definitions.interfaces[0].name + ".sol",
+                "./" + baseInterface.definitions.interfaces[0].name + ".sol",
                 baseInterface.definitions
             )
         )
@@ -196,13 +211,14 @@ private class ExtendedGenerationGapSerializerBase {
         }
 
         // Add empty implementations to the functions
-        baseImpl.definitions.functions.forEach {
-            it.expressions.add("// TODO: IMPLEMENT ME")
-        }
+        baseImpl.definitions.functions
+            .filter { it.expressions.size == 0 }
+            .forEach {
+                it.expressions.add(ExpressionStringImpl("// TODO: IMPLEMENT ME"))
+            }
 
         model.definitions.contracts.add(baseImpl)
 
         return model
     }
-
 }
