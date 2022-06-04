@@ -4,7 +4,7 @@ context PurchaseContext {
 	 * Contract this one does not contain modifiers, since
 	 * they are realized through guards in the state machine.
 	 */
-	structure Purchase {
+	structure Purchase<entity> {
 		int value,
 		string seller,
 		string buyer,

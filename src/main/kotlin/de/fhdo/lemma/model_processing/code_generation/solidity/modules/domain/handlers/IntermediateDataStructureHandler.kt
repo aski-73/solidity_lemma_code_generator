@@ -4,7 +4,6 @@ import de.fhdo.lemma.data.ComplexTypeFeature
 import de.fhdo.lemma.data.intermediate.IntermediateDataStructure
 import de.fhdo.lemma.model_processing.code_generation.solidity.handlers.CodeGenerationHandler
 import de.fhdo.lemma.model_processing.code_generation.solidity.handlers.VisitingCodeGenerationHandlerI
-import de.fhdo.lemma.model_processing.code_generation.solidity.modules.MainContext
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.SolidityTechnology
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.domain.handlers.GenerationUtil.Companion.mapToError
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.domain.handlers.GenerationUtil.Companion.mapToEvent
@@ -12,9 +11,7 @@ import de.fhdo.lemma.model_processing.code_generation.solidity.modules.domain.ha
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.domain.handlers.GenerationUtil.Companion.mapToStructure
 import net.aveyon.intermediate_solidity.*
 import net.aveyon.intermediate_solidity.impl.ExpressionStringImpl
-import net.aveyon.intermediate_solidity.impl.SmartContractModelImpl
 import net.aveyon.meivsm.MetaInformation
-import org.antlr.stringtemplate.language.Expr
 import java.io.File
 import java.io.FileInputStream
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.domain.DomainContext.State as DomainState
@@ -105,10 +102,10 @@ class IntermediateDataStructureHandler : VisitingCodeGenerationHandlerI<Intermed
         return null
     }
 
-    private fun insertMeivsmContractConcepts(meivsmContract: SmartContractModel, contract: SmartContract) {
+    private fun insertMeivsmContractConcepts(meivsmModel: SmartContractModel, contract: SmartContract) {
 
         // If parsing if successful, only one contract exists in the meivsm SmartContractModel
-        val meivsmContracts = meivsmContract.definitions.contracts
+        val meivsmContracts = meivsmModel.definitions.contracts
             .filter { it.name == contract.name }
 
         if (meivsmContracts.isNotEmpty()) {
@@ -122,6 +119,8 @@ class IntermediateDataStructureHandler : VisitingCodeGenerationHandlerI<Intermed
                 .definitions.functions.forEach {
                     contract.definitions.functions.add(it)
                 }
+
+            contract.definitions.constructor = meivsmContracts[0].definitions.constructor
         }
     }
 
