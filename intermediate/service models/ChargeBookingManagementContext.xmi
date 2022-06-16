@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intermediate:IntermediateServiceModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediate="http://www.fhdo.de/lemma/service/intermediate" xmlns:intermediate_1="http://www.fhdo.de/lemma/data/intermediate" sourceModelUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/lemma/puls/services/ChargeBookingManagementContext.services">
+  <imports name="BookingManagement" importUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/intermediate/data models/ChargeBookingManagementContext.xmi" importTypeName="DATATYPES"/>
+  <microservices sourceModelUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/lemma/puls/services/ChargeBookingManagementContext.services" name="de.fhdo.lemma.model_processing.code_generation.solidity.ChargeBookingManagement" qualifiedName="de.fhdo.lemma.model_processing.code_generation.solidity.ChargeBookingManagement" type="FUNCTIONAL" visibility="PUBLIC" effectivelyImplemented="true">
+    <interfaces name="ChargeBookingManagement" qualifiedName="de.fhdo.lemma.model_processing.code_generation.solidity.ChargeBookingManagement.ChargeBookingManagement" visibility="PUBLIC" hasImplementedOperations="true">
+      <operations name="createBooking" qualifiedName="de.fhdo.lemma.model_processing.code_generation.solidity.ChargeBookingManagement.ChargeBookingManagement.createBooking" visibility="PUBLIC"/>
+      <operations name="readBooking" qualifiedName="de.fhdo.lemma.model_processing.code_generation.solidity.ChargeBookingManagement.ChargeBookingManagement.readBooking" visibility="PUBLIC">
+        <parameters name="b" qualifiedName="de.fhdo.lemma.model_processing.code_generation.solidity.ChargeBookingManagement.ChargeBookingManagement.readBooking.b" exchangePattern="OUT" communicationType="SYNCHRONOUS">
+          <type xsi:type="intermediate_1:IntermediateImportedComplexType" name="Booking" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeBookingManagementContext.Booking" import="//@imports.0"/>
+          <originalType xsi:type="intermediate_1:IntermediateImportedComplexType" name="Booking" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeBookingManagementContext.Booking" import="//@imports.0"/>
+        </parameters>
+      </operations>
+      <operations name="updateBooking" qualifiedName="de.fhdo.lemma.model_processing.code_generation.solidity.ChargeBookingManagement.ChargeBookingManagement.updateBooking" visibility="PUBLIC">
+        <parameters name="id" qualifiedName="de.fhdo.lemma.model_processing.code_generation.solidity.ChargeBookingManagement.ChargeBookingManagement.updateBooking.id" exchangePattern="IN" communicationType="SYNCHRONOUS">
+          <type xsi:type="intermediate_1:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+          <originalType xsi:type="intermediate_1:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        </parameters>
+        <parameters name="bookingStart" qualifiedName="de.fhdo.lemma.model_processing.code_generation.solidity.ChargeBookingManagement.ChargeBookingManagement.updateBooking.bookingStart" exchangePattern="IN" communicationType="SYNCHRONOUS">
+          <type xsi:type="intermediate_1:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+          <originalType xsi:type="intermediate_1:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        </parameters>
+        <parameters name="bookingEnd" qualifiedName="de.fhdo.lemma.model_processing.code_generation.solidity.ChargeBookingManagement.ChargeBookingManagement.updateBooking.bookingEnd" exchangePattern="IN" communicationType="SYNCHRONOUS">
+          <type xsi:type="intermediate_1:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+          <originalType xsi:type="intermediate_1:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        </parameters>
+        <parameters name="verifyCode" qualifiedName="de.fhdo.lemma.model_processing.code_generation.solidity.ChargeBookingManagement.ChargeBookingManagement.updateBooking.verifyCode" exchangePattern="IN" communicationType="SYNCHRONOUS">
+          <type xsi:type="intermediate_1:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+          <originalType xsi:type="intermediate_1:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        </parameters>
+      </operations>
+      <operations name="cancelBooking" qualifiedName="de.fhdo.lemma.model_processing.code_generation.solidity.ChargeBookingManagement.ChargeBookingManagement.cancelBooking" visibility="PUBLIC">
+        <parameters name="id" qualifiedName="de.fhdo.lemma.model_processing.code_generation.solidity.ChargeBookingManagement.ChargeBookingManagement.cancelBooking.id" exchangePattern="IN" communicationType="SYNCHRONOUS">
+          <type xsi:type="intermediate_1:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+          <originalType xsi:type="intermediate_1:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        </parameters>
+      </operations>
+    </interfaces>
+  </microservices>
+</intermediate:IntermediateServiceModel>

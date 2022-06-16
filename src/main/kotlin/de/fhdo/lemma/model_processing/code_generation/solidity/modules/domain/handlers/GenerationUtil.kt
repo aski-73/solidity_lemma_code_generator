@@ -5,6 +5,7 @@ import de.fhdo.lemma.model_processing.code_generation.solidity.modules.SolidityT
 import de.fhdo.lemma.model_processing.code_generation.solidity.simpleName
 import net.aveyon.intermediate_solidity.*
 import net.aveyon.intermediate_solidity.impl.*
+import org.eclipse.emf.common.util.EList
 
 /**
  * Helper class for mapping classes from the intermediate data model to intermediate solidity
@@ -35,9 +36,14 @@ class GenerationUtil {
                 sc.fields.add(mapToField(it))
             }
 
-            // add operations
+            // add operations / modifiers
             eObject.operations.forEach {
-                sc.definitions.functions.add(mapToOperation(it))
+                val isModifier = it.aspects.any { aspect -> aspect.qualifiedName.equals(SolidityTechnology.ASPECT_MODIFIER.value) }
+                if (isModifier) {
+                    sc.definitions.modifiers.add(mapToModifier(it))
+                } else {
+                    sc.definitions.functions.add(mapToOperation(it))
+                }
             }
 
             return sc
@@ -102,6 +108,9 @@ class GenerationUtil {
         fun mapToLocalField(eObject: IntermediateDataField): LocalField {
             val localField = LocalFieldImpl(eObject.name)
             localField.type = mapTypes(eObject.type)
+            if (localField.type == "none") {
+                localField.type = mapTypes(eObject.aspects)
+            }
             localField.array = eObject.listType != null
             localField.payable = eObject.aspects.any{ it.qualifiedName.equals(SolidityTechnology.ASPECT_PAYABLE.value)}
 
@@ -115,7 +124,11 @@ class GenerationUtil {
             val f = FunctionImpl(eObject.name)
             f.visibility = mapToDataOperationVisibility(eObject)
             if (eObject.returnType != null) {
-                f.returns.add(eObject.returnType.simpleName)
+                if (eObject.returnType is IntermediateDataOperationReturnType) {
+                    f.returns.add(eObject.returnType.type.name)
+                } else {
+                    f.returns.add(eObject.returnType.simpleName)
+                }
             }
             eObject.parameters.forEach {
                 f.parameters.add(mapToParameter(it))
@@ -160,15 +173,37 @@ class GenerationUtil {
             return enumeration
         }
 
+        fun mapToModifier(eObject: IntermediateDataOperation): Modifier {
+            val modifier = ModifierImpl(eObject.name)
+            eObject.parameters.forEach{modifier.parameters.add(mapToParameter(it))}
+
+            return modifier
+        }
+
         fun mapTypes(eObject: IntermediateType): String {
             return if (eObject is IntermediateComplexType) {
                 eObject.name
             } else {
                 when (eObject.name) {
                     "date" -> "uint"
+                    "boolean" -> "bool"
                     else -> eObject.name
                 }
             }
         }
+
+        fun mapTypes(aspects: EList<IntermediateImportedAspect>): String {
+            val mappingType = aspects.find {it.qualifiedName == SolidityTechnology.ASPECT_MAPPING.value}
+
+            if (mappingType != null) {
+                val mappingKey = mappingType.propertyValues.find { it.property.name == SolidityTechnology.ASPECT_MAPPING_KEY.value }
+                val mappingValue = mappingType.propertyValues.find { it.property.name == SolidityTechnology.ASPECT_MAPPING_VALUE.value }
+
+                return "mapping(${mappingKey?.value} => ${mappingValue?.value})"
+            } else {
+                return ""
+            }
+        }
+
     }
 }

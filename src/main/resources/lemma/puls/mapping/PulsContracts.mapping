@@ -14,12 +14,28 @@ type ChargeBookingManagementContext::BookingManagement::ChargeBookingManagementC
 		aspects {
 			Solidity::_aspects.Mapping (
 				key = "uint",
-				value = "Invoice"
+				value = "Booking"
 			);
 		}
 	}
 	
-	op checkBookingExists {
+	/** Modififier werden erstmal nicht unterstützt, da diese dem Code nicht weiterhelfen, wenn das Verhalten nicht vollständig von Meivsm generierbar ist.
+	 * Diese könnten aber umgesetzt werden, sofern meivsm bzw. keine StateBehavior angegeben ist:
+	 * 1) BaseImpl könne die Modifier ohne Implementierung definieren.
+	 * 2) BaseImpl hätte zudem die Funktionsköpfe mit den Modifiern ausgestattet.
+	 * 3) Die Impl muss die Modifier, als auch die anderen Funktionen, überschreiben.
+	 * 4) Die überschriebenen Funktionen müssen wieder mit den Modifieren ausgestattet werden oder sie können die Basisfunktion aufrufen,
+	 *    die damit ausgestattet ist (super.baseFun())
+	 * 5) Ein Problem ist, dass Modifier auch Argumente besitzen können, wie sollen diese hier abgebildet werden? => typ und name der Modifier-Parameter
+	 *    Müssen sich mit denen der Funktion decken.
+	 * 
+	 * Für PuLS macht es nicht so viel Sinn Modifier im Modell anzugeben aufgrund von 3) und 4). Daher wird mit diesen Ansatz nur gezeigt,
+	 * dass die Generierung der Datenstrukturen von Smart Contracts möglich ist.
+	 * 
+	op checkBookingExists { aspects {Solidity::_aspects.Modifier;} }
+	op checkBookingNotExists { aspects {Solidity::_aspects.Modifier; } }
+	 
+	 op checkBookingExists {
 		aspects {
 			Solidity::_aspects.Modifier (
 				^for = "createBooking"
@@ -33,6 +49,18 @@ type ChargeBookingManagementContext::BookingManagement::ChargeBookingManagementC
 				^for = "readBooking updateBooking cancelBooking"
 			);
 		}
-	}
-	
+	}*/
 } 
+
+@technology(Solidity)
+type ChargeBookingManagementContext::BookingManagement::ChargeBookingManagementContext.Booking {}
+
+@technology(Solidity)
+type ChargeBookingManagementContext::BookingManagement::ChargeBookingManagementContext.ChargeBookingUpdated {}
+
+@technology(Solidity)
+type ChargeBookingManagementContext::BookingManagement::ChargeBookingManagementContext.ChargeBookingCanceled {}
+
+
+
+

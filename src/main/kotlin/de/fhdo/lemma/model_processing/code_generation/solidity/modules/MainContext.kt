@@ -29,7 +29,7 @@ internal class MainContext {
 
         var license: String = "GPL-3.0"
 
-        var pragma: String = "<0.9.0"
+        var pragma: String = ">=0.8.0 <0.9.0"
 
         /**
          * Initialize the state of the context

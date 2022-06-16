@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intermediate:IntermediateDataModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediate="http://www.fhdo.de/lemma/data/intermediate" sourceModelUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/lemma/puls/domain/ChargeInvoiceManagementContext.data">
+  <contexts name="ChargeInvoiceManagementContext" qualifiedName="ChargeInvoiceManagementContext">
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="ChargeInvoiceManagement" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeInvoiceManagementContext.ChargeInvoiceManagement">
+      <featureNames>APPLICATION_SERVICE</featureNames>
+      <operations name="createInvoice" qualifiedName="ChargeInvoiceManagementContext.ChargeInvoiceManagement.createInvoice">
+        <parameters name="i" qualifiedName="ChargeInvoiceManagementContext.ChargeInvoiceManagement.createInvoice.i">
+          <type xsi:type="intermediate:IntermediateComplexType" name="Invoice" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeInvoiceManagementContext.Invoice"/>
+          <originalType xsi:type="intermediate:IntermediateComplexType" name="Invoice" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeInvoiceManagementContext.Invoice"/>
+        </parameters>
+      </operations>
+      <operations name="readInvoice" qualifiedName="ChargeInvoiceManagementContext.ChargeInvoiceManagement.readInvoice">
+        <returnType>
+          <type xsi:type="intermediate:IntermediateComplexType" name="Invoice" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeInvoiceManagementContext.Invoice"/>
+          <originalType xsi:type="intermediate:IntermediateComplexType" name="Invoice" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeInvoiceManagementContext.Invoice"/>
+        </returnType>
+        <parameters name="id" qualifiedName="ChargeInvoiceManagementContext.ChargeInvoiceManagement.readInvoice.id">
+          <type xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+          <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        </parameters>
+      </operations>
+      <dataFields name="invoices" qualifiedName="ChargeInvoiceManagementContext.ChargeInvoiceManagement.invoices">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="unspecified" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="unspecified" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="Invoice" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeInvoiceManagementContext.Invoice">
+      <featureNames>ENTITY</featureNames>
+      <dataFields name="id" qualifiedName="ChargeInvoiceManagementContext.Invoice.id">
+        <featureNames>IDENTIFIER</featureNames>
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+      </dataFields>
+      <dataFields name="bookingId" qualifiedName="ChargeInvoiceManagementContext.Invoice.bookingId">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+      </dataFields>
+      <dataFields name="invoiceAmount" qualifiedName="ChargeInvoiceManagementContext.Invoice.invoiceAmount">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="ChargeInvoiceCreated" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeInvoiceManagementContext.ChargeInvoiceCreated">
+      <featureNames>VALUE_OBJECT</featureNames>
+      <featureNames>DOMAIN_EVENT</featureNames>
+      <dataFields name="i" qualifiedName="ChargeInvoiceManagementContext.ChargeInvoiceCreated.i">
+        <type xsi:type="intermediate:IntermediateComplexType" name="Invoice" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeInvoiceManagementContext.Invoice"/>
+        <originalType xsi:type="intermediate:IntermediateComplexType" name="Invoice" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeInvoiceManagementContext.Invoice"/>
+      </dataFields>
+    </complexTypes>
+  </contexts>
+</intermediate:IntermediateDataModel>

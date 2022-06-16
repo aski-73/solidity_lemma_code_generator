@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="ASCII"?>
-<intermediate:IntermediateServiceModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:intermediate="http://www.fhdo.de/lemma/service/intermediate" sourceModelUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/lemma/safe_remote_purchase/services/PurchaseService.services">
+<intermediate:IntermediateServiceModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediate="http://www.fhdo.de/lemma/service/intermediate" xmlns:intermediate_1="http://www.fhdo.de/lemma/data/intermediate" sourceModelUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/lemma/safe_remote_purchase/services/PurchaseService.services">
   <imports name="PurchaseContext" importUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/intermediate/data models/PurchaseContext.xmi" importTypeName="DATATYPES"/>
   <microservices sourceModelUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/lemma/safe_remote_purchase/services/PurchaseService.services" name="de.fhdo.Purchase" qualifiedName="de.fhdo.Purchase" type="FUNCTIONAL" visibility="PUBLIC" effectivelyImplemented="true">
     <interfaces name="PurchaseInterface" qualifiedName="de.fhdo.Purchase.PurchaseInterface" visibility="PUBLIC" hasImplementedOperations="true">
-      <operations name="abort" qualifiedName="de.fhdo.Purchase.PurchaseInterface.abort" visibility="PUBLIC"/>
-      <operations name="confirmPurchase" qualifiedName="de.fhdo.Purchase.PurchaseInterface.confirmPurchase" visibility="PUBLIC"/>
-      <operations name="confirmReceived" qualifiedName="de.fhdo.Purchase.PurchaseInterface.confirmReceived" visibility="PUBLIC"/>
-      <operations name="refundSeller" qualifiedName="de.fhdo.Purchase.PurchaseInterface.refundSeller" visibility="PUBLIC"/>
+      <operations name="handle" qualifiedName="de.fhdo.Purchase.PurchaseInterface.handle" visibility="PUBLIC">
+        <parameters name="input" qualifiedName="de.fhdo.Purchase.PurchaseInterface.handle.input" exchangePattern="IN" communicationType="SYNCHRONOUS">
+          <type xsi:type="intermediate_1:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+          <originalType xsi:type="intermediate_1:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        </parameters>
+      </operations>
     </interfaces>
   </microservices>
 </intermediate:IntermediateServiceModel>

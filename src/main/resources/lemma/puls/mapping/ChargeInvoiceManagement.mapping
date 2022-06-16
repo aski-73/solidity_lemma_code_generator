@@ -1,0 +1,24 @@
+import microservices from "../services/ChargeInvoiceManagementContext.services" as ChargeInvoiceManagementContext
+import technology from "../../common/technology/Solidity.technology" as Solidity
+
+@technology(Solidity)
+type ChargeInvoiceManagementContext::InvoiceManagement::ChargeInvoiceManagementContext.ChargeInvoiceManagement {
+	
+	aspects {
+		Solidity::_aspects.ContractType (
+			isContract = true
+		);
+	}
+	
+	invoices {
+		aspects {
+			Solidity::_aspects.Mapping (
+				key = "uint",
+				value = "Invoice"
+			);
+		}
+	}
+}
+
+@technology(Solidity)
+type ChargeInvoiceManagementContext::InvoiceManagement::ChargeInvoiceManagementContext.Invoice {}

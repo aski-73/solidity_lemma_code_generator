@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intermediate:IntermediateServiceModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:intermediate="http://www.fhdo.de/lemma/service/intermediate" sourceModelUri="">
+  <imports name="ChargeBookingManagementContext" importUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/intermediate/service models/ChargeBookingManagementContext.xmi" importTypeName="MICROSERVICES"/>
+  <imports name="Solidity" importUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/lemma/common/technology/Solidity.technology" importTypeName="TECHNOLOGY"/>
+  <imports name="BookingManagement" importUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/intermediate/mapping models/PulsContracts/BookingManagement_ChargeBookingManagementContext.xmi" importTypeName="DATATYPES"/>
+</intermediate:IntermediateServiceModel>

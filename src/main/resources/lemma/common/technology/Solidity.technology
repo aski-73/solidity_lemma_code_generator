@@ -5,11 +5,14 @@ technology Solidity {
 				
 		/**
 		 * In Solidity uint and int are aliases for uint256 and int256, respectively.
+		 * It more likely to use a uint (based on the solidity docs) than a integer. Therefore
+		 * a LEMMA int translates to a uint.
 		 */
-		primitive type ^int;
+		primitive type uint based on int default;
+		primitive type ^int; 
 		primitive type int8 based on byte default;
 		primitive type int16 based on short default;
-		primitive type int32 based on int default;
+		primitive type int32;
 		primitive type int64 based on long default;
 		primitive type int128;
 		primitive type int256;
@@ -79,9 +82,7 @@ technology Solidity {
 		 * on functions. Since modifiers closely resemble solidity functions
 		 * this aspect can be used on LEMMA domain operations.
 		 */
-		aspect Modifier<singleval> for domainOperations {
-			string ^for;
-		}
+		aspect Modifier<singleval> for domainOperations {}
 		
 		/**
 		 * Marks an function as a Solidity constructor

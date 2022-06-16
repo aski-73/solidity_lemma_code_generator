@@ -1,5 +1,5 @@
 context ChargeBookingManagementContext {
-	structure ChargeBookingManagement<applicationService> {
+	structure ChargeBookingManagement<entity> {
 		unspecified chargeBookings,
 		procedure createBooking(Booking b),
 		function Booking readBooking(int id),
@@ -9,10 +9,7 @@ context ChargeBookingManagementContext {
 			string bookingEnd,
 			int verifyCode
 		),
-		procedure cancelBooking(int id),
-		
-		procedure checkBookingExists(int id),
-		procedure checkBookingNotExists(int id)
+		procedure cancelBooking(int id)
 	}
 	
 	structure Booking<entity> {

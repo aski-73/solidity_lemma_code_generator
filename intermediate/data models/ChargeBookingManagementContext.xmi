@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intermediate:IntermediateDataModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intermediate="http://www.fhdo.de/lemma/data/intermediate" sourceModelUri="file:///home/andi/OneDrive/fhdo-master/LEMMA_Source/lemma/code generators/de.fhdo.lemma.model_processing.code_generation.solidity/src/main/resources/lemma/puls/domain/ChargeBookingManagementContext.data">
+  <contexts name="ChargeBookingManagementContext" qualifiedName="ChargeBookingManagementContext">
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="ChargeBookingManagement" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeBookingManagementContext.ChargeBookingManagement">
+      <featureNames>ENTITY</featureNames>
+      <operations name="createBooking" qualifiedName="ChargeBookingManagementContext.ChargeBookingManagement.createBooking">
+        <parameters name="b" qualifiedName="ChargeBookingManagementContext.ChargeBookingManagement.createBooking.b">
+          <type xsi:type="intermediate:IntermediateComplexType" name="Booking" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeBookingManagementContext.Booking"/>
+          <originalType xsi:type="intermediate:IntermediateComplexType" name="Booking" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeBookingManagementContext.Booking"/>
+        </parameters>
+      </operations>
+      <operations name="readBooking" qualifiedName="ChargeBookingManagementContext.ChargeBookingManagement.readBooking">
+        <returnType>
+          <type xsi:type="intermediate:IntermediateComplexType" name="Booking" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeBookingManagementContext.Booking"/>
+          <originalType xsi:type="intermediate:IntermediateComplexType" name="Booking" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeBookingManagementContext.Booking"/>
+        </returnType>
+        <parameters name="id" qualifiedName="ChargeBookingManagementContext.ChargeBookingManagement.readBooking.id">
+          <type xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+          <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        </parameters>
+      </operations>
+      <operations name="updateBooking" qualifiedName="ChargeBookingManagementContext.ChargeBookingManagement.updateBooking">
+        <parameters name="id" qualifiedName="ChargeBookingManagementContext.ChargeBookingManagement.updateBooking.id">
+          <type xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+          <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        </parameters>
+        <parameters name="bookingStart" qualifiedName="ChargeBookingManagementContext.ChargeBookingManagement.updateBooking.bookingStart">
+          <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+          <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        </parameters>
+        <parameters name="bookingEnd" qualifiedName="ChargeBookingManagementContext.ChargeBookingManagement.updateBooking.bookingEnd">
+          <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+          <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        </parameters>
+        <parameters name="verifyCode" qualifiedName="ChargeBookingManagementContext.ChargeBookingManagement.updateBooking.verifyCode">
+          <type xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+          <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        </parameters>
+      </operations>
+      <operations name="cancelBooking" qualifiedName="ChargeBookingManagementContext.ChargeBookingManagement.cancelBooking">
+        <parameters name="id" qualifiedName="ChargeBookingManagementContext.ChargeBookingManagement.cancelBooking.id">
+          <type xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+          <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        </parameters>
+      </operations>
+      <dataFields name="chargeBookings" qualifiedName="ChargeBookingManagementContext.ChargeBookingManagement.chargeBookings">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="unspecified" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="unspecified" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="Booking" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeBookingManagementContext.Booking">
+      <featureNames>ENTITY</featureNames>
+      <dataFields name="id" qualifiedName="ChargeBookingManagementContext.Booking.id">
+        <featureNames>IDENTIFIER</featureNames>
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+      </dataFields>
+      <dataFields name="bookerId" qualifiedName="ChargeBookingManagementContext.Booking.bookerId">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+      <dataFields name="parkingSpaceId" qualifiedName="ChargeBookingManagementContext.Booking.parkingSpaceId">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+      <dataFields name="bookingStart" qualifiedName="ChargeBookingManagementContext.Booking.bookingStart">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+      <dataFields name="bookingEnd" qualifiedName="ChargeBookingManagementContext.Booking.bookingEnd">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+      <dataFields name="parkingPricePerHour" qualifiedName="ChargeBookingManagementContext.Booking.parkingPricePerHour">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+      <dataFields name="chargingPricePerKWh" qualifiedName="ChargeBookingManagementContext.Booking.chargingPricePerKWh">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+      <dataFields name="verifyCode" qualifiedName="ChargeBookingManagementContext.Booking.verifyCode">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+      </dataFields>
+      <dataFields name="isCanceled" qualifiedName="ChargeBookingManagementContext.Booking.isCanceled">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="boolean" origin="BUILTIN" kind="PRIMITIVE" size="1"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="boolean" origin="BUILTIN" kind="PRIMITIVE" size="1"/>
+      </dataFields>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="ChargeBookingCreated" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeBookingManagementContext.ChargeBookingCreated">
+      <featureNames>VALUE_OBJECT</featureNames>
+      <featureNames>DOMAIN_EVENT</featureNames>
+      <dataFields name="b" qualifiedName="ChargeBookingManagementContext.ChargeBookingCreated.b">
+        <type xsi:type="intermediate:IntermediateComplexType" name="Booking" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeBookingManagementContext.Booking"/>
+        <originalType xsi:type="intermediate:IntermediateComplexType" name="Booking" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeBookingManagementContext.Booking"/>
+      </dataFields>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="ChargeBookingUpdated" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeBookingManagementContext.ChargeBookingUpdated">
+      <featureNames>VALUE_OBJECT</featureNames>
+      <featureNames>DOMAIN_EVENT</featureNames>
+      <dataFields name="id" qualifiedName="ChargeBookingManagementContext.ChargeBookingUpdated.id">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+      </dataFields>
+      <dataFields name="bookingStart" qualifiedName="ChargeBookingManagementContext.ChargeBookingUpdated.bookingStart">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+      <dataFields name="bookingEnd" qualifiedName="ChargeBookingManagementContext.ChargeBookingUpdated.bookingEnd">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="string" origin="BUILTIN" kind="PRIMITIVE"/>
+      </dataFields>
+      <dataFields name="verifyCode" qualifiedName="ChargeBookingManagementContext.ChargeBookingUpdated.verifyCode">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+      </dataFields>
+    </complexTypes>
+    <complexTypes xsi:type="intermediate:IntermediateDataStructure" name="ChargeBookingCanceled" origin="DATA_MODEL" kind="STRUCTURE" qualifiedName="ChargeBookingManagementContext.ChargeBookingCanceled">
+      <featureNames>VALUE_OBJECT</featureNames>
+      <featureNames>DOMAIN_EVENT</featureNames>
+      <dataFields name="id" qualifiedName="ChargeBookingManagementContext.ChargeBookingCanceled.id">
+        <type xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+        <originalType xsi:type="intermediate:IntermediatePrimitiveType" name="int" origin="BUILTIN" kind="PRIMITIVE" size="32"/>
+      </dataFields>
+    </complexTypes>
+  </contexts>
+</intermediate:IntermediateDataModel>
