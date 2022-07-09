@@ -14,13 +14,9 @@ class GenerationUtil {
     companion object {
 
         fun mapToSmartContractModel(eObject: IntermediateDataModel, license: String, pragma: String): SmartContractModel {
-            val scm = SmartContractModelImpl("GPL-3.0", "^0.8.4")
+            val scm = SmartContractModelImpl(license, pragma)
 
-            /**
-             * Add definitions (contracts, events, errors, enums)
-             */
-
-            // contracts: see IntermediateDataStructureHandler
+            // Add contracts: see IntermediateDataStructureHandler
 
             return scm
         }

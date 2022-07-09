@@ -19,12 +19,9 @@ import de.fhdo.lemma.model_processing.code_generation.solidity.modules.MainConte
 @CodeGenerationModule(name = "main")
 internal class SolidityCodeGenerationModule : CodeGenerationModuleBase<IntermediateServiceModel>() {
     override fun initializeState(moduleArguments: Array<String>) {
-        val (mappingModelFilePath, mappingModel) = modelFile to resource
-
         /* Initialize the main state hold by the main context */
         MainState.initialize(
-            mappingModelFilePath,
-            mappingModel,
+            resource,
             if (targetFolder.endsWith("/")) targetFolder  else "$targetFolder/"
         )
     }
@@ -45,10 +42,6 @@ internal class SolidityCodeGenerationModule : CodeGenerationModuleBase<Intermedi
          * ServicesCodeGenerationSubModule.invoke();
          */
         DomainCodeGenerationSubModule.invoke();
-
-        println("end generation")
-
-//        ServicesCodeGenerationSubModule.invoke();
     }
 
     /**

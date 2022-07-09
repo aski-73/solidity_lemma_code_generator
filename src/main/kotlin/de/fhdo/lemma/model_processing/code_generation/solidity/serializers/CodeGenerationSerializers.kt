@@ -32,13 +32,6 @@ internal interface CodeGenerationSerializerI {
         node: SmartContractModel, targetFolderPath: String, targetFilePath: String, intermediateEObject: EObject? = null,
         originalModelFilePath: String? = null
     ): Map<String, String>
-
-    /**
-     * Callback for when the code generation phase has completed. Code generation serializers might adapt the passed
-     * [allGeneratedFiles] by returning a map of adapted (or even completely new) file paths and their contents.
-     */
-    fun codeGenerationPhaseCompleted(allGeneratedFiles: Map<String, Pair<String, Charset>>)
-            : Map<String, String> = emptyMap()
 }
 
 /**

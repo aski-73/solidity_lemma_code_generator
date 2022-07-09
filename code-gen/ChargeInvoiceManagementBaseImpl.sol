@@ -7,9 +7,9 @@ import "./ChargeInvoiceManagement.sol";
 
 abstract contract ChargeInvoiceManagementBaseImpl is ChargeInvoiceManagement {
 	mapping(uint => Invoice) public invoices;
-	
+
 	event ChargeInvoiceCreated(Invoice i);
-	
+
 	function createInvoice(
 		Invoice  memory i
 	) public virtual {

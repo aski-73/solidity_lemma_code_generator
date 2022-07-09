@@ -1,20 +1,15 @@
 package de.fhdo.lemma.model_processing.code_generation.solidity.modules.services
 
-import de.fhdo.lemma.data.intermediate.IntermediateDataModel
-import de.fhdo.lemma.model_processing.code_generation.solidity.handlers.VisitingCodeGenerationHandlerI
+import de.fhdo.lemma.model_processing.code_generation.solidity.handlers.CodeGenerationHandlerI
 import de.fhdo.lemma.model_processing.code_generation.solidity.handlers.findCodeGenerationHandlers
 import de.fhdo.lemma.model_processing.code_generation.solidity.handlers.invokeCodeGenerationHandler
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.SolidityCodeGenerationModule
 import de.fhdo.lemma.model_processing.code_generation.solidity.simpleName
-import de.fhdo.lemma.model_processing.utils.loadModelRoot
 import de.fhdo.lemma.model_processing.utils.mainInterface
-import de.fhdo.lemma.model_processing.utils.removeFileUri
 import net.aveyon.intermediate_solidity.Node
-import net.aveyon.intermediate_solidity.SmartContract
 import org.eclipse.emf.ecore.EObject
 import org.koin.core.KoinComponent
 import java.io.File
-import java.util.LinkedList
 import kotlin.reflect.KProperty
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.MainContext.State as MainState
 
@@ -28,7 +23,7 @@ internal object ServicesContext {
          * Contains handler classes loaded at runtime
          */
         internal lateinit var servicesCodeGenerationHandlers
-                : Map<String, Set<Class<VisitingCodeGenerationHandlerI<EObject, Node, Any>>>>
+                : Map<String, Set<Class<CodeGenerationHandlerI<EObject, Node, Any>>>>
 
         /**
          * Provide delegated property values for callers
@@ -55,7 +50,7 @@ internal object ServicesContext {
         /**
          * Helper to build the package of the currently generated microservice
          */
-        private fun currentMicroservicePackage() : String {
+        private fun currentMicroservicePackage(): String {
             val currentMicroservicePackage: String by MainState
             return "$currentMicroservicePackage.${currentMicroserviceQualifiedNameFragment()}"
         }
@@ -63,7 +58,7 @@ internal object ServicesContext {
         /**
          * Helper to build the generation target folder path of the currently generated microservice
          */
-        private fun currentMicroserviceTargetFolderPath() : String {
+        private fun currentMicroserviceTargetFolderPath(): String {
             val currentMicroserviceTargetFolderPathForJavaFiles: String by MainState
             return "$currentMicroserviceTargetFolderPathForJavaFiles${File.separator}" +
                     currentMicroserviceQualifiedNameFragment(File.separator)
@@ -73,7 +68,7 @@ internal object ServicesContext {
          * Helper to build the name fragment that qualifies the current microservice. It consists of the service's
          * name and version, preceded by the [SERVICE_SUBFOLDER_NAME]
          */
-        private fun currentMicroserviceQualifiedNameFragment(separator: String = ".") : String {
+        private fun currentMicroserviceQualifiedNameFragment(separator: String = "."): String {
             val currentMicroservice = MainState.currentMicroservice
             val microserviceVersion = currentMicroservice.version ?: ""
             val microserviceName = currentMicroservice.simpleName
@@ -89,14 +84,13 @@ internal object ServicesContext {
         /**
          * Helper to build the package of the currently generated interface
          */
-        private fun currentInterfacesGenerationPackage()
-                = "${currentMicroservicePackage()}.$INTERFACE_SUBFOLDER_NAME"
+        private fun currentInterfacesGenerationPackage() = "${currentMicroservicePackage()}.$INTERFACE_SUBFOLDER_NAME"
 
         /**
          * Helper to build the generation target folder path of the currently generated interface
          */
-        private fun currentInterfacesGenerationTargetFolderPath()
-                ="${currentMicroserviceTargetFolderPath()}${File.separator}$INTERFACE_SUBFOLDER_NAME"
+        private fun currentInterfacesGenerationTargetFolderPath() =
+            "${currentMicroserviceTargetFolderPath()}${File.separator}$INTERFACE_SUBFOLDER_NAME"
     }
 
     /**

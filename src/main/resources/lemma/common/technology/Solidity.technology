@@ -1,13 +1,6 @@
 technology Solidity {
-	
 	types {
 		primitive type bool based on boolean default;
-				
-		/**
-		 * In Solidity uint and int are aliases for uint256 and int256, respectively.
-		 * It more likely to use a uint (based on the solidity docs) than a integer. Therefore
-		 * a LEMMA int translates to a uint.
-		 */
 		primitive type uint based on int default;
 		primitive type ^int; 
 		primitive type int8 based on byte default;
@@ -18,80 +11,29 @@ technology Solidity {
 		primitive type int256;
 		primitive type float32 based on float default;
 		primitive type float64 based on double default;
-		
 		primitive type ^string based on string, char default;
 		primitive type ^date based on date default;
 		primitive type none based on unspecified default;
 		primitive type address based on string;
-		
-		structure type Struct;
-		
-		structure type Error;
-		
-		list type Functions;
-		
-		
 	}
 	
-	
-	
 	service aspects {
-		/**
-		 * Use this aspect in order to incoporate a behavior for your smart  contract
-		 * defined in a plant uml state machine 
-		 */
 		aspect StateBehavior <singleval> for types {
 			string plantuml<mandatory>;
 		}
 		
-		/**
-		 * Use this aspect in order to map a type to a Solidity 'mapping' type.
-		 */
 		aspect Mapping<singleval> for fields {
 			string key <mandatory>;
 			string value <mandatory>;
 		}
 		
-		/**
-		 * Represents the 'using LIBRARY for STRUCT' syntax of Solidity
-		 */
-		aspect ExtensionFunction<singleval> for types {
-			string using<mandatory>;
-			string ^for<mandatory>;
-		}
-		
-		/**
-		 * Uses this aspect in order to define a structure as a Solidity
-		 * library, interface, contract or abstract contract
-		 */
 		aspect ContractType<singleval> for types {
 			boolean isContract;
-			boolean isLibrary;
 			boolean isInterface;
-			boolean isAbstract;
 		}
 		
-		/** 
-		 * Represents the Solidity 'payable' keyword which can be used for
-		 * fields as well as functions
-		 */
 		aspect Payable<singleval> for domainOperations, fields;
 		
-		/**
-		 * Represents the Solidity 'modifier' structure for enabling guards
-		 * on functions. Since modifiers closely resemble solidity functions
-		 * this aspect can be used on LEMMA domain operations.
-		 */
-		aspect Modifier<singleval> for domainOperations {}
-		
-		/**
-		 * Marks an function as a Solidity constructor
-		 */
-		aspect Constructor<singleval> for domainOperations;
-		
-		/**
-		 * Marks complex types as error in order to map them to Solidity error types
-		 */
 		aspect Error<singleval> for types;
 	}
 }

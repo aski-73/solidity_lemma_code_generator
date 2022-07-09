@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EObject
 
 /*
  * This file is based on
- *  * Based on
  * https://github.com/SeelabFhdo/lemma/blob/main/code%20generators/de.fhdo.lemma.model_processing.code_generation.java_base/src/main/kotlin/de/fhdo/lemma/model_processing/code_generation/java_base/handlers/CodeGenerationHandlers.kt
  */
 
@@ -65,12 +64,6 @@ internal fun <T : EObject, N : Node, C : Any> invokeCodeGenerationHandler(
 //    val adaptedNode = handler.executeCodeGenerationHandlerPostActions(eObject, generatedNode, context)
     return generatedNode to generatedFilePath
 }
-
-/**
- * Base interface for code generation handlers that automatically get executed when the elements of an intermediate
- * model are visited.
- */
-interface VisitingCodeGenerationHandlerI<T : EObject, N : Node, C : Any> : CodeGenerationHandlerI<T, N, C>
 
 /**
  * Helper to find [CodeGenerationHandlerI] implementations, possibly in other JAR archives by providing the respective

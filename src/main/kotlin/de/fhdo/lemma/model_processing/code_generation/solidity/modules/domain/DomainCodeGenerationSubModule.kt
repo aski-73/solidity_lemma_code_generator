@@ -2,18 +2,20 @@ package de.fhdo.lemma.model_processing.code_generation.solidity.modules.domain
 
 import de.fhdo.lemma.data.intermediate.IntermediateDataModel
 import de.fhdo.lemma.model_processing.absoluteBasePath
+import de.fhdo.lemma.model_processing.code_generation.solidity.handlers.invokeCodeGenerationHandler
 import de.fhdo.lemma.model_processing.code_generation.solidity.serializers.CodeGenerationSerializerI
 import de.fhdo.lemma.model_processing.code_generation.solidity.serializers.ExtendedGenerationGapSerializer
 import de.fhdo.lemma.model_processing.utils.filterByType
 import de.fhdo.lemma.model_processing.utils.loadModelRoot
+import de.fhdo.lemma.model_processing.utils.mainInterface
 import de.fhdo.lemma.model_processing.utils.removeFileUri
 import de.fhdo.lemma.service.ImportType
 import de.fhdo.lemma.service.intermediate.IntermediateServiceModel
 import de.fhdo.lemma.utils.LemmaUtils
+import net.aveyon.intermediate_solidity.Node
 import net.aveyon.intermediate_solidity.SmartContractModel
 import org.eclipse.emf.ecore.EObject
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.MainContext.State as MainState
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.domain.DomainContext.State as DomainState
 
@@ -40,10 +42,9 @@ internal class DomainCodeGenerationSubModule : KoinComponent {
          */
         val intermediateServiceModelResource: IntermediateServiceModel by MainState
 
-        val allDomainModelUris = resolveImportedDomainModelUrisTransitively(intermediateServiceModelResource)
+        val allDomainModelUris = resolveImportedDomainModelUris(intermediateServiceModelResource)
         allDomainModelUris.forEach { uri ->
-            DomainState.setCurrentIntermediateDomainModelUri(uri)
-            val resolvedIntermediateDomainModel: IntermediateDataModel by DomainState
+            val resolvedIntermediateDomainModel = DomainState.resolveCurrentIntermediateDomainModel(uri)
             invokeCodeGenerationHandlers(resolvedIntermediateDomainModel)
 
             resolvedIntermediateDomainModel.eAllContents().forEach { invokeCodeGenerationHandlers(it) }
@@ -60,7 +61,7 @@ internal class DomainCodeGenerationSubModule : KoinComponent {
      * property "Import Type Name" has the value "DATATYPES" because these are neither Microservice nor
      * Technology imports
      */
-    private fun resolveImportedDomainModelUrisTransitively(startModel: IntermediateServiceModel): Set<String> {
+    private fun resolveImportedDomainModelUris(startModel: IntermediateServiceModel): Set<String> {
         val resolvedModelUris = mutableSetOf<String>()
         val urisTodo = ArrayDeque<Pair<String, String>>()
         val startModelAbsolutePath = startModel.eResource().absoluteBasePath()
@@ -89,11 +90,17 @@ internal class DomainCodeGenerationSubModule : KoinComponent {
     private fun invokeCodeGenerationHandlers(eObject: EObject) {
         // Ignore the return values since the code gen handlers write directly into the MainState.
         // The code generation handlers build a concrete instance of intermediate solidity
-        DomainContext.invokeCodeGenerationHandlers(eObject)
+        val handlers = DomainState.domainCodeGenerationHandlers[eObject.mainInterface.name]
+        val results = mutableListOf<Pair<Node, String?>>()
+        handlers?.forEach {
+            val handlerResult = invokeCodeGenerationHandler(it.getConstructor().newInstance(), eObject)
+            if (handlerResult != null)
+                results.add(handlerResult)
+        }
     }
 
     /**
-     * Calls the code serializers which ultimatly produce the solidity code
+     * Calls the code serializers which ultimately produces the solidity code
      */
     private fun invokeSerializers() {
         val currentIntermediateDomainModel: IntermediateDataModel by DomainState

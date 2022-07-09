@@ -1,7 +1,5 @@
 package de.fhdo.lemma.model_processing.code_generation.solidity.serializers
 
-import de.fhdo.lemma.model_processing.code_generation.solidity.SolidityParser
-import de.fhdo.lemma.model_processing.code_generation.solidity.handlers.VisitingCodeGenerationHandlerI
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.MainContext
 import net.aveyon.intermediate_solidity.SmartContract
 import net.aveyon.intermediate_solidity.SmartContractModel
@@ -160,7 +158,7 @@ private class ExtendedGenerationGapSerializerBase {
         if (userDefinedInterfaceFile != null && userDefinedInterfaceFile.isNotEmpty()) {
             return Pair(
                 userDefinedInterfaceFile[0].absolutePath,
-                SolidityParser.parse(userDefinedInterfaceFile[0].absolutePath)
+                MainContext.State.solidityParser.parse(userDefinedInterfaceFile[0].absolutePath)
             )
         }
 
@@ -186,7 +184,7 @@ private class ExtendedGenerationGapSerializerBase {
         if (userDefinedImplFile != null && userDefinedImplFile.isNotEmpty()) {
             return Pair(
                 userDefinedImplFile[0].absolutePath,
-                SolidityParser.parse(userDefinedImplFile[0].absolutePath)
+                MainContext.State.solidityParser.parse(userDefinedImplFile[0].absolutePath)
             )
         }
 

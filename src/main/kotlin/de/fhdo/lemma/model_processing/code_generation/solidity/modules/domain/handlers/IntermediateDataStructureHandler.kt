@@ -3,7 +3,7 @@ package de.fhdo.lemma.model_processing.code_generation.solidity.modules.domain.h
 import de.fhdo.lemma.data.ComplexTypeFeature
 import de.fhdo.lemma.data.intermediate.IntermediateDataStructure
 import de.fhdo.lemma.model_processing.code_generation.solidity.handlers.CodeGenerationHandler
-import de.fhdo.lemma.model_processing.code_generation.solidity.handlers.VisitingCodeGenerationHandlerI
+import de.fhdo.lemma.model_processing.code_generation.solidity.handlers.CodeGenerationHandlerI
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.SolidityTechnology
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.domain.handlers.GenerationUtil.Companion.mapToError
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.domain.handlers.GenerationUtil.Companion.mapToEvent
@@ -28,7 +28,7 @@ import de.fhdo.lemma.model_processing.code_generation.solidity.modules.MainConte
  * it's not possible to assign normal structures to more than one mapped data structure.
  */
 @CodeGenerationHandler
-class IntermediateDataStructureHandler : VisitingCodeGenerationHandlerI<IntermediateDataStructure, Node, Any> {
+class IntermediateDataStructureHandler : CodeGenerationHandlerI<IntermediateDataStructure, Node, Any> {
     override fun handlesEObjectsOfInstance(): Class<IntermediateDataStructure> = IntermediateDataStructure::class.java
 
     override fun generatesNodesOfInstance(): Class<Node> = Node::class.java

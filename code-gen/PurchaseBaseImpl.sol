@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL 3.0
-pragma solidity <0.9.0;
+pragma solidity >= 0.8.0 <0.9.0;
 
 import "./Purchase.sol";
 
@@ -13,7 +13,6 @@ abstract contract PurchaseBaseImpl is Purchase {
 	constructor()  payable  {
 		init();
 	}
-	
 	
 	error OnlyBuyer();
 	error OnlySeller();
@@ -29,7 +28,7 @@ abstract contract PurchaseBaseImpl is Purchase {
 		state = "ABORTING";
 		//Entry Activity of new State
 		emit Aborted();
-		transfer(address(this).balance, seller);
+		seller.transfer(address(this).balance);
 	}
 	function confirmPurchase() internal virtual {
 		state = "LOCKED";
@@ -41,13 +40,13 @@ abstract contract PurchaseBaseImpl is Purchase {
 		state = "RELEASE";
 		//Entry Activity of new State
 		emit ItemReceived();
-		transfer(value, buyer);
+		buyer.transfer(value);
 	}
 	function refundSeller() internal virtual {
 		state = "REFUNDING";
 		//Entry Activity of new State
 		emit SellerRefunded();
-		transfer(3 * value, seller);
+		seller.transfer(3 * value);
 	}
 	function init() internal virtual {
 		state = "CREATED";
@@ -86,15 +85,4 @@ abstract contract PurchaseBaseImpl is Purchase {
 	) internal pure virtual returns (bool) {
 		return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
 	}
-	function transfer(
-		uint  amount,
-		address  payable receiver
-	) internal virtual {
-		address self = address(this);
-		uint256 balance = self.balance;
-		if (balance >= amount) {
-			receiver.transfer(amount);
-		}
-	}
-	
 }

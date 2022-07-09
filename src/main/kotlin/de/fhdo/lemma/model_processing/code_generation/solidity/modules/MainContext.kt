@@ -14,7 +14,6 @@ internal class MainContext {
      * State as singleton
      */
     object State : KoinComponent {
-        private lateinit var modelFilePath: String
         internal lateinit var model: IntermediateServiceModel
         private lateinit var targetFolderPath: String
 
@@ -26,6 +25,7 @@ internal class MainContext {
             private set
 
         internal val meivsm: net.aveyon.meivsm.Api = net.aveyon.meivsm.App()
+        internal val solidityParser: net.aveyon.solidity_parser.Api = net.aveyon.solidity_parser.App()
 
         var license: String = "GPL-3.0"
 
@@ -35,11 +35,9 @@ internal class MainContext {
          * Initialize the state of the context
          */
         fun initialize(
-            intermediateServiceModelFilePath: String,
             intermediateServiceModelResource: Resource,
             targetFolderPath: String
         ) {
-            modelFilePath = intermediateServiceModelFilePath
             model = intermediateServiceModelResource.modelRoot()
             this.targetFolderPath = targetFolderPath
         }
