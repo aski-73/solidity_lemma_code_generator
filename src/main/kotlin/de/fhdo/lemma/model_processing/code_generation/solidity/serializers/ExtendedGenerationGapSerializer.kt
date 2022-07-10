@@ -12,16 +12,17 @@ import java.io.File
 
 /**
  * Generate files (overwrites if already exist):
- * 1) targetPath/ContractNameBase.sol (Interface)
+ * 1) targetPath/ContractName.sol (Interface) => GenInterface (auto generated)
  *    - Contains all methods of provided [SmartContract] that are not hidden
- * 2) targetPath/ContractNameBaseImpl.sol
+ * 2) targetPath/ContractNameBaseImpl.sol => GenImpl (auto generated)
  *    - represents the [SmartContract]
  *
  * Generation is changed a bit if following files exist:
- * 1) targetPath/ContractName.sol
+ * 1) targetPath/ContractNameBase.sol => UserDefinedInterface (user defined)
  *    - User defined interface
- * 2) targetPath/ContractNameImpl.sol
+ * 2) targetPath/ContractNameImpl.sol => UserDefinedImpl (user defined)
  *    - User defined implementation that implements methods of user defined interface
+ *    - Will be generated if the UserInterface exists and this file does not exist yet
  */
 @CodeGenerationSerializer("extended-generation-gap", default = true)
 class ExtendedGenerationGapSerializer : CodeGenerationSerializerI, KoinComponent {
@@ -69,17 +70,17 @@ private class ExtendedGenerationGapSerializerBase {
             print(interfaceSerialized)
 
             // Generate a base implementation for the generated interface
-            val baseImpl = generateBaseImpl(it, genInterface, targetFolderPath)
-            val baseImplSerialized = extractor.generateSmartContractModel(baseImpl)
-            val baseImplFile = File(targetFolderPath + "/" + baseImpl.name)
-            baseImplFile.createNewFile()
-            baseImplFile.bufferedWriter().use { out -> out.write(baseImplSerialized) }
+            val genImpl = generateBaseImpl(it, genInterface, targetFolderPath)
+            val baseImplSerialized = extractor.generateSmartContractModel(genImpl)
+            val genImplFile = File(targetFolderPath + "/" + genImpl.name)
+            genImplFile.createNewFile()
+            genImplFile.bufferedWriter().use { out -> out.write(baseImplSerialized) }
             print(baseImplSerialized)
 
             if (this.userDefinedInterface != null && this.userDefinedImpl == null) {
-                val impl = generateImpl(this.userDefinedInterface!!, genInterface.definitions.interfaces[0].name, baseImpl)
-                val implFile = File(targetFolderPath + "/" + impl.name)
-                val implFileSerialized = extractor.generateSmartContractModel(impl)
+                this.userDefinedImpl = generateUserDefinedImpl(this.userDefinedInterface!!, genInterface.definitions.interfaces[0].name, genImpl)
+                val implFile = File(targetFolderPath + "/" + userDefinedImpl!!.name)
+                val implFileSerialized = extractor.generateSmartContractModel(userDefinedImpl)
                 implFile.createNewFile()
                 implFile.bufferedWriter().use { out -> out.write(implFileSerialized) }
             }
@@ -89,7 +90,7 @@ private class ExtendedGenerationGapSerializerBase {
     }
 
     /**
-     * Generates the Base Interface in the intermediate solidity representation by a provided [SmartContract]
+     * Generates the Gen-Interface in the intermediate solidity representation by a provided [SmartContract]
      *
      * @param node [SmartContract] Intermediate Smart Contract instance
      *
@@ -98,7 +99,7 @@ private class ExtendedGenerationGapSerializerBase {
     private fun generateInterface(node: SmartContract, targetFolderPath: String): SmartContractModel {
         val model = SmartContractModelImpl(license, pragma)
         model.name = node.name + ".sol"
-        val baseInterface = InterfaceImpl(node.name)
+        val genInterface = InterfaceImpl(node.name)
 
         // Copy all methods that are not private or internal. Visibility is always public in order to build the contract interface
         // Not external, so that the implementing contract can call the methods
@@ -110,13 +111,13 @@ private class ExtendedGenerationGapSerializerBase {
                 // Solidity Docs 0.8.14
                 f.visibility = Visibility.EXTERNAL
                 f.expressions.clear()
-                baseInterface.definitions.functions.add(f)
+                genInterface.definitions.functions.add(f)
             }
 
         // Enumerations, structures will be moved to the interface because their types might be function arguments.
         // errors, events, stay at the base impl class because their types are not useful in function arguments.
         node.definitions.structures.forEach {
-            baseInterface.definitions.structures.add(StructureImpl(it))
+            genInterface.definitions.structures.add(StructureImpl(it))
         }
         node.definitions.structures.clear()
 
@@ -124,7 +125,7 @@ private class ExtendedGenerationGapSerializerBase {
         val userDefinedInterface = findUserDefinedInterface(node, targetFolderPath)
 
         if (userDefinedInterface != null) {
-            baseInterface.extends.add(userDefinedInterface.second.definitions.interfaces[0])
+            genInterface.extends.add(userDefinedInterface.second.definitions.interfaces[0])
 
             model.imports.add(
                 ImportedConceptImpl(
@@ -135,7 +136,7 @@ private class ExtendedGenerationGapSerializerBase {
             this.userDefinedInterface = userDefinedInterface.second
         }
 
-        model.definitions.interfaces.add(baseInterface)
+        model.definitions.interfaces.add(genInterface)
 
         return model
     }
@@ -192,45 +193,45 @@ private class ExtendedGenerationGapSerializerBase {
     }
 
     /**
-     * Creates a [SmartContract] instance that represents the base implementation of the EGG-Base-Interface
+     * Creates a [SmartContract] instance that represents the base implementation (GenImpl) of the EGG-Gen-Interface
      *
      * @param node SmartContract instance delivered by the [VisitingCodeGenerationHandlerI]s
-     * @param baseInterface Representation of the Solidity file containing the EGG-Base-Interface that should be implemented
+     * @param genInterface Representation of the Solidity file containing the EGG-Gen-Interface that should be implemented
      *
      * @return [SmartContractModel] instance representing a solidity file containing the generated base implementation
      */
     private fun generateBaseImpl(
         node: SmartContract,
-        baseInterface: SmartContractModel,
+        genInterface: SmartContractModel,
         targetFolderPath: String
     ): SmartContractModel {
         val model = SmartContractModelImpl(license, pragma)
         model.name = node.name + "BaseImpl.sol"
 
-        val baseImpl = SmartContractImpl(node)
-        baseImpl.name += "BaseImpl"
+        val genImpl = SmartContractImpl(node)
+        genImpl.name += "BaseImpl"
 
         // Import the baseInterface
         model.imports.add(
             ImportedConceptImpl(
 //                targetFolderPath + baseInterface.definitions.interfaces[0].name + ".sol",
-                "./" + baseInterface.name,
-                baseInterface.definitions
+                "./" + genInterface.name,
+                genInterface.definitions
             )
         )
 
         // Make it implement the base interface so that it becomes the base implementation
-        baseImpl.implements.add(baseInterface.definitions.interfaces[0])
+        genImpl.implements.add(genInterface.definitions.interfaces[0])
 
         val userDefinedImpl = findUserDefinedImplementation(node, targetFolderPath)
 
         // EGG requires to set the generated base implementation to abstract so that the user defined contract has to
         // extend it
         if (userDefinedImpl != null) {
-            baseImpl.isAbstract = true
+            genImpl.isAbstract = true
             // Make every function that is not private virtual in order to make it overrideable by the user defined
             // implementation.
-            baseImpl.definitions.functions.forEach {
+            genImpl.definitions.functions.forEach {
                 if (it.visibility != Visibility.PRIVATE) {
                     it.isVirtual = true
                 }
@@ -239,17 +240,17 @@ private class ExtendedGenerationGapSerializerBase {
         }
 
         // Add empty implementations to the functions and modifiers
-        baseImpl.definitions.functions
+        genImpl.definitions.functions
             .filter { it.expressions.size == 0 }
             .forEach {
                 it.expressions.add(ExpressionStringImpl("revert(\"IMPLEMENTATION REQUIRED\")"))
             }
-        baseImpl.definitions.modifiers
+        genImpl.definitions.modifiers
             .filter { it.expressions.size == 0 }
             .forEach {
                 it.expressions.add(ExpressionStringImpl("revert(\"IMPLEMENTATION REQUIRED\")"))
             }
-        model.definitions.contracts.add(baseImpl)
+        model.definitions.contracts.add(genImpl)
 
         return model
     }
@@ -258,9 +259,9 @@ private class ExtendedGenerationGapSerializerBase {
      * If the user defined a base interface, but has not created a corresponding implementing class,
      * the generator will define one.
      */
-    private fun generateImpl(userDefinedInterface: SmartContractModel,
-                             genInterfaceName: String,
-                             baseImpl: SmartContractModel): SmartContractModel {
+    private fun generateUserDefinedImpl(userDefinedInterface: SmartContractModel,
+                                        genInterfaceName: String,
+                                        baseImpl: SmartContractModel): SmartContractModel {
         val userDefinedImpl = SmartContractModelImpl(MainContext.State.license, MainContext.State.pragma)
         userDefinedImpl.name = genInterfaceName + "Impl.sol"
 
