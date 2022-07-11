@@ -10,7 +10,7 @@ abstract contract PurchaseBaseImpl is Purchase {
 	address payable public seller;
 	address payable public buyer;
 	string public state = "START";
-	constructor()  payable  {
+	constructor()   {
 		init();
 	}
 	
@@ -56,7 +56,7 @@ abstract contract PurchaseBaseImpl is Purchase {
 	}
 	function handle(
 		string  memory input
-	) public virtual payable {
+	) public override virtual payable {
 		if (isEqual(state, "CREATED") && isEqual(input, "abort()") && msg.sender == seller) {
 			abort();
 		}
