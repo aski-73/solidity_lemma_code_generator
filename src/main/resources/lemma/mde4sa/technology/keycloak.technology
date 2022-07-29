@@ -1,0 +1,13 @@
+technology Keycloak {
+	infrastructure technologies {
+		Keycloak{
+			operation environments = "openjdk:11-jdk-slim";
+		 	service properties {
+		 		string keycloakAuthServerUrl<mandatory>;
+		 		string keycloakRealm<mandatory>;
+		 		string keycloakResource<mandatory>;
+		 		boolean keycloakBearerOnly<mandatory>;
+		 	}
+		}
+	}
+}

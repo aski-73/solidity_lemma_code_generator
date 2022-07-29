@@ -1,0 +1,33 @@
+import datatypes from "shared.data" as sharedData
+  
+context ChargingStationManagementCommands { 
+		
+	structure CreateParkingSpaceCommand<valueObject> {
+		immutable string name,
+		immutable string description,
+		immutable long ownerId,
+		immutable float parkingPricePerHour,
+		immutable boolean activated,
+		immutable boolean blocked,
+		immutable boolean offered,
+		immutable sharedData::ChargingStationManagement.Location location,
+		immutable sharedData::ChargingStationManagement.TimePeriods availabilityPeriods,
+		immutable sharedData::ChargingStationManagement.ParkingSpaceSize parkingSpaceSize
+	}
+		
+	structure CreateElectrifiedParkingSpaceCommand<valueObject> {
+		immutable string name,
+		immutable string description,
+		immutable long ownerId,
+		immutable float parkingPricePerHour,
+		immutable boolean activated,
+		immutable boolean blocked,
+		immutable boolean offered,
+		immutable sharedData::ChargingStationManagement.Location location,
+		immutable sharedData::ChargingStationManagement.TimePeriods availabilityPeriods,
+		immutable sharedData::ChargingStationManagement.ParkingSpaceSize parkingSpaceSize,
+		immutable float chargingPricePerKWH,
+		immutable sharedData::ChargingStationManagement.ChargingType chargingType,
+		immutable string pluginType
+	}
+}

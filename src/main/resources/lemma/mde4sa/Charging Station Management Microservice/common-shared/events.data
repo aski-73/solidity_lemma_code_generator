@@ -1,0 +1,42 @@
+import datatypes from "shared.data" as sharedData
+  
+context ChargingStationManagementEvents {
+	
+	structure ParkingSpaceCreated<valueObject,domainEvent> {  
+		immutable string parkingSpaceId,
+		immutable string name,
+		immutable string description,
+		immutable long ownerId,
+		immutable float parkingPricePerHour,
+		immutable boolean activated,
+		immutable boolean blocked,
+		immutable boolean offered,
+		immutable sharedData::ChargingStationManagement.Location location,
+		immutable sharedData::ChargingStationManagement.ParkingSpaceSize parkingSpaceSize,
+		immutable sharedData::ChargingStationManagement.TimePeriods availablePeriods
+	}
+		
+	structure ElectrifiedParkingSpaceCreated<valueObject,domainEvent> {
+		immutable string parkingSpaceId,
+		immutable string name,
+		immutable string description,
+		immutable long ownerId,
+		immutable float parkingPricePerHour,
+		immutable boolean activated,
+		immutable boolean blocked,
+		immutable boolean offered,
+		immutable sharedData::ChargingStationManagement.Location location,
+		immutable sharedData::ChargingStationManagement.ParkingSpaceSize parkingSpaceSize,
+		immutable float chargingPricePerKWH,
+		immutable sharedData::ChargingStationManagement.ChargingType chargingType,
+		immutable string pluginType,
+		immutable sharedData::ChargingStationManagement.TimePeriods availablePeriods
+	}
+		
+	structure CPIChangeEvent<valueObject,domainEvent> {
+		immutable string id_command,
+		immutable string id_query,
+		immutable string name,
+		immutable boolean activated
+	}
+}

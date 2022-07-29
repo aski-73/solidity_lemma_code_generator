@@ -3,9 +3,7 @@ pragma solidity >= 0.8.0 <0.9.0;
 
 import "./Purchase.sol";
 
-
-
-abstract contract PurchaseBaseImpl is Purchase {
+contract PurchaseBaseImpl is Purchase {
 	uint public value;
 	address payable public seller;
 	address payable public buyer;
@@ -13,42 +11,42 @@ abstract contract PurchaseBaseImpl is Purchase {
 	constructor()   {
 		init();
 	}
-	
+
 	error OnlyBuyer();
 	error OnlySeller();
 	error InvalidState();
 	error ValueNotEven();
-	
+
 	event Aborted();
 	event PurchaseConfirmed();
 	event ItemReceived();
 	event SellerRefunded();
-	
-	function abort() internal virtual {
+
+	function abort() internal {
 		state = "ABORTING";
 		//Entry Activity of new State
 		emit Aborted();
 		seller.transfer(address(this).balance);
 	}
-	function confirmPurchase() internal virtual {
+	function confirmPurchase() internal {
 		state = "LOCKED";
 		//Entry Activity of new State
 		emit PurchaseConfirmed();
 		buyer = payable(msg.sender);
 	}
-	function confirmReceived() internal virtual {
+	function confirmReceived() internal {
 		state = "RELEASE";
 		//Entry Activity of new State
 		emit ItemReceived();
 		buyer.transfer(value);
 	}
-	function refundSeller() internal virtual {
+	function refundSeller() internal {
 		state = "REFUNDING";
 		//Entry Activity of new State
 		emit SellerRefunded();
 		seller.transfer(3 * value);
 	}
-	function init() internal virtual {
+	function init() internal {
 		state = "CREATED";
 		//Entry Activity of new State
 		seller = payable(msg.sender);
@@ -56,7 +54,7 @@ abstract contract PurchaseBaseImpl is Purchase {
 	}
 	function handle(
 		string  memory input
-	) public override virtual payable {
+	) public override payable {
 		if (isEqual(state, "CREATED") && isEqual(input, "abort()") && msg.sender == seller) {
 			abort();
 		}
@@ -82,7 +80,9 @@ abstract contract PurchaseBaseImpl is Purchase {
 	function isEqual(
 		string  memory a,
 		string  memory b
-	) internal pure virtual returns (bool) {
+	) internal pure  returns (
+		bool  name
+	) {
 		return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))));
 	}
 }

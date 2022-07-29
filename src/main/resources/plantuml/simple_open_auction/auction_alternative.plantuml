@@ -4,7 +4,8 @@ skinparam Shadowing false
 hide empty description
 
 [*] -> Init
-Init: entry/ auctionEndTime = now + biddingTime
+Init: entry/ auctionEndTime = now + provided biddingTime
+Init: entry/ beneficiary = provided beneficiaryAddress
 Init --> Bid: bid [now <= auctionEndTime & msg.value > highestBid]
 Bid -> Bid: bid [now <= auctionEndTime & msg.value > highestBid]
 Bid: entry/ pendingReturns[highestBidder] += highestBid

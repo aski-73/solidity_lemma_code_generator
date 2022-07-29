@@ -1,0 +1,45 @@
+import datatypes from "shared.data" as sharedData
+
+context BookingManagementCommands {
+	
+	structure CreateParkBookingCommand<valueObject> {
+		immutable sharedData::SharedData.Booker booker,
+		immutable sharedData::SharedData.ParkingSpace parkingSpace,
+		immutable sharedData::SharedData.TimeSlot timeSlot,
+		immutable float bookingPriceTotal 
+	}
+		
+		
+	structure UpdateParkBookingCommand<valueObject> {
+		immutable long bookingId,
+		immutable sharedData::SharedData.TimeSlot timeSlot,
+		immutable float bookingPriceTotal 
+	}
+		
+		
+	structure CancelParkBookingCommand<valueObject> {
+		immutable long bookingId
+	}
+		
+		
+		
+		
+	structure CreateParkAndChargeBookingCommand<valueObject> {
+		immutable sharedData::SharedData.Booker booker,
+		immutable sharedData::SharedData.ElectrifiedParkingSpace electrifiedParkingSpace,
+		immutable sharedData::SharedData.TimeSlot timeSlot,
+		immutable float bookingPriceTotal 
+	}
+		
+		
+	structure UpdateParkAndChargeBookingCommand<valueObject> {
+		immutable long bookingId,
+		immutable sharedData::SharedData.TimeSlot timeSlot,
+		immutable float bookingPriceTotal 
+	}
+		
+		
+	structure CancelParkAndChargeBookingCommand<valueObject> {
+		immutable long bookingId
+	}	
+}

@@ -1,0 +1,35 @@
+import technology from "../technology/keycloak.technology" as keycloak
+import technology from "../technology/container_base.technology" as container_base
+import nodes from "../Booking Management Microservice/command-side/bookingManagement.operation" as BookingManagementCommandSide
+import nodes from "../Booking Management Microservice/query-side/bookingManagement.operation" as BookingManagementQuerySide
+import nodes from "../Charging Station Management Microservice/command-side/chargingStationManagement.operation" as CSMMCommandSide
+import nodes from "../Charging Station Management Microservice/query-side/chargingStationManagement.operation" as CSMMQuerySide
+import nodes from "../Charging Station Search Microservice/chargingStationSearch.operation" as ChargingStationSearchService
+import nodes from "../Environmental Data Analysis Microservice/command-side/environmentalDataAnalysis.operation" as EDAMCommandSide
+import nodes from "../Environmental Data Analysis Microservice/query-side/environmentalDataAnalysis.operation" as EDAMQuerySide
+
+
+
+@technology(keycloak)
+@technology(container_base)
+Keycloak is keycloak::_infrastructure.Keycloak 
+	with operation environment "openjdk:11-jdk-slim"
+	used by nodes 
+		BookingManagementCommandSide::BookingManagementCommandContainer,
+		BookingManagementQuerySide::BookingManagementQueryContainer,
+		CSMMCommandSide::ChargingStationManagementCommandContainer,
+		CSMMQuerySide::ChargingStationManagementQueryContainer,
+		ChargingStationSearchService::ChargingStationSearchContainer,
+		EDAMCommandSide::EnvironmentalDataAnalysisCommandContainer,
+		EDAMQuerySide::EnvironmentalDataAnalysisQueryContainer 
+	{
+		
+		default values {
+			keycloakAuthServerUrl="https://auth.seelab.fh-dortmund.de/auth"
+			keycloakRealm="puls"
+			keycloakResource="puls"
+			keycloakBearerOnly=true
+		}	
+
+	}
+		

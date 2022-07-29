@@ -1,0 +1,883 @@
+{
+    "type": "SourceUnit",
+    "children": [
+        {
+            "type": "PragmaDirective",
+            "name": "solidity",
+            "value": "<0.9.0"
+        },
+        {
+            "type": "ImportDirective",
+            "path": "./ChargeBookingManagementBaseImpl.sol",
+            "pathLiteral": {
+                "type": "StringLiteral",
+                "value": "./ChargeBookingManagementBaseImpl.sol",
+                "parts": [
+                    "./ChargeBookingManagementBaseImpl.sol"
+                ],
+                "isUnicode": [
+                    false
+                ]
+            },
+            "unitAlias": null,
+            "unitAliasIdentifier": null,
+            "symbolAliases": null,
+            "symbolAliasesIdentifiers": null
+        },
+        {
+            "type": "ContractDefinition",
+            "name": "ChargeBookingManagementImpl",
+            "baseContracts": [
+                {
+                    "type": "InheritanceSpecifier",
+                    "baseName": {
+                        "type": "UserDefinedTypeName",
+                        "namePath": "ChargeBookingManagementBaseImpl"
+                    },
+                    "arguments": []
+                }
+            ],
+            "subNodes": [
+                {
+                    "type": "ModifierDefinition",
+                    "name": "checkBookingExists",
+                    "parameters": [
+                        {
+                            "type": "VariableDeclaration",
+                            "typeName": {
+                                "type": "ElementaryTypeName",
+                                "name": "uint",
+                                "stateMutability": null
+                            },
+                            "name": "_id",
+                            "identifier": {
+                                "type": "Identifier",
+                                "name": "_id"
+                            },
+                            "storageLocation": null,
+                            "isStateVar": false,
+                            "isIndexed": false,
+                            "expression": null
+                        }
+                    ],
+                    "body": {
+                        "type": "Block",
+                        "statements": [
+                            {
+                                "type": "IfStatement",
+                                "condition": {
+                                    "type": "BinaryOperation",
+                                    "operator": "!=",
+                                    "left": {
+                                        "type": "MemberAccess",
+                                        "expression": {
+                                            "type": "IndexAccess",
+                                            "base": {
+                                                "type": "Identifier",
+                                                "name": "chargeBookings"
+                                            },
+                                            "index": {
+                                                "type": "Identifier",
+                                                "name": "_id"
+                                            }
+                                        },
+                                        "memberName": "id"
+                                    },
+                                    "right": {
+                                        "type": "NumberLiteral",
+                                        "number": "0",
+                                        "subdenomination": null
+                                    }
+                                },
+                                "trueBody": {
+                                    "type": "Block",
+                                    "statements": [
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": {
+                                                "type": "FunctionCall",
+                                                "expression": {
+                                                    "type": "Identifier",
+                                                    "name": "revert"
+                                                },
+                                                "arguments": [
+                                                    {
+                                                        "type": "StringLiteral",
+                                                        "value": "Charge Booking already exist!",
+                                                        "parts": [
+                                                            "Charge Booking already exist!"
+                                                        ],
+                                                        "isUnicode": [
+                                                            false
+                                                        ]
+                                                    }
+                                                ],
+                                                "names": [],
+                                                "identifiers": []
+                                            }
+                                        }
+                                    ]
+                                },
+                                "falseBody": null
+                            },
+                            {
+                                "type": "ExpressionStatement",
+                                "expression": {
+                                    "type": "Identifier",
+                                    "name": "_"
+                                }
+                            }
+                        ]
+                    },
+                    "isVirtual": false,
+                    "override": null
+                },
+                {
+                    "type": "ModifierDefinition",
+                    "name": "checkBookingNotExists",
+                    "parameters": [
+                        {
+                            "type": "VariableDeclaration",
+                            "typeName": {
+                                "type": "ElementaryTypeName",
+                                "name": "uint",
+                                "stateMutability": null
+                            },
+                            "name": "_id",
+                            "identifier": {
+                                "type": "Identifier",
+                                "name": "_id"
+                            },
+                            "storageLocation": null,
+                            "isStateVar": false,
+                            "isIndexed": false,
+                            "expression": null
+                        }
+                    ],
+                    "body": {
+                        "type": "Block",
+                        "statements": [
+                            {
+                                "type": "IfStatement",
+                                "condition": {
+                                    "type": "BinaryOperation",
+                                    "operator": "==",
+                                    "left": {
+                                        "type": "MemberAccess",
+                                        "expression": {
+                                            "type": "IndexAccess",
+                                            "base": {
+                                                "type": "Identifier",
+                                                "name": "chargeBookings"
+                                            },
+                                            "index": {
+                                                "type": "Identifier",
+                                                "name": "_id"
+                                            }
+                                        },
+                                        "memberName": "id"
+                                    },
+                                    "right": {
+                                        "type": "NumberLiteral",
+                                        "number": "0",
+                                        "subdenomination": null
+                                    }
+                                },
+                                "trueBody": {
+                                    "type": "Block",
+                                    "statements": [
+                                        {
+                                            "type": "ExpressionStatement",
+                                            "expression": {
+                                                "type": "FunctionCall",
+                                                "expression": {
+                                                    "type": "Identifier",
+                                                    "name": "revert"
+                                                },
+                                                "arguments": [
+                                                    {
+                                                        "type": "StringLiteral",
+                                                        "value": "Charge Booking does not exist!",
+                                                        "parts": [
+                                                            "Charge Booking does not exist!"
+                                                        ],
+                                                        "isUnicode": [
+                                                            false
+                                                        ]
+                                                    }
+                                                ],
+                                                "names": [],
+                                                "identifiers": []
+                                            }
+                                        }
+                                    ]
+                                },
+                                "falseBody": null
+                            },
+                            {
+                                "type": "ExpressionStatement",
+                                "expression": {
+                                    "type": "Identifier",
+                                    "name": "_"
+                                }
+                            }
+                        ]
+                    },
+                    "isVirtual": false,
+                    "override": null
+                },
+                {
+                    "type": "FunctionDefinition",
+                    "name": "createBooking",
+                    "parameters": [
+                        {
+                            "type": "VariableDeclaration",
+                            "typeName": {
+                                "type": "UserDefinedTypeName",
+                                "namePath": "Booking"
+                            },
+                            "name": "b",
+                            "identifier": {
+                                "type": "Identifier",
+                                "name": "b"
+                            },
+                            "storageLocation": "memory",
+                            "isStateVar": false,
+                            "isIndexed": false,
+                            "expression": null
+                        }
+                    ],
+                    "returnParameters": null,
+                    "body": {
+                        "type": "Block",
+                        "statements": [
+                            {
+                                "type": "VariableDeclarationStatement",
+                                "variables": [
+                                    {
+                                        "type": "VariableDeclaration",
+                                        "typeName": {
+                                            "type": "UserDefinedTypeName",
+                                            "namePath": "Booking"
+                                        },
+                                        "name": "booking",
+                                        "identifier": {
+                                            "type": "Identifier",
+                                            "name": "booking"
+                                        },
+                                        "storageLocation": "memory",
+                                        "isStateVar": false,
+                                        "isIndexed": false,
+                                        "expression": null
+                                    }
+                                ],
+                                "initialValue": {
+                                    "type": "FunctionCall",
+                                    "expression": {
+                                        "type": "Identifier",
+                                        "name": "Booking"
+                                    },
+                                    "arguments": [
+                                        {
+                                            "type": "MemberAccess",
+                                            "expression": {
+                                                "type": "Identifier",
+                                                "name": "b"
+                                            },
+                                            "memberName": "id"
+                                        },
+                                        {
+                                            "type": "MemberAccess",
+                                            "expression": {
+                                                "type": "Identifier",
+                                                "name": "b"
+                                            },
+                                            "memberName": "bookerId"
+                                        },
+                                        {
+                                            "type": "MemberAccess",
+                                            "expression": {
+                                                "type": "Identifier",
+                                                "name": "b"
+                                            },
+                                            "memberName": "parkingSpaceId"
+                                        },
+                                        {
+                                            "type": "MemberAccess",
+                                            "expression": {
+                                                "type": "Identifier",
+                                                "name": "b"
+                                            },
+                                            "memberName": "bookingStart"
+                                        },
+                                        {
+                                            "type": "MemberAccess",
+                                            "expression": {
+                                                "type": "Identifier",
+                                                "name": "b"
+                                            },
+                                            "memberName": "bookingEnd"
+                                        },
+                                        {
+                                            "type": "MemberAccess",
+                                            "expression": {
+                                                "type": "Identifier",
+                                                "name": "b"
+                                            },
+                                            "memberName": "parkingPricePerHour"
+                                        },
+                                        {
+                                            "type": "MemberAccess",
+                                            "expression": {
+                                                "type": "Identifier",
+                                                "name": "b"
+                                            },
+                                            "memberName": "chargingPricePerKWh"
+                                        },
+                                        {
+                                            "type": "MemberAccess",
+                                            "expression": {
+                                                "type": "Identifier",
+                                                "name": "b"
+                                            },
+                                            "memberName": "verifyCode"
+                                        },
+                                        {
+                                            "type": "BooleanLiteral",
+                                            "value": false
+                                        }
+                                    ],
+                                    "names": [],
+                                    "identifiers": []
+                                }
+                            },
+                            {
+                                "type": "ExpressionStatement",
+                                "expression": {
+                                    "type": "BinaryOperation",
+                                    "operator": "=",
+                                    "left": {
+                                        "type": "IndexAccess",
+                                        "base": {
+                                            "type": "Identifier",
+                                            "name": "chargeBookings"
+                                        },
+                                        "index": {
+                                            "type": "MemberAccess",
+                                            "expression": {
+                                                "type": "Identifier",
+                                                "name": "b"
+                                            },
+                                            "memberName": "id"
+                                        }
+                                    },
+                                    "right": {
+                                        "type": "Identifier",
+                                        "name": "booking"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "EmitStatement",
+                                "eventCall": {
+                                    "type": "FunctionCall",
+                                    "expression": {
+                                        "type": "Identifier",
+                                        "name": "ChargeBookingCreated"
+                                    },
+                                    "arguments": [
+                                        {
+                                            "type": "Identifier",
+                                            "name": "booking"
+                                        }
+                                    ],
+                                    "names": [],
+                                    "identifiers": []
+                                }
+                            }
+                        ]
+                    },
+                    "visibility": "public",
+                    "modifiers": [
+                        {
+                            "type": "ModifierInvocation",
+                            "name": "checkBookingExists",
+                            "arguments": [
+                                {
+                                    "type": "MemberAccess",
+                                    "expression": {
+                                        "type": "Identifier",
+                                        "name": "b"
+                                    },
+                                    "memberName": "id"
+                                }
+                            ]
+                        }
+                    ],
+                    "override": [],
+                    "isConstructor": false,
+                    "isReceiveEther": false,
+                    "isFallback": false,
+                    "isVirtual": false,
+                    "stateMutability": null
+                },
+                {
+                    "type": "FunctionDefinition",
+                    "name": "readBooking",
+                    "parameters": [
+                        {
+                            "type": "VariableDeclaration",
+                            "typeName": {
+                                "type": "ElementaryTypeName",
+                                "name": "uint",
+                                "stateMutability": null
+                            },
+                            "name": "id",
+                            "identifier": {
+                                "type": "Identifier",
+                                "name": "id"
+                            },
+                            "storageLocation": null,
+                            "isStateVar": false,
+                            "isIndexed": false,
+                            "expression": null
+                        }
+                    ],
+                    "returnParameters": [
+                        {
+                            "type": "VariableDeclaration",
+                            "typeName": {
+                                "type": "UserDefinedTypeName",
+                                "namePath": "Booking"
+                            },
+                            "name": null,
+                            "identifier": null,
+                            "storageLocation": "memory",
+                            "isStateVar": false,
+                            "isIndexed": false,
+                            "expression": null
+                        }
+                    ],
+                    "body": {
+                        "type": "Block",
+                        "statements": [
+                            {
+                                "type": "ReturnStatement",
+                                "expression": {
+                                    "type": "IndexAccess",
+                                    "base": {
+                                        "type": "Identifier",
+                                        "name": "chargeBookings"
+                                    },
+                                    "index": {
+                                        "type": "Identifier",
+                                        "name": "id"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "visibility": "public",
+                    "modifiers": [
+                        {
+                            "type": "ModifierInvocation",
+                            "name": "checkBookingNotExists",
+                            "arguments": [
+                                {
+                                    "type": "Identifier",
+                                    "name": "id"
+                                }
+                            ]
+                        }
+                    ],
+                    "override": [],
+                    "isConstructor": false,
+                    "isReceiveEther": false,
+                    "isFallback": false,
+                    "isVirtual": false,
+                    "stateMutability": "view"
+                },
+                {
+                    "type": "FunctionDefinition",
+                    "name": "updateBooking",
+                    "parameters": [
+                        {
+                            "type": "VariableDeclaration",
+                            "typeName": {
+                                "type": "ElementaryTypeName",
+                                "name": "uint",
+                                "stateMutability": null
+                            },
+                            "name": "id",
+                            "identifier": {
+                                "type": "Identifier",
+                                "name": "id"
+                            },
+                            "storageLocation": null,
+                            "isStateVar": false,
+                            "isIndexed": false,
+                            "expression": null
+                        },
+                        {
+                            "type": "VariableDeclaration",
+                            "typeName": {
+                                "type": "ElementaryTypeName",
+                                "name": "string",
+                                "stateMutability": null
+                            },
+                            "name": "bookingStart",
+                            "identifier": {
+                                "type": "Identifier",
+                                "name": "bookingStart"
+                            },
+                            "storageLocation": "memory",
+                            "isStateVar": false,
+                            "isIndexed": false,
+                            "expression": null
+                        },
+                        {
+                            "type": "VariableDeclaration",
+                            "typeName": {
+                                "type": "ElementaryTypeName",
+                                "name": "string",
+                                "stateMutability": null
+                            },
+                            "name": "bookingEnd",
+                            "identifier": {
+                                "type": "Identifier",
+                                "name": "bookingEnd"
+                            },
+                            "storageLocation": "memory",
+                            "isStateVar": false,
+                            "isIndexed": false,
+                            "expression": null
+                        },
+                        {
+                            "type": "VariableDeclaration",
+                            "typeName": {
+                                "type": "ElementaryTypeName",
+                                "name": "uint",
+                                "stateMutability": null
+                            },
+                            "name": "verifyCode",
+                            "identifier": {
+                                "type": "Identifier",
+                                "name": "verifyCode"
+                            },
+                            "storageLocation": null,
+                            "isStateVar": false,
+                            "isIndexed": false,
+                            "expression": null
+                        }
+                    ],
+                    "returnParameters": null,
+                    "body": {
+                        "type": "Block",
+                        "statements": [
+                            {
+                                "type": "VariableDeclarationStatement",
+                                "variables": [
+                                    {
+                                        "type": "VariableDeclaration",
+                                        "typeName": {
+                                            "type": "UserDefinedTypeName",
+                                            "namePath": "Booking"
+                                        },
+                                        "name": "booking",
+                                        "identifier": {
+                                            "type": "Identifier",
+                                            "name": "booking"
+                                        },
+                                        "storageLocation": "memory",
+                                        "isStateVar": false,
+                                        "isIndexed": false,
+                                        "expression": null
+                                    }
+                                ],
+                                "initialValue": {
+                                    "type": "IndexAccess",
+                                    "base": {
+                                        "type": "Identifier",
+                                        "name": "chargeBookings"
+                                    },
+                                    "index": {
+                                        "type": "Identifier",
+                                        "name": "id"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "ExpressionStatement",
+                                "expression": {
+                                    "type": "BinaryOperation",
+                                    "operator": "=",
+                                    "left": {
+                                        "type": "MemberAccess",
+                                        "expression": {
+                                            "type": "Identifier",
+                                            "name": "booking"
+                                        },
+                                        "memberName": "bookingStart"
+                                    },
+                                    "right": {
+                                        "type": "Identifier",
+                                        "name": "bookingStart"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "ExpressionStatement",
+                                "expression": {
+                                    "type": "BinaryOperation",
+                                    "operator": "=",
+                                    "left": {
+                                        "type": "MemberAccess",
+                                        "expression": {
+                                            "type": "Identifier",
+                                            "name": "booking"
+                                        },
+                                        "memberName": "bookingEnd"
+                                    },
+                                    "right": {
+                                        "type": "Identifier",
+                                        "name": "bookingEnd"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "ExpressionStatement",
+                                "expression": {
+                                    "type": "BinaryOperation",
+                                    "operator": "=",
+                                    "left": {
+                                        "type": "MemberAccess",
+                                        "expression": {
+                                            "type": "Identifier",
+                                            "name": "booking"
+                                        },
+                                        "memberName": "verifyCode"
+                                    },
+                                    "right": {
+                                        "type": "Identifier",
+                                        "name": "verifyCode"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "ExpressionStatement",
+                                "expression": {
+                                    "type": "BinaryOperation",
+                                    "operator": "=",
+                                    "left": {
+                                        "type": "IndexAccess",
+                                        "base": {
+                                            "type": "Identifier",
+                                            "name": "chargeBookings"
+                                        },
+                                        "index": {
+                                            "type": "Identifier",
+                                            "name": "id"
+                                        }
+                                    },
+                                    "right": {
+                                        "type": "Identifier",
+                                        "name": "booking"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "EmitStatement",
+                                "eventCall": {
+                                    "type": "FunctionCall",
+                                    "expression": {
+                                        "type": "Identifier",
+                                        "name": "ChargeBookingUpdated"
+                                    },
+                                    "arguments": [
+                                        {
+                                            "type": "Identifier",
+                                            "name": "id"
+                                        },
+                                        {
+                                            "type": "Identifier",
+                                            "name": "bookingStart"
+                                        },
+                                        {
+                                            "type": "Identifier",
+                                            "name": "bookingEnd"
+                                        },
+                                        {
+                                            "type": "Identifier",
+                                            "name": "verifyCode"
+                                        }
+                                    ],
+                                    "names": [],
+                                    "identifiers": []
+                                }
+                            }
+                        ]
+                    },
+                    "visibility": "public",
+                    "modifiers": [
+                        {
+                            "type": "ModifierInvocation",
+                            "name": "checkBookingNotExists",
+                            "arguments": [
+                                {
+                                    "type": "Identifier",
+                                    "name": "id"
+                                }
+                            ]
+                        }
+                    ],
+                    "override": [],
+                    "isConstructor": false,
+                    "isReceiveEther": false,
+                    "isFallback": false,
+                    "isVirtual": false,
+                    "stateMutability": null
+                },
+                {
+                    "type": "FunctionDefinition",
+                    "name": "cancelBooking",
+                    "parameters": [
+                        {
+                            "type": "VariableDeclaration",
+                            "typeName": {
+                                "type": "ElementaryTypeName",
+                                "name": "uint",
+                                "stateMutability": null
+                            },
+                            "name": "id",
+                            "identifier": {
+                                "type": "Identifier",
+                                "name": "id"
+                            },
+                            "storageLocation": null,
+                            "isStateVar": false,
+                            "isIndexed": false,
+                            "expression": null
+                        }
+                    ],
+                    "returnParameters": null,
+                    "body": {
+                        "type": "Block",
+                        "statements": [
+                            {
+                                "type": "VariableDeclarationStatement",
+                                "variables": [
+                                    {
+                                        "type": "VariableDeclaration",
+                                        "typeName": {
+                                            "type": "UserDefinedTypeName",
+                                            "namePath": "Booking"
+                                        },
+                                        "name": "booking",
+                                        "identifier": {
+                                            "type": "Identifier",
+                                            "name": "booking"
+                                        },
+                                        "storageLocation": "memory",
+                                        "isStateVar": false,
+                                        "isIndexed": false,
+                                        "expression": null
+                                    }
+                                ],
+                                "initialValue": {
+                                    "type": "IndexAccess",
+                                    "base": {
+                                        "type": "Identifier",
+                                        "name": "chargeBookings"
+                                    },
+                                    "index": {
+                                        "type": "Identifier",
+                                        "name": "id"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "ExpressionStatement",
+                                "expression": {
+                                    "type": "BinaryOperation",
+                                    "operator": "=",
+                                    "left": {
+                                        "type": "MemberAccess",
+                                        "expression": {
+                                            "type": "Identifier",
+                                            "name": "booking"
+                                        },
+                                        "memberName": "isCanceled"
+                                    },
+                                    "right": {
+                                        "type": "BooleanLiteral",
+                                        "value": true
+                                    }
+                                }
+                            },
+                            {
+                                "type": "ExpressionStatement",
+                                "expression": {
+                                    "type": "BinaryOperation",
+                                    "operator": "=",
+                                    "left": {
+                                        "type": "IndexAccess",
+                                        "base": {
+                                            "type": "Identifier",
+                                            "name": "chargeBookings"
+                                        },
+                                        "index": {
+                                            "type": "Identifier",
+                                            "name": "id"
+                                        }
+                                    },
+                                    "right": {
+                                        "type": "Identifier",
+                                        "name": "booking"
+                                    }
+                                }
+                            },
+                            {
+                                "type": "EmitStatement",
+                                "eventCall": {
+                                    "type": "FunctionCall",
+                                    "expression": {
+                                        "type": "Identifier",
+                                        "name": "ChargeBookingCanceled"
+                                    },
+                                    "arguments": [
+                                        {
+                                            "type": "Identifier",
+                                            "name": "id"
+                                        }
+                                    ],
+                                    "names": [],
+                                    "identifiers": []
+                                }
+                            }
+                        ]
+                    },
+                    "visibility": "public",
+                    "modifiers": [
+                        {
+                            "type": "ModifierInvocation",
+                            "name": "checkBookingNotExists",
+                            "arguments": [
+                                {
+                                    "type": "Identifier",
+                                    "name": "id"
+                                }
+                            ]
+                        }
+                    ],
+                    "override": [],
+                    "isConstructor": false,
+                    "isReceiveEther": false,
+                    "isFallback": false,
+                    "isVirtual": false,
+                    "stateMutability": null
+                }
+            ],
+            "kind": "contract"
+        }
+    ]
+}

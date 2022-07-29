@@ -1,0 +1,38 @@
+context EnvironmentalDataAnalysis {
+	 
+	structure CreateEnvironmentSensorUnitCommand<valueObject> {
+		immutable string name,
+        immutable long sensorBoxId,
+        immutable string description,
+        immutable string status,
+        immutable float longitude,
+        immutable float latitude,
+        immutable string sensorType
+		
+	}
+	
+	structure ReceiveEnvironmentDataCommand<valueObject> {
+		immutable string sensorUnitId,
+		immutable float particulate2,
+		immutable float particulate10,
+		immutable int light,
+		immutable float  temperature,
+		immutable float humidity,
+		immutable int communicationType,
+        immutable int signalPower,
+        immutable float signalNoiseRang,
+        immutable int spreadingFaktorDownlink,
+        immutable int spreadingFaktorUplink
+		
+	}
+	
+	structure UpdateEnvironmentSensorUnitCommand<valueObject> {
+		immutable string id,
+		immutable string name,
+		immutable string description,
+		immutable string status,
+		immutable float longitude,
+		immutable float latitude
+	}
+	
+}

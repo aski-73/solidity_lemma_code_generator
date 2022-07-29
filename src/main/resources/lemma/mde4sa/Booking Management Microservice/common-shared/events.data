@@ -1,0 +1,59 @@
+import datatypes from "shared.data" as sharedData
+
+context BookingManagementEvents {
+ 	
+	structure ParkBookingCreated<valueObject,domainEvent> {
+		immutable long bookingId,
+		immutable sharedData::SharedData.Booker booker,
+		immutable sharedData::SharedData.ParkingSpace parkingSpace,
+		immutable sharedData::SharedData.TimeSlot timeSlot,
+		immutable date bookingCreatedDate,
+		immutable date lastModifiedDate,
+		immutable float bookingPricePerHour,
+		immutable float bookingPriceTotal
+	}
+		
+		
+	structure ParkBookingUpdated<valueObject,domainEvent> {
+		immutable long bookingId,
+		immutable date bookingCreatedDate,
+		immutable date lastModifiedDate,
+		immutable sharedData::SharedData.TimeSlot timeSlot,
+		immutable float bookingPriceTotal
+	}
+		
+		
+	structure ParkBookingCanceled<valueObject,domainEvent> {
+		immutable long bookingId,
+		immutable boolean bookingCanceled
+	}
+		
+		
+		
+		
+	structure ParkAndChargeBookingCreated<valueObject,domainEvent> {
+		immutable long bookingId,
+		immutable sharedData::SharedData.Booker booker,
+		immutable sharedData::SharedData.ParkingSpace parkingSpace,
+		immutable sharedData::SharedData.TimeSlot timeSlot,
+		immutable date bookingCreatedDate,
+		immutable date lastModifiedDate,
+		immutable float bookingPricePerHour,
+		immutable float bookingPriceTotal,
+		immutable int verifycode
+	}
+		
+	structure ParkAndChargeBookingUpdated<valueObject,domainEvent> {
+		immutable long bookingId,
+		immutable date bookingCreatedDate,
+		immutable date lastModifiedDate,
+		immutable sharedData::SharedData.TimeSlot timeSlot,
+		immutable float bookingPriceTotal
+	}
+		
+		
+	structure ParkAndChargeBookingCanceled<valueObject,domainEvent> {
+		immutable long bookingId,
+		immutable boolean bookingCanceled
+	}
+}

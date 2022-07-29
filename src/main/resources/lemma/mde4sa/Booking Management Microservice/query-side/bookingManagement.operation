@@ -1,0 +1,55 @@
+import microservices from "bookingManagement.services" as BookingManagementServiceQuery
+import microservices from "../command-side/bookingManagement.services" as BookingManagementServiceCommand
+import technology from "../../technology/container_base.technology" as ContainerBase
+import technology from "../../technology/ethereum.technology" as Ethereum
+import technology from "../../technology/protocol.technology" as ^protocol
+import nodes from "../../infrastructure/ethereum.operation" as EthereumOperation
+import nodes from "../../infrastructure/eureka.operation" as ServiceDiscovery
+import nodes from "../../infrastructure/mariadb.operation" as Database
+import nodes from "../../infrastructure/keycloak.operation" as Keycloak
+
+
+@technology(ContainerBase)
+@technology(Ethereum)
+@technology(^protocol)
+container BookingManagementQueryContainer
+	deployment technology ContainerBase::_deployment.Kubernetes with operation environment "openjdk:11-jdk-slim"
+	deploys BookingManagementServiceQuery::de.fhdo.puls.BookingManagementQuery
+	depends on nodes 
+		EthereumOperation::Ethereum, 
+		ServiceDiscovery::Eureka, 
+		Database::MariaDB,
+		Keycloak::Keycloak
+	{
+			aspects {
+				Ethereum::_aspects.EthereumNetwork(
+					hostName="http://10.0.140.93",
+					port=8545,
+					gasPrice=20000000000,
+					gasLimit=8000000
+				);
+			}
+			
+			default values {
+				//General Spring Boot configurations
+				springApplicationName="BookingService"
+				serverPort=6062
+				
+				//MariaDB database configuration
+				springDatasourceUrl="jdbc:mariadb://mariadb:3306/booking_query"
+				springDatasourceUsername="${MARIADB.USERNAME}"
+				springDatasourcePassword="${MARIADB.PASSWORD}"
+
+				
+				//Keycloak configuration
+				keycloakAuthServerUrl="https://auth.seelab.fh-dortmund.de/auth"
+				keycloakRealm="puls"
+				keycloakResource="puls"
+				keycloakBearerOnly=true
+				
+				//Eureka configuration
+				eurekaUri="http://discovery-service:8761/eureka"
+				
+				basic endpoints {^protocol::_protocols.rest: "http://localhost:6061/bookingService";}
+			}
+	}

@@ -1,0 +1,87 @@
+context SharedData {
+		
+	structure ParkBooking<valueObject>{
+		immutable long bookingId,
+		immutable Booker booker,
+		immutable ParkingSpace parkingSpace,
+		immutable TimeSlot timeSlot,
+		immutable float bookingPriceTotal,
+		immutable boolean bookingCanceled
+	}
+	
+	list ParkBookingList {ParkBooking parkBooking}
+	
+	structure ParkAndChargeBooking<valueObject>{
+		immutable long bookingId,
+		immutable Booker booker,
+		immutable ElectrifiedParkingSpace eParkingSpace,
+		immutable TimeSlot timeSlot,
+		immutable float bookingPriceTotal,
+		immutable int verifyCode,
+		immutable boolean bookingCanceled
+	}
+	
+	list ParkAndChargeBookingList {ParkAndChargeBooking parkAndChargeBooking}
+		
+		
+	/*This structure containing all park booking attributes that can 
+	  be stored and read within the Ethereum blockchain.*/
+	structure BlockchainDataParkBooking<valueObject>{
+		immutable long bookingId,
+		immutable long bookerId,
+		immutable string parkingSpaceId,
+		immutable string startOfBooking,
+		immutable string endOfBooking,
+		immutable float bookingPriceTotal,
+		immutable boolean bookingCanceled,
+		immutable string bookingCreatedTimeStamp
+	}
+		
+		
+	/*This structure containing all park and charge booking attributes that can 
+	 * be stored and read within the Ethereum blockchain.*/
+	structure BlockchainDataParkAndChargeBooking<valueObject>{
+		immutable long bookingId,
+		immutable long bookerId,
+		immutable string parkingSpaceId,
+		immutable string startOfBooking,
+		immutable string endOfBooking,
+		immutable float bookingPriceTotal,
+		immutable int verifyCode,
+		immutable boolean bookingCanceled,
+		immutable string bookingCreatedTimeStamp
+	}
+		
+	structure Booker<valueObject>{
+		immutable long bookerId,
+		immutable string firstName,
+		immutable string lastName
+	}
+		
+		
+	structure ParkingSpace<valueObject>{
+		immutable string parkingSpaceId,
+		immutable string city,
+		immutable int postcode,
+		immutable string street,
+		immutable string streetNumber,
+		immutable float bookingPricePerHour
+	}
+		
+		
+	structure ElectrifiedParkingSpace<valueObject>{
+		immutable string parkingSpaceId,
+		immutable string city,
+		immutable int postcode,
+		immutable string street,
+		immutable string streetNumber,
+		immutable float bookingPricePerHour,
+		immutable float chargingPricePerKwh
+	}
+		
+		
+	structure TimeSlot<valueObject>{
+		immutable date startOfBooking,
+		immutable date endOfBooking
+	}
+}

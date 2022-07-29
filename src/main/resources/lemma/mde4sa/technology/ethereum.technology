@@ -1,0 +1,31 @@
+technology Ethereum {
+	
+	service aspects{
+		aspect SmartContractDeployFunction for operations {
+			string smartContractWrapperName<mandatory>;
+		}
+		
+		aspect SmartContractLoadFunction for operations {
+			string smartContractWrapperName<mandatory>;
+		}
+	}
+	
+	infrastructure technologies {
+		EthereumBlockchain {
+			operation environments = "Ethereum Virtual Machine";
+			service properties {
+				string blockchainNetworkHostname;
+				string blockchainNetworkPort;
+			}
+		}
+	}
+	
+	operation aspects{
+		aspect EthereumNetwork<singleval> for containers {
+			string hostName<mandatory>;	
+			int port<mandatory>;	
+			long gasPrice<mandatory>;
+			long gasLimit<mandatory>;
+		}
+	}
+}

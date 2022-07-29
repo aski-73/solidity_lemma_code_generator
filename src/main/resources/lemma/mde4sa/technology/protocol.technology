@@ -1,0 +1,7 @@
+technology ^protocol {
+    protocols {
+        sync rest data formats "application/json" default with format "application/json";
+        async mqtt data formats "application/xml" default with format "application/xml";
+        sync jdbc data formats "application/mysql" default with format "application/mysql";
+    }
+}

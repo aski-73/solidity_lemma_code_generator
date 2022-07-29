@@ -1,0 +1,16 @@
+technology MariaDB {
+    infrastructure technologies {
+        MariaDB {
+            operation environments = "docker/mariadb:latest";
+            service properties {
+                string userName;
+                string rootPassword<mandatory>;
+                string userPassword;
+                string hostName<mandatory>;
+                string port<mandatory>;
+                string imageType<mandatory>;
+                string dataBase<mandatory>;
+            }
+        }
+    }
+}

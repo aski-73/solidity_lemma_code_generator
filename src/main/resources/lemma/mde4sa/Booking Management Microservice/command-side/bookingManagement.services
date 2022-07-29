@@ -1,0 +1,204 @@
+import datatypes from "../common-shared/commands.data" as BookingManagementCommands
+import datatypes from "../common-shared/events.data" as BookingManagementEvents
+import technology from "../../technology/Kafka.technology" as Kafka
+import technology from "../../technology/Spring.technology" as Spring
+import technology from "../../technology/Java.technology" as Java
+import technology from "../../technology/Cqrs.technology" as CQRS
+import technology from "../../technology/DomainEvents.technology" as DomainEvents
+
+@technology(Spring)
+@technology(Kafka)
+@technology(CQRS)
+@technology(DomainEvents)
+@endpoints(Kafka::_protocols.kafka:"kafka-server1:9092";)
+@Kafka::_aspects.BootstrapAddress("kafka-server1:9092")
+@CQRS::_aspects.CommandSide("BookingManagementMicroserviceCommand")
+@Spring::_aspects.Application(name="BookingManagementMicroserviceCommand",port=8061)
+functional microservice de.fhdo.puls.BookingManagementCommand { 
+	
+	//Interface of COMMAND-Methods for ParkBooking Management
+	@endpoints(Spring::_protocols.rest: "/resources/v1";)
+	interface ParkBookingCommands{
+		 
+		---
+		API endpoint for creating a new park booking.
+		
+		@required createBookingCommand the command that includes all required booking data
+		for generate an aggregate-object
+		---
+		@endpoints(Spring::_protocols.rest: "/parkBooking";)
+		@Spring::_aspects.PutMapping
+		public createParkBooking(
+			@Spring::_aspects.RequestBody
+			@Spring::_aspects.Valid
+			sync in createBookingCommand : BookingManagementCommands::BookingManagementCommands.CreateParkBookingCommand,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault contractBytecodeMismatch : string,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault exception : string
+		);
+		
+		---
+		Send a ParkBookingCreated event for asynchronous microservice interaction 
+		---
+		@Kafka::_aspects.Participant(topic = "parkBookingCreatedEvent")
+		@DomainEvents::_aspects.Producer("BookingProducerService")
+		public sendParkBookingCreatedEvent(
+			async out event : BookingManagementEvents::BookingManagementEvents.ParkBookingCreated
+		);
+		
+		
+		
+		---
+		API endpoint for updating an existing park booking.
+		
+		@required updateBookingCommand the command that presents all changed booking data
+		---
+		@endpoints(Spring::_protocols.rest: "/parkBooking";)
+		@Spring::_aspects.PostMapping
+		public updateParkBooking(
+			@Spring::_aspects.RequestBody
+			@Spring::_aspects.Valid
+			sync in updateBookingCommand : BookingManagementCommands::BookingManagementCommands.UpdateParkBookingCommand,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault contractBytecodeMismatch : string,
+			@Spring::_aspects.ResponseStatus("NOT_FOUND")
+			sync out fault bookingNotFound : string,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault exception : string
+		);
+		
+		---
+		Send a ParkBookingUpdated event for asynchronous microservice interaction 
+		---
+		@Kafka::_aspects.Participant(topic = "parkBookingUpdatedEvent")
+		@DomainEvents::_aspects.Producer("BookingProducerService")
+		public sendParkBookingUpdatedEvent(
+			async out event : BookingManagementEvents::BookingManagementEvents.ParkBookingUpdated
+		);
+		
+		
+		---
+		API endpoint for deleting / canceling an existing park booking.
+		
+		@required cancelBookingCommand the command that includes the bookingId of booking to be canceled. 
+		---
+		@endpoints(Spring::_protocols.rest: "/parkBooking";)
+		@Spring::_aspects.DeleteMapping
+		public cancelParkBooking(
+			@Spring::_aspects.RequestBody
+			@Spring::_aspects.Valid
+			sync in cancelBookingCommand : BookingManagementCommands::BookingManagementCommands.CancelParkBookingCommand,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault contractBytecodeMismatch : string,
+			@Spring::_aspects.ResponseStatus("NOT_FOUND")
+			sync out fault bookingNotFound : string,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault exception : string
+		);
+		
+		---
+		Send a ParkBookingCanceled event for asynchronous microservice interaction 
+		---
+		@Kafka::_aspects.Participant(topic = "parkBookingCanceledEvent")
+		@DomainEvents::_aspects.Producer("BookingProducerService")
+		public sendParkBookingCanceledEvent(
+			async out event : BookingManagementEvents::BookingManagementEvents.ParkBookingCanceled
+		);
+	}
+	
+	
+	
+	
+	
+	
+	//Interface of COMMAND-Methods for ParkAndChargeBooking Management
+	@endpoints(Spring::_protocols.rest: "/resources/v1";)
+	interface ParkAndChargeBookingCommands {
+		
+		---
+		API endpoint for creating a new park and charge booking.
+		
+		@required createBookingCommand the command that includes all required booking data
+		for generate an aggregate-object
+		---
+		@endpoints(Spring::_protocols.rest: "/parkAndChargeBooking";)
+		@Spring::_aspects.PutMapping
+		public createParkAndChargeBooking(
+			@Spring::_aspects.RequestBody
+			@Spring::_aspects.Valid
+			sync in createBookingCommand : BookingManagementCommands::BookingManagementCommands.CreateParkAndChargeBookingCommand,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault contractBytecodeMismatch : string,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault exception : string
+		);
+		
+		---
+		Send a ParkAndChargeBookingCreated event for asynchronous microservice interaction 
+		---
+		@Kafka::_aspects.Participant(topic = "parkAndChargeBookingCreatedEvent")
+		@DomainEvents::_aspects.Producer("BookingProducerService")
+		public sendParkAndChargeBookingCreatedEvent(
+			async out event : BookingManagementEvents::BookingManagementEvents.ParkAndChargeBookingCreated
+		);
+		
+		
+		---
+		API endpoint for updating an existing park and charge booking.
+		
+		@required updateBookingCommand the command that presents all changed booking data
+		---
+		@endpoints(Spring::_protocols.rest: "/parkAndChargeBooking";)
+		@Spring::_aspects.PostMapping
+		public updateParkAndChargeBooking(
+			@Spring::_aspects.RequestBody
+			@Spring::_aspects.Valid
+			sync in updateBookingCommand : BookingManagementCommands::BookingManagementCommands.UpdateParkAndChargeBookingCommand,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault contractBytecodeMismatch : string,
+			@Spring::_aspects.ResponseStatus("NOT_FOUND")
+			sync out fault bookingNotFound : string,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault exception : string
+		);
+		
+		---
+		Send a ParkAndChargeBookingUpdated event for asynchronous microservice interaction 
+		---
+		@Kafka::_aspects.Participant(topic = "parkAndChargeBookingUpdatedEvent")
+		@DomainEvents::_aspects.Producer("BookingProducerService")
+		public sendParkAndChargeBookingUpdatedEvent(
+			async out event : BookingManagementEvents::BookingManagementEvents.ParkAndChargeBookingUpdated
+		);
+		
+		
+		---
+		API endpoint for deleting / canceling an existing park and charge booking.
+		
+		@required cancelBookingCommand the command that includes the bookingId of booking to be canceled. 
+		---
+		@endpoints(Spring::_protocols.rest: "/parkAndChargeBooking";)
+		@Spring::_aspects.DeleteMapping
+		public deletParkAndChargeBooking(
+			@Spring::_aspects.RequestBody
+			@Spring::_aspects.Valid
+			sync in cancelBookingCommand : BookingManagementCommands::BookingManagementCommands.CancelParkAndChargeBookingCommand,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault contractBytecodeMismatch : string,
+			@Spring::_aspects.ResponseStatus("NOT_FOUND")
+			sync out fault bookingNotFound : string,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault exception : string
+		);
+		
+		---
+		Send a ParkAndChargeBookingCanceled event for asynchronous microservice interaction 
+		---
+		@Kafka::_aspects.Participant(topic = "parkAndChargeBookingCanceledEvent")
+		@DomainEvents::_aspects.Producer("BookingProducerService")
+		public sendParkAndChargeBookingCanceledEvent(
+			async out event : BookingManagementEvents::BookingManagementEvents.ParkAndChargeBookingCanceled
+		);
+	}	
+}

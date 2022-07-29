@@ -1,0 +1,174 @@
+import datatypes from "../common-shared/shared.data" as sharedData
+import datatypes from "../common-shared/events.data" as EnvironmentalDataAnalysisEvents
+import microservices from "../command-side/environmentalDataAnalysis.services" as EnvironmentalDataAnalysisCommandSide
+import technology from "../../technology/Spring.technology" as Spring
+import technology from "../../technology/Kafka.technology" as Kafka
+import technology from "../../technology/Cqrs.technology" as CQRS
+  
+@technology(Spring) 
+@technology(Kafka)
+@technology(CQRS)
+@endpoints(Kafka::_protocols.kafka:"kafka-server1:9092";)
+@Kafka::_aspects.BootstrapAddress("kafka-server1:9092")
+@CQRS::_aspects.CommandSide("EnvironmentalDataAnalysisMicroserviceQuery")
+@Spring::_aspects.Application(name="EnvironmentalDataAnalysisMicroserviceQuery", port=8092)
+functional microservice de.fhdo.puls.EnvironmentalDataAnalysisQuery {
+	
+	required microservices {
+		EnvironmentalDataAnalysisCommandSide::de.fhdo.puls.EnvironmentalDataAnalysisCommand
+	}
+	
+	//Interface for Read-Methods of EnvironmentSensorUnits
+	@endpoints(Spring::_protocols.rest: "/resources/v1";)
+	interface EnvironmentSensorUnitQueries{
+		
+		@endpoints(Spring::_protocols.rest: "/environmentSensorUnit/name/{name}";)
+		@Spring::_aspects.GetMapping
+		public getEnvironmentSensorUnitByName(
+			@Spring::_aspects.PathVariable(value="name")
+			sync in name : string,
+			@Spring::_aspects.ResponseEntity
+			sync out environmentSensorUnit : sharedData::EnvironmentalDataAnalysis.EnvironmentSensorUnit
+		);
+		
+		@endpoints(Spring::_protocols.rest: "/environmentSensorUnit/sensorBoxId/{sensorBoxId}";)
+		@Spring::_aspects.GetMapping
+		public getEnvironmentSensorUnitBySensorBoxId(
+			@Spring::_aspects.PathVariable(value="sensorBoxId")
+			sync in sensorBoxId : long,
+			@Spring::_aspects.ResponseEntity
+			sync out environmentSensorUnit : sharedData::EnvironmentalDataAnalysis.EnvironmentSensorUnit 
+		);
+		
+		@endpoints(Spring::_protocols.rest: "/environmentSensorUnits";)
+		@Spring::_aspects.GetMapping
+		public getEnvironmentSensorUnits(
+			@Spring::_aspects.ResponseEntity
+			sync out environmentSensorUnits : sharedData::EnvironmentalDataAnalysis.EnvironmentSensorUnit
+		);	
+		
+		
+		@Kafka::_aspects.Participant(
+			topic="environmentDataReceivedEvents",
+			consumerGroup="environmentDataReceivedEvents"
+		)
+		receiveEnvironmentDataReceivedEvents(
+			async event : EnvironmentalDataAnalysisEvents::EnvironmentalDataAnalysis.EnvironmentDataReceived
+		);
+		
+		
+		@Kafka::_aspects.Participant(
+			topic="environmentSensorUnitCreatedEvents",
+			consumerGroup="environmentSensorUnitCreatedEvents"
+		)
+		receiveEnvironmentSensorUnitCreatedEvents(
+			async event : EnvironmentalDataAnalysisEvents::EnvironmentalDataAnalysis.EnvironmentSensorUnitCreated
+		);
+		
+		
+		@Kafka::_aspects.Participant(
+			topic="environmentSensorUnitUpdatedEvents",
+			consumerGroup="environmentSensorUnitUpdatedEvents"
+		)
+		receiveEnvironmentSensorUnitUpdatedEvents(
+			async event : EnvironmentalDataAnalysisEvents::EnvironmentalDataAnalysis.EnvironmentSensorUnitUpdated
+		);
+	}
+	
+	//Interface for Read-Methods of EnvironmentSensorInformations
+	@endpoints(Spring::_protocols.rest: "/resources/v1";)
+	interface EnvironmentSensorInformationQueries{
+		
+		@endpoints(Spring::_protocols.rest: "/environmentInformation/{sensorBoxId}/{sensor}/latest";)
+		@Spring::_aspects.GetMapping
+		public getLatestSensorValue(
+			@Spring::_aspects.PathVariable(value="sensorBoxId")
+			sync in sensorBoxId : long,
+			@Spring::_aspects.PathVariable(value="sensor")
+			sync in sensor : string,
+			@Spring::_aspects.ResponseEntity
+			sync out latestSensorValue : sharedData::EnvironmentalDataAnalysis.SensorValue
+		);
+		
+		@endpoints(Spring::_protocols.rest: "/environmentInformation/{sensorBoxId}/{sensor}/{numberOfValues}";)
+		@Spring::_aspects.GetMapping
+		public getSensorValue(
+			@Spring::_aspects.PathVariable(value="sensorBoxId")
+			sync in sensorBoxId : long,
+			@Spring::_aspects.PathVariable(value="sensor")
+			sync in sensor : string,
+			@Spring::_aspects.PathVariable(value="numberOfValues")
+			sync in numberOfValues : int,
+			@Spring::_aspects.ResponseEntity
+			sync out sensorValue : sharedData::EnvironmentalDataAnalysis.SensorValue
+		);
+		
+		@endpoints(Spring::_protocols.rest: "/environmentInformation/sensorBoxId/{sensorBoxId}/measurementTypes";)
+		@Spring::_aspects.GetMapping
+		public getSensorMeasurementTypes(
+			@Spring::_aspects.PathVariable(value="sensorBoxId")
+			sync in sensorBoxId : long,
+			sync out sensorMeasurementTypes : string
+		);
+		
+	}
+	
+	//Interface for Read-Methods of EnvironmentInformations
+	@endpoints(Spring::_protocols.rest: "/resources/v1";)
+	interface EnvironmentInformationQueries{
+		
+		@endpoints(Spring::_protocols.rest: "/environmentInformation/{id}";)
+		@Spring::_aspects.GetMapping
+		public getEnvironmentInformation(
+			@Spring::_aspects.PathVariable(value="id")
+			sync in id : long,
+			@Spring::_aspects.ResponseEntity
+			sync out environmentInformation : sharedData::EnvironmentalDataAnalysis.EnvironmentInformation
+		);
+		
+		@endpoints(Spring::_protocols.rest: "/environmentInformation/{id}/particulate2";)
+		@Spring::_aspects.GetMapping
+		public getParticulate2Information(
+			@Spring::_aspects.PathVariable(value="id")
+			sync in id : long,
+			@Spring::_aspects.ResponseEntity
+			sync out particulate2Information : sharedData::EnvironmentalDataAnalysis.SensorValue
+		);
+		
+		@endpoints(Spring::_protocols.rest: "/environmentInformation/{id}/particulate10";)
+		@Spring::_aspects.GetMapping
+		public getParticulate10Information(
+			@Spring::_aspects.PathVariable(value="id")
+			sync in id : long,
+			@Spring::_aspects.ResponseEntity
+			sync out particulate10Information : sharedData::EnvironmentalDataAnalysis.SensorValue
+		);
+		
+		@endpoints(Spring::_protocols.rest: "/environmentInformation/{id}/light";)
+		@Spring::_aspects.GetMapping
+		public getLightInformation(
+			@Spring::_aspects.PathVariable(value="id")
+			sync in id : long,
+			@Spring::_aspects.ResponseEntity
+			sync out lightInformation : sharedData::EnvironmentalDataAnalysis.SensorValue
+		);
+		
+		@endpoints(Spring::_protocols.rest: "/environmentInformation/{id}/temperature";)
+		@Spring::_aspects.GetMapping
+		public getTemperatureInformation(
+			@Spring::_aspects.PathVariable(value="id")
+			sync in id : long,
+			@Spring::_aspects.ResponseEntity
+			sync out temperatoreInformation : sharedData::EnvironmentalDataAnalysis.SensorValue
+		);
+		
+		@endpoints(Spring::_protocols.rest: "/environmentInformation/{id}/humidity";)
+		@Spring::_aspects.GetMapping
+		public getHumidityInformation(
+			@Spring::_aspects.PathVariable(value="id")
+			sync in id : long,
+			@Spring::_aspects.ResponseEntity
+			sync out humidityInformation : sharedData::EnvironmentalDataAnalysis.SensorValue
+		);		
+	} 
+}

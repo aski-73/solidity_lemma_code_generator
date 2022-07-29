@@ -1,0 +1,138 @@
+import datatypes from "domain.data" as DomainData
+import technology from "../technology/Spring.technology" as Spring
+ 
+@technology(Spring)
+@Spring::_aspects.Application(name="ChargingStationManagementMicroservice", port=8051)
+functional microservice de.fhdo.puls.ChargingStationSearchManagement {
+	
+	@endpoints(Spring::_protocols.rest: "/resources/v1";)
+	interface MapSearchController {
+		
+		
+		@endpoints(Spring::_protocols.rest: "/locationData";) 
+		@Spring::_aspects.PutMapping
+		public savePatientData(
+			@Spring::_aspects.RequestBody
+			sync in locationDataDto : DomainData::ChargingStationSearch.LocationDataDto,
+			@Spring::_aspects.ResponseEntity
+			sync out locationDataDtoResponse : DomainData::ChargingStationSearch.LocationDataDto
+		);
+		
+		
+		@endpoints(Spring::_protocols.rest: "/locationData";)
+		@Spring::_aspects.PostMapping
+		public updateQuestionnaireData(
+			@Spring::_aspects.RequestBody
+			sync in locationDataDto : DomainData::ChargingStationSearch.LocationDataDto,
+			@Spring::_aspects.ResponseEntity
+			sync out locationDataDtoResponse : DomainData::ChargingStationSearch.LocationDataDto
+		);
+		
+		
+		@endpoints(Spring::_protocols.rest: "/locationData/{locationDataId}";)
+		@Spring::_aspects.GetMapping
+		public getLocationData(
+			@Spring::_aspects.PathVariable
+			sync in locationDataId : string,
+			@Spring::_aspects.ResponseEntity
+			sync out locationDataDtoResponse : DomainData::ChargingStationSearch.LocationDataDto
+		);
+		
+		
+		@endpoints(Spring::_protocols.rest: "/locationData";)
+		@Spring::_aspects.GetMapping
+		public getAllLocationData(
+			@Spring::_aspects.ResponseEntity
+			sync out locationDataDtos : DomainData::ChargingStationSearch.LocationDataDtos
+		);
+		
+		
+		@endpoints(Spring::_protocols.rest: "/locationData/findByAddress";)
+		@Spring::_aspects.GetMapping
+		public getAllLocationDataByAddressLike(
+			@Spring::_aspects.RequestParam(value="q")
+			sync in addressSearchString : string,
+			@Spring::_aspects.ResponseEntity
+			sync out locationDataDtos : DomainData::ChargingStationSearch.LocationDataDtos
+		);
+		
+		
+		@endpoints(Spring::_protocols.rest: "/locationData/findByAddressFiltered";)
+		@Spring::_aspects.GetMapping
+		public getAllLocationDataByAddressLikeAndExtFilterLike(
+			@Spring::_aspects.RequestParam(value="q")
+			sync in addressSearchString : string,
+			@Spring::_aspects.RequestParam(value = "filter")
+			sync in filter: string,
+			@Spring::_aspects.ResponseEntity
+			sync out locationDataDtos : DomainData::ChargingStationSearch.LocationDataDtos
+		);
+		
+		
+		@endpoints(Spring::_protocols.rest: "/locationData/findWithin";)
+		@Spring::_aspects.GetMapping
+		public getAllLocationDataWithin(
+			@Spring::_aspects.RequestParam(value="lat")
+			sync in lat : string,
+			@Spring::_aspects.RequestParam(value="lng")
+			sync in lng : string,
+			@Spring::_aspects.RequestParam(value="radius")
+			sync in radius : double,
+			@Spring::_aspects.RequestParam(value="metric")
+			sync in metric : string,
+			@Spring::_aspects.ResponseEntity
+			sync out locationDataDtos : DomainData::ChargingStationSearch.LocationDataDtos
+		);
+		
+		
+		@endpoints(Spring::_protocols.rest: "/locationData/findNear";)
+		@Spring::_aspects.GetMapping
+		public getAllLocationDataNear(
+			@Spring::_aspects.RequestParam(value="lat")
+			sync in lat : string,
+			@Spring::_aspects.RequestParam(value="lng")
+			sync in lng : string,
+			@Spring::_aspects.RequestParam(value="radius")
+			sync in radius : double,
+			@Spring::_aspects.RequestParam(value="metric")
+			sync in metric : string,
+			@Spring::_aspects.ResponseEntity
+			sync out locationDataDtos : DomainData::ChargingStationSearch.LocationDataDtos
+		);
+		
+		
+		@endpoints(Spring::_protocols.rest: "/locationData/findNearFiltered";)
+		@Spring::_aspects.GetMapping
+		public getAllLocationDataNearAndExtFilter(
+			@Spring::_aspects.RequestParam(value="lat")
+			sync in lat : string,
+			@Spring::_aspects.RequestParam(value="lng")
+			sync in lng : string,
+			@Spring::_aspects.RequestParam(value="radius")
+			sync in radius : double,
+			@Spring::_aspects.RequestParam(value="metric")
+			sync in metric : string,
+			@Spring::_aspects.RequestParam(value="filter")
+			sync in filter : string,
+			@Spring::_aspects.ResponseEntity
+			sync out locationDataDtos : DomainData::ChargingStationSearch.LocationDataDtos
+		);
+		
+		
+		@endpoints(Spring::_protocols.rest: "/locationData/exists/{locationDataId}";)
+		@Spring::_aspects.GetMapping
+		public existsPatientData(
+			@Spring::_aspects.PathVariable(value="locationDataId")
+			sync in locationDataId : string,
+			sync out exists : boolean
+		);
+		
+		
+		@endpoints(Spring::_protocols.rest: "/locationData/{locationDataId}";)
+		@Spring::_aspects.DeleteMapping
+		public deletePatientData(
+			@Spring::_aspects.PathVariable(value="locationDataId")
+			sync in locationDataId : string
+		);
+	}
+}

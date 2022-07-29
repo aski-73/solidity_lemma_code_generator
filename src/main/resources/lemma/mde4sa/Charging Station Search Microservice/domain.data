@@ -1,0 +1,26 @@
+context ChargingStationSearch {
+ 	
+	structure LocationData<entity,aggregate> {
+		string id<identifier>,
+		string refId,
+		string address,
+		string extFilter,
+		Location location<part>
+	}
+	
+	structure Location<valueObject> {
+		immutable string longitude,
+       	immutable string latitude
+	}
+	
+	structure LocationDataDto<valueObject> {
+		immutable string id,
+    	immutable string refId,
+    	immutable string address,
+    	immutable string extFilter,
+    	immutable string lat,
+    	immutable string lng
+	}
+	
+	list LocationDataDtos {LocationDataDto ldd}
+}

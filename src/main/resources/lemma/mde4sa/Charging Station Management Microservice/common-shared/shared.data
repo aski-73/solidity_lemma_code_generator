@@ -1,0 +1,82 @@
+context ChargingStationManagement {
+	 	
+	structure ParkingSpace<valueObject> {
+		immutable string id,
+		immutable string name,
+		immutable string description,
+		immutable long ownerId,
+		immutable float parkingPricePerHour,
+		immutable boolean activated,
+		immutable boolean blocked,
+		immutable boolean offered,
+		immutable Location location,
+		immutable TimePeriods availabilityPeriods,
+		immutable ParkingSpaceSize parkingSpaceSize
+	}
+		
+		
+	structure ElectrifiedParkingSpace<valueObject> {
+		immutable string id,
+		immutable string name,
+		immutable string description,
+		immutable long ownerId,
+		immutable float parkingPricePerHour,
+		immutable boolean activated,
+		immutable boolean blocked,
+		immutable boolean offered,
+		immutable Location location,
+		immutable TimePeriods availabilityPeriods,
+		immutable ParkingSpaceSize parkingSpaceSize,
+		immutable float chargingPricePerKWH,
+		immutable ChargingType chargingType,
+		immutable string pluginType
+	}
+		
+	structure Location<valueObject> {
+		immutable double longitued,
+		immutable double latitude
+	}
+		
+	structure TimePeriod<valueObject> {
+		immutable date start,
+		immutable date end	
+	}
+		
+	list TimePeriods {TimePeriod tp}
+		
+	enum ParkingSpaceSize {
+		SMALL,
+		MEDIUM,
+		LARGE
+	}
+		
+	enum ChargingType{
+		FAST,
+		NORMAL
+	}
+		
+	structure CPIChangeMessage<valueObject> {
+		immutable long chargingPointId,
+		immutable float chargedEnergy,
+		immutable string userId,
+		immutable float current_L1,
+		immutable float current_L2,
+		immutable float current_L3,
+		immutable float voltage_L1,
+		immutable float voltage_L2,
+		immutable float voltage_L3,
+		immutable int current_Limit,
+		immutable date timestamp,
+		immutable Status status
+	}
+		
+	enum Status {
+		A,
+		B,
+		C,
+		D
+	}
+	
+	list IDs {string}
+}
+ 

@@ -1,0 +1,42 @@
+import microservices from "chargingStationManagement.services" as ChargingStationManagementService
+import technology from "../../technology/container_base.technology" as ContainerBase
+import technology from "../../technology/protocol.technology" as ^protocol
+import nodes from "../../infrastructure/eureka.operation" as ServiceDiscovery
+import nodes from "../../infrastructure/mongodb.operation" as Database
+import nodes from "../../infrastructure/keycloak.operation" as keycloak
+ 
+ 
+@technology(ContainerBase)
+@technology(^protocol)
+container ChargingStationManagementQueryContainer
+	deployment technology ContainerBase::_deployment.Kubernetes with operation environment  "openjdk:11-jdk-slim"
+	deploys ChargingStationManagementService::de.fhdo.puls.ChargingStationManagementQuery
+	depends on nodes 
+		ServiceDiscovery::Eureka,
+		Database::MongoDB,
+		keycloak::Keycloak
+	{
+			default values {
+				//General Spring Boot configurations
+				springApplicationName="ChargingStationManagementMicroserviceQuery" 
+				serverPort=8072
+				
+				// MongoDB database configuration
+				springDataMongodbUsername="${MONGODB.USERNAME}" 
+				stringDataMongodbPassword="${MONGODB.PASSWORD}"
+				springDataMongodbHost="mongodb"
+				springDataMongodbPort=27017
+				springDataMongodbDatabase="parkandcharge_query"
+				
+				//Keycloak configuration
+				keycloakAuthServerUrl="https://auth.seelab.fh-dortmund.de/auth"
+				keycloakRealm="puls"
+				keycloakResource="puls"
+				keycloakBearerOnly=true
+				
+				//Eureka configuration
+				eurekaUri="http://discovery-service:8761/eureka"
+				
+				basic endpoints {^protocol::_protocols.rest: "http://localhost:8071/ChargingStationManagementService";}
+			}
+	}

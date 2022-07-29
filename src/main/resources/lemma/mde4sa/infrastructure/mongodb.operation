@@ -1,0 +1,27 @@
+import technology from "../technology/container_base.technology" as container_base
+import technology from "../technology/mongodb.technology" as mongodb
+import nodes from "../Charging Station Management Microservice/command-side/chargingStationManagement.operation" as CSMMCommandSide
+import nodes from "../Charging Station Management Microservice/query-side/chargingStationManagement.operation" as CSMMQuerySide
+import nodes from "../Charging Station Search Microservice/chargingStationSearch.operation" as ChargingStationSearchService
+import nodes from "../Environmental Data Analysis Microservice/command-side/environmentalDataAnalysis.operation" as EDAMCommandSide
+import nodes from "../Environmental Data Analysis Microservice/query-side/environmentalDataAnalysis.operation" as EDAMQuerySide
+
+@technology(container_base)
+@technology(mongodb)
+MongoDB is mongodb::_infrastructure.MongoDB
+    with operation environment "docker/mongo:latest"
+    used by nodes 
+    	CSMMCommandSide::ChargingStationManagementCommandContainer,
+		CSMMQuerySide::ChargingStationManagementQueryContainer,
+		ChargingStationSearchService::ChargingStationSearchContainer,
+		EDAMCommandSide::EnvironmentalDataAnalysisCommandContainer,
+		EDAMQuerySide::EnvironmentalDataAnalysisQueryContainer 
+    {
+        default values {
+			userName="${MONGODB.USERNAME}" 
+			password="${MONGODB.PASSWORD}"
+            imageType="DockerHub"
+            port=27017
+            database=""
+        }
+	}

@@ -89,9 +89,8 @@ class GenerationUtil {
             val parentType = mapToLocalField(eObject)
 
             // Share logic to compute common attributes
-            val field = FieldImpl(parentType.name)
-            field.type = parentType.type
-            field.array = parentType.array
+            val field = FieldImpl(parentType.name, parentType.type)
+            field.type.array = parentType.type.array
             field.visibility = mapToFieldVisibility(eObject)
             field.payable = parentType.payable
 
@@ -102,12 +101,11 @@ class GenerationUtil {
          * Maps [IntermediateDataField] to [StructureField]
          */
         fun mapToLocalField(eObject: IntermediateDataField): LocalField {
-            val localField = LocalFieldImpl(eObject.name)
-            localField.type = mapTypes(eObject.type)
-            if (localField.type == "none") {
-                localField.type = mapTypes(eObject.aspects)
+            val localField = LocalFieldImpl(eObject.name, mapToType(eObject.type))
+            if (localField.type.name == "none") {
+                localField.type = mapToType(eObject.aspects)
             }
-            localField.array = eObject.listType != null
+            localField.type.array = eObject.listType != null
             localField.payable = eObject.aspects.any{ it.qualifiedName.equals(SolidityTechnology.ASPECT_PAYABLE.value)}
 
             return localField
@@ -121,9 +119,9 @@ class GenerationUtil {
             f.visibility = mapToDataOperationVisibility(eObject)
             if (eObject.returnType != null) {
                 if (eObject.returnType is IntermediateDataOperationReturnType) {
-                    f.returns.add(eObject.returnType.type.name)
+                    f.returns.add(mapToParameter(eObject.returnType))
                 } else {
-                    f.returns.add(eObject.returnType.simpleName)
+                    f.returns.add(mapToParameter(eObject.returnType))
                 }
             }
             eObject.parameters.forEach {
@@ -136,8 +134,19 @@ class GenerationUtil {
          * Maps [IntermediateDataOperationParameter] to [OperationParameter]
          */
         fun mapToParameter(eObject: IntermediateDataOperationParameter): FunctionParameter {
-            val param = FunctionParameterImpl(eObject.name)
-            param.type = mapTypes(eObject.type)
+            val param = FunctionParameterImpl(eObject.name, mapToType(eObject.type))
+            param.dataLocation = DataLocation.MEMORY
+            return param
+        }
+
+        fun mapToParameter(eObject: IntermediateDataOperationReturnType): FunctionParameter {
+            val param = FunctionParameterImpl("", mapToType(eObject.type))
+            param.dataLocation = DataLocation.MEMORY
+            return param
+        }
+
+        fun mapToParameter(str: String): FunctionParameter {
+            val param = FunctionParameterImpl("", TypeImpl(str))
             param.dataLocation = DataLocation.MEMORY
             return param
         }
@@ -176,6 +185,10 @@ class GenerationUtil {
             return modifier
         }
 
+        fun mapToType(eObject: IntermediateType): Type {
+            return TypeImpl(mapTypes(eObject))
+        }
+
         fun mapTypes(eObject: IntermediateType): String {
             return if (eObject is IntermediateComplexType) {
                 eObject.name
@@ -188,16 +201,16 @@ class GenerationUtil {
             }
         }
 
-        fun mapTypes(aspects: EList<IntermediateImportedAspect>): String {
+        fun mapToType(aspects: EList<IntermediateImportedAspect>): Type {
             val mappingType = aspects.find {it.qualifiedName == SolidityTechnology.ASPECT_MAPPING.value}
 
-            if (mappingType != null) {
+            return if (mappingType != null) {
                 val mappingKey = mappingType.propertyValues.find { it.property.name == SolidityTechnology.ASPECT_MAPPING_KEY.value }
                 val mappingValue = mappingType.propertyValues.find { it.property.name == SolidityTechnology.ASPECT_MAPPING_VALUE.value }
 
-                return "mapping(${mappingKey?.value} => ${mappingValue?.value})"
+                TypeImpl("mapping(${mappingKey?.value} => ${mappingValue?.value})")
             } else {
-                return ""
+                TypeImpl("")
             }
         }
 

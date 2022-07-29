@@ -1,0 +1,18 @@
+import technology from "../../mde4sa/technology/ethereum.technology" as Ethereum
+import nodes from "../../mde4sa/Booking Management Microservice/command-side/bookingManagement.operation" as BookingManagementCommandSide
+import nodes from "../../mde4sa/Booking Management Microservice/query-side/bookingManagement.operation" as BookingManagementQuerySide
+import nodes from "../../mde4sa/Charging Station Management Microservice/command-side/chargingStationManagement.operation" as ChargingManagementCommandSide
+import nodes from "../../mde4sa/Charging Station Management Microservice/query-side/chargingStationManagement.operation" as ChargingManagementQuerySide
+
+@technology(Ethereum)
+Ethereum is Ethereum:: _infrastructure.EthereumBlockchain 
+	used by nodes 
+		BookingManagementCommandSide::BookingManagementCommandContainer,
+		BookingManagementQuerySide::BookingManagementQueryContainer,
+		ChargingManagementCommandSide::ChargingStationManagementCommandContainer,
+		ChargingManagementQuerySide::ChargingStationManagementQueryContainer {
+		default values {
+			blockchainNetworkHostname = "http://localhost"
+			blockchainNetworkPort = "8545"
+		}
+	}

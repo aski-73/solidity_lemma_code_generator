@@ -1,0 +1,340 @@
+import datatypes from "../common-shared/shared.data" as sharedData
+import datatypes from "../common-shared/events.data" as BookingManagementEvents 
+import microservices from "../command-side/bookingManagement.services" as BookingManagementCommand
+import technology from "../../technology/Spring.technology" as Spring
+import technology from "../../technology/Java.technology" as Java
+import technology from "../../technology/Cqrs.technology" as CQRS
+import technology from "../../technology/Kafka.technology" as Kafka
+ 
+@technology(Spring)
+@technology(CQRS)
+@technology(Kafka)
+@endpoints(Kafka::_protocols.kafka:"kafka-server1:9092";)
+@Kafka::_aspects.BootstrapAddress("kafka-server1:9092")
+@CQRS::_aspects.QuerySide("BookingManagementMicroserviceQuery")
+@Spring::_aspects.Application(name="BookingManagementMicroserviceQuery",port=8062)
+functional microservice de.fhdo.puls.BookingManagementQuery { 
+	
+	required microservices {
+		BookingManagementCommand::de.fhdo.puls.BookingManagementCommand
+	}
+	
+	//Interface for QUERY-Methods of ParkBookings
+	@endpoints(Spring::_protocols.rest: "/resources/v1";)
+	interface ParkBookingQueryApi {
+		
+		---
+        API endpoint for retrieving information about a single parking booking
+        
+        @required bookingId Identifier of the park booking
+        ---
+		@endpoints(Spring::_protocols.rest: "/parkBooking/{bookingId}";)
+		@Spring::_aspects.GetMapping
+		public readParkBooking(
+			@Spring::_aspects.PathVariable(value="bookingId")
+			sync in bookingId : long,
+			@Spring::_aspects.ResponseEntity
+			sync out parkBooking : sharedData::SharedData.ParkBooking,
+			@Spring::_aspects.ResponseStatus("NOT_FOUND")
+			sync out fault bookingNotFound : string
+		);
+		
+		---
+        API endpoint for all park bookings
+        ---
+		@endpoints(Spring::_protocols.rest: "/parkBookings";)
+		@Spring::_aspects.GetMapping
+		public readAllParkBookings(
+			@Spring::_aspects.ResponseEntity
+			sync out parkBookings : sharedData::SharedData.ParkBookingList
+		);
+		
+		
+		---
+        API endpoint for blockchain booking data call
+        
+        @required bookingId Identifier of the park booking
+        ---
+		@endpoints(Spring::_protocols.rest: "/parkBooking/blockchainQuery/{bookingId}";)
+		@Spring::_aspects.GetMapping
+		public readParkBookingBlockchainData(
+			@Spring::_aspects.PathVariable(value="bookingId")
+			@Spring::_aspects.Valid
+			sync in bookingId : long,
+			@Spring::_aspects.ResponseEntity
+			sync out blockchainDataParkBooking : sharedData::SharedData.BlockchainDataParkBooking,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault contractBytecodeMismatch : string,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault exception : string
+		);
+		
+		
+		---
+        API endpoint for reading all current park bookings of a given parking space
+        
+        @required parkingSpaceId Identifier of the parking space
+        ---
+		@endpoints(Spring::_protocols.rest: "/currentParkBookings/parkingSpace/{parkingSpaceId}";)
+		@Spring::_aspects.GetMapping
+		public readCurrentParkBookingsOfParkingSpace(
+			@Spring::_aspects.PathVariable(value="parkingSpaceId")
+			@Spring::_aspects.Valid
+			sync in parkingSpaceId : long,
+			@Spring::_aspects.ResponseEntity
+			sync out parkBookings : sharedData::SharedData.ParkBookingList
+		);
+		
+		
+		---
+        API endpoint for reading all canceled park bookings of a given parking space
+        
+        @required parkingSpaceId Identifier of the parking space 
+        ---
+		@endpoints(Spring::_protocols.rest: "/canceledParkBookings/parkingSpace/{parkingSpaceId}";)
+		@Spring::_aspects.GetMapping
+		public readCanceledParkBookingsOfParkingSpace(
+			@Spring::_aspects.PathVariable(value="parkingSpaceId")
+			@Spring::_aspects.Valid
+			sync in parkingSpaceId : long,
+			@Spring::_aspects.ResponseEntity
+			sync out parkBookings : sharedData::SharedData.ParkBookingList
+		);
+		
+		
+		---
+        API endpoint for reading all park bookings of a given booker
+        
+        @required bookerId Identifier of the booker
+        ---
+		@endpoints(Spring::_protocols.rest: "/parkBookings/booker/{bookerId}";)
+		@Spring::_aspects.GetMapping
+		public readParkBookingsFromBooker(
+			@Spring::_aspects.PathVariable(value="bookerId")
+			@Spring::_aspects.Valid
+			sync in bookerId: long,
+			@Spring::_aspects.ResponseEntity
+			sync out parkBookings : sharedData::SharedData.ParkBookingList 
+		);
+		
+		
+		---
+        API endpoint for reading all current park bookings of a given booker
+        
+        @required bookerId Identifier of the booker
+        ---
+		@endpoints(Spring::_protocols.rest: "/currentParkBookings/booker/{bookerId}";)
+		@Spring::_aspects.GetMapping
+		public readCurrentParkBookingsFromBooker(
+			@Spring::_aspects.PathVariable(value="bookerId")
+			@Spring::_aspects.Valid
+			sync in bookerId: long,
+			@Spring::_aspects.ResponseEntity
+			sync out parkBookings : sharedData::SharedData.ParkBookingList 
+		);
+		
+		
+		---
+        API endpoint for reading all canceled park bookings of a given booker
+        
+        @required bookerId Identifier of the booker
+        ---
+		@endpoints(Spring::_protocols.rest: "/canceledParkBookings/booker/{bookerId}";)
+		@Spring::_aspects.GetMapping
+		public readCanceledParkBookingsFromBooker(
+			@Spring::_aspects.PathVariable(value="bookerId")
+			@Spring::_aspects.Valid
+			sync in bookerId: long,
+			@Spring::_aspects.ResponseEntity
+			sync out parkBookings : sharedData::SharedData.ParkBookingList 
+		);
+		
+		
+		@Kafka::_aspects.Participant(
+			topic="parkBookingCreatedEvents",
+			consumerGroup="parkBookingCreatedEvents"
+		)
+		receiveParkBookingCreatedEvents(
+			async event : BookingManagementEvents::BookingManagementEvents.ParkBookingCreated
+		);
+		
+		@Kafka::_aspects.Participant(
+			topic="parkBookingUpdatedEvents",
+			consumerGroup="parkBookingUpdatedEvents"
+		)
+		receiveParkBookingUpdatedEvents(
+			async event : BookingManagementEvents::BookingManagementEvents.ParkBookingUpdated
+		);
+		
+		@Kafka::_aspects.Participant(
+			topic="parkBookingCanceledEvents",
+			consumerGroup="parkCanceledDeletedEvents"
+		)
+		receiveParkBookingDeletedEvents(
+			async event : BookingManagementEvents::BookingManagementEvents.ParkBookingCanceled
+		);
+	}
+	
+	
+	
+	
+	//Interface for QUERY-Methods of ParkAndChargeBookings
+	@endpoints(Spring::_protocols.rest: "/resources/v1";)
+	interface ParkAndChargeBookingQueryApi {
+		
+		---
+        API endpoint for retrieving information about a single parking and charge booking
+        
+        @required bookingId Identifier of the park and charge booking
+        ---
+		@endpoints(Spring::_protocols.rest: "/parkAndChargeBooking/{bookingId}";)
+		@Spring::_aspects.GetMapping
+		public readParkAndChargeBooking(
+			@Spring::_aspects.PathVariable(value="bookingId")
+			@Spring::_aspects.Valid
+			sync in bookingId : long,
+			@Spring::_aspects.ResponseEntity
+			sync out parkAndChargeBooking : sharedData::SharedData.ParkAndChargeBooking,
+			@Spring::_aspects.ResponseStatus("NOT_FOUND")
+			sync out fault parkBookingNotFound : string
+		);
+		
+		
+		---
+        API endpoint for all park and charge bookings
+        ---
+		@endpoints(Spring::_protocols.rest: "/parkAndChargeBookings";)
+		@Spring::_aspects.GetMapping
+		public readAllParkAndChargeBookings(
+			@Spring::_aspects.ResponseEntity
+			sync out parkAndChargeBookings : sharedData::SharedData.ParkAndChargeBookingList
+		);
+		
+		
+		---
+        API endpoint for blockchain booking data call
+        
+        @required bookingId Identifier of the park and charge booking
+        ---
+		@endpoints(Spring::_protocols.rest: "/parkAndChargeBooking/blockchainQuery/{bookingId}";)
+		@Spring::_aspects.GetMapping
+		public readParkAndParkBookingBlockchainData(
+			@Spring::_aspects.PathVariable(value="bookingId")
+			@Spring::_aspects.Valid
+			sync in bookingId : long,
+			@Spring::_aspects.ResponseEntity
+			sync out blockchainDataParkAndChargeBooking : sharedData::SharedData.BlockchainDataParkAndChargeBooking,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault contractBytecodeMismatch : string,
+			@Spring::_aspects.ResponseStatus("INTERNAL_SERVER_ERROR")
+			sync out fault exception : string
+		);
+		
+		
+		---
+        API endpoint for reading all current park and charge bookings of a given parking space
+        
+        @required parkingSpaceId Identifier of the parking space
+        ---
+		@endpoints(Spring::_protocols.rest: "/currentParkAndChargeBookings/parkingSpace/{parkingSpaceId}";)
+		@Spring::_aspects.GetMapping
+		public readCurrentBookingsOfParkingSpace(
+			@Spring::_aspects.PathVariable(value="parkingSpaceId")
+			@Spring::_aspects.Valid
+			sync in parkingSpaceId : long,
+			@Spring::_aspects.ResponseEntity
+			sync out parkAndChargeBookings : sharedData::SharedData.ParkAndChargeBookingList
+		);
+		
+		
+		---
+        API endpoint for reading all canceled park and charge bookings of a given parking space
+        
+        @required parkingSpaceId Identifier of the parking space
+        ---
+		@endpoints(Spring::_protocols.rest: "/canceledParkAndChargeBookings/parkingSpace/{parkingSpaceId}";)
+		@Spring::_aspects.GetMapping
+		public readCanceledBookingsOfParkingSpace(
+			@Spring::_aspects.PathVariable(value="parkingSpaceId")
+			@Spring::_aspects.Valid
+			sync in parkingSpaceId : long,
+			@Spring::_aspects.ResponseEntity
+			sync out parkAndChargeBookings : sharedData::SharedData.ParkAndChargeBookingList
+		);
+		
+		
+		---
+        API endpoint for reading all park and charge bookings of a given booker
+        
+        @required bookerId Identifier of the booker
+        ---
+		@endpoints(Spring::_protocols.rest: "/parkAndChargeBookings/booker/{bookerId}";)
+		@Spring::_aspects.GetMapping
+		public readParkAndChargeBookingsFromBooker(
+			@Spring::_aspects.PathVariable(value="bookerId") 
+			@Spring::_aspects.Valid
+			sync in bookerId: long,
+			@Spring::_aspects.ResponseEntity
+			sync out parkAndChargeBookings : sharedData::SharedData.ParkAndChargeBookingList 
+		);
+		
+		
+		---
+        API endpoint for reading all current park and charge bookings of a given booker
+        
+        @required bookerId Identifier of the booker
+        ---
+		@endpoints(Spring::_protocols.rest: "/currentParkAndChargeBookings/booker/{bookerId}";)
+		@Spring::_aspects.GetMapping
+		public readCurrentParkAndChargeBookingsFromBooker(
+			@Spring::_aspects.PathVariable(value="bookerId")
+			@Spring::_aspects.Valid
+			sync in bookerId: long,
+			@Spring::_aspects.ResponseEntity
+			sync out parkAndChargeBookings : sharedData::SharedData.ParkAndChargeBookingList 
+		);
+		
+		
+		---
+        API endpoint for reading all canceled park and charge bookings of a given booker
+        
+        @required bookerId Identifier of the booker
+        ---
+		@endpoints(Spring::_protocols.rest: "/canceledParkAndChargeBookings/booker/{bookerId}";)
+		@Spring::_aspects.GetMapping
+		public readCanceledParkAndChargeBookingsFromBooker(
+			@Spring::_aspects.PathVariable(value="bookerId")
+			@Spring::_aspects.Valid
+			sync in bookerId: long,
+			@Spring::_aspects.ResponseEntity
+			sync out parkAndChargeBookings : sharedData::SharedData.ParkAndChargeBookingList 
+		);
+		
+		
+		@Kafka::_aspects.Participant(
+			topic="parkAndChargeBookingCreatedEvents",
+			consumerGroup="parkAndChargeCreatedEvents"
+		)
+		receiveParkBookingCreatedEvents(
+			async event : BookingManagementEvents::BookingManagementEvents.ParkAndChargeBookingCreated
+		);
+		
+		
+		@Kafka::_aspects.Participant(
+			topic="parkAndChargeBookingUpdatedEvents",
+			consumerGroup="parkAndChargeBookingUpdatedEvents"
+		)
+		receiveParkBookingUpdatedEvents(
+			async event : BookingManagementEvents::BookingManagementEvents.ParkAndChargeBookingUpdated
+		);
+		
+		
+		@Kafka::_aspects.Participant(
+			topic="parkAndChargeBookingCanceledEvents",
+			consumerGroup="parkAndChargeCanceledDeletedEvents"
+		)
+		receiveParkBookingDeletedEvents(
+			async event : BookingManagementEvents::BookingManagementEvents.ParkAndChargeBookingCanceled
+		);
+	}
+}

@@ -1,0 +1,37 @@
+import microservices from "chargingStationSearch.services" as ChargingStationSearchService
+import technology from "../technology/container_base.technology" as ContainerBase
+import nodes from "../infrastructure/eureka.operation" as ServiceDiscovery
+import nodes from "../infrastructure/mongodb.operation" as Database
+import nodes from "../infrastructure/keycloak.operation" as Keycloak
+ 
+@technology(ContainerBase) 
+container ChargingStationSearchContainer 
+	deployment technology ContainerBase::_deployment.Kubernetes with operation environment "openjdk:11-jdk-slim"
+	deploys ChargingStationSearchService::de.fhdo.puls.ChargingStationSearchManagement 
+	depends on nodes 
+		ServiceDiscovery::Eureka,
+		Database::MongoDB,
+		Keycloak::Keycloak
+	{
+		default values {
+			//General Spring Boot configurations
+			springApplicationName="ChargingStationManagementMicroservice" 
+			serverPort=8051
+			
+			// MongoDB database configuration
+			springDataMongodbUsername="${MONGODB.USERNAME}" 
+			stringDataMongodbPassword="${MONGODB.PASSWORD}"
+			springDataMongodbHost="mongodb"
+			springDataMongodbPort=27017
+			springDataMongodbDatabase="parkingspace_search_service"
+			
+			//Eureka configuration
+			eurekaUri="http://discovery-service:8761/eureka"
+			
+			//Keycloak configuration
+			keycloakAuthServerUrl="https://auth.seelab.fh-dortmund.de/auth"
+			keycloakRealm="puls"
+			keycloakResource="puls"
+			keycloakBearerOnly=true
+		}
+	}

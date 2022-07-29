@@ -1,0 +1,36 @@
+import datatypes from "shared.data" as sharedData
+ 
+context EnvironmentalDataAnalysis {
+	
+	structure EnvironmentDataReceived<valueObject,domainEvent> {
+		immutable string sensorUnitId,
+        immutable sharedData::EnvironmentalDataAnalysis.SensorValue particulates2,
+        immutable sharedData::EnvironmentalDataAnalysis.SensorValue particulates10,
+        immutable sharedData::EnvironmentalDataAnalysis.SensorValue light,
+        immutable sharedData::EnvironmentalDataAnalysis.SensorValue temperature,
+        immutable sharedData::EnvironmentalDataAnalysis.SensorValue humidity
+	}
+	
+	structure EnvironmentSensorUnitCreated<valueObject,domainEvent> {
+		immutable string sensorUnitId,
+        immutable string name,
+        immutable long sensorBoxId,
+        immutable string description,
+        immutable string status,
+        immutable float longitude,
+        immutable float latitude,
+        immutable string sensorTyp
+	}
+	
+	structure EnvironmentSensorUnitUpdated<valueObject,domainEvent> {
+		immutable string sensorUnitId,
+        immutable string name,
+        immutable string description,
+        immutable string status,
+        immutable float longitude,
+        immutable float latitude,
+        immutable date lastModifiedDate,
+        immutable string sensorTyp
+	}
+	
+}

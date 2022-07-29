@@ -114,7 +114,7 @@ private class ExtendedGenerationGapSerializerBase {
                 // All declared functions must be external in the interface, even if they are public in the contract.
                 // Solidity Docs 0.8.15
                 f.visibility = Visibility.EXTERNAL
-                f.expressions.clear()
+                f.statements.clear()
                 genInterface.definitions.functions.add(f)
             }
 
@@ -247,14 +247,14 @@ private class ExtendedGenerationGapSerializerBase {
 
         // Add empty implementations to the functions and modifiers who don't have an implementation yet
         genImpl.definitions.functions
-            .filter { it.expressions.size == 0 }
+            .filter { it.statements.size == 0 }
             .forEach {
-                it.expressions.add(ExpressionStringImpl("revert(\"IMPLEMENTATION REQUIRED\")"))
+                it.statements.add(StatementExpressionImpl(ExpressionImpl("revert(\"IMPLEMENTATION REQUIRED\")")))
             }
         genImpl.definitions.modifiers
-            .filter { it.expressions.size == 0 }
+            .filter { it.statements.size == 0 }
             .forEach {
-                it.expressions.add(ExpressionStringImpl("revert(\"IMPLEMENTATION REQUIRED\")"))
+                it.statements.add(StatementExpressionImpl(ExpressionImpl("revert(\"IMPLEMENTATION REQUIRED\")")))
             }
 
         // Set the 'override' key word for GenInterface-functions that are implemented by the GenImpl.
@@ -295,8 +295,8 @@ private class ExtendedGenerationGapSerializerBase {
             val f = FunctionImpl(it)
             f.isAbstract = false
             f.doesOverride = true
-            val returnExpression = "return" + (if (f.returns.size > 0) " ${defaultReturnValue(f.returns)}" else "")
-            f.expressions.add(ExpressionStringImpl(returnExpression))
+            val returnExpression = "return" + (if (f.returns.size > 0) " ${defaultReturnValue(f.returns.map { it -> it.type.name })}" else "")
+            f.statements.add(StatementExpressionImpl(ExpressionImpl(returnExpression)))
             contract.definitions.functions.add(f)
         }
         contract.extends.add(baseImpl.definitions.contracts[0])

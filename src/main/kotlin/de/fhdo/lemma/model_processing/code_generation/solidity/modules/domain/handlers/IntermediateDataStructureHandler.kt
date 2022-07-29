@@ -10,7 +10,8 @@ import de.fhdo.lemma.model_processing.code_generation.solidity.modules.domain.ha
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.domain.handlers.GenerationUtil.Companion.mapToSmartContract
 import de.fhdo.lemma.model_processing.code_generation.solidity.modules.domain.handlers.GenerationUtil.Companion.mapToStructure
 import net.aveyon.intermediate_solidity.*
-import net.aveyon.intermediate_solidity.impl.ExpressionStringImpl
+import net.aveyon.intermediate_solidity.impl.ExpressionImpl
+import net.aveyon.intermediate_solidity.impl.StatementExpressionImpl
 import net.aveyon.meivsm.MetaInformation
 import java.io.File
 import java.io.FileInputStream
@@ -148,25 +149,25 @@ class IntermediateDataStructureHandler : CodeGenerationHandlerI<IntermediateData
             it.name == "handle"
         } ?: return
 
-        val handleIfFunExpressionIf = handleIfFun.expressions[0]
+        val handleIfFunStatementIf = handleIfFun.statements[0]
 
-        if (handleIfFunExpressionIf is ExpressionIf) {
-            handleIfFunExpressionIf.conditions
+        if (handleIfFunStatementIf is StatementIf) {
+            handleIfFunStatementIf.conditions
                 .forEach {
                     val condition = it.first
-                    if (condition.contains("isEqual(input")) {
+                    if (condition.value.contains("isEqual(input")) {
                         val regex = ".*isEqual\\(input, \"([\\w]*)(\\(.*\\))?\"\\).*".toRegex()
                         // our target is in the second match group (index 1)
-                        val opName = regex.matchEntire(condition)?.groups?.get(1)?.value
+                        val opName = regex.matchEntire(condition.value)?.groups?.get(1)?.value
                         if (opName != null) { // opName extracted. Lookup in contract
                             contract.definitions.functions.find { f -> f.name == opName }
-                                ?.expressions?.addAll(it.second) // TODO exit activities are added too, but is not allowed!
+                                ?.statements?.addAll(it.second) // TODO exit activities are added too, but is not allowed!
 
                             it.second.clear()
 
                             // add call to operation. 3rd match group (index 2) contains params (already enclosed in parentheses)
-                            val opParams = regex.matchEntire(condition)?.groups?.get(2)?.value
-                            it.second.add(ExpressionStringImpl("$opName$opParams"))
+                            val opParams = regex.matchEntire(condition.value)?.groups?.get(2)?.value
+                            it.second.add(StatementExpressionImpl(ExpressionImpl("$opName$opParams")))
                         }
                     }
                 }

@@ -1,0 +1,36 @@
+import technology from "../technology/container_base.technology" as container_base
+import technology from "../technology/eureka.technology" as Eureka
+import nodes from "../Booking Management Microservice/command-side/bookingManagement.operation" as BookingManagementCommandSide
+import nodes from "../Booking Management Microservice/query-side/bookingManagement.operation" as BookingManagementQuerySide
+import nodes from "../Charging Station Management Microservice/command-side/chargingStationManagement.operation" as CSMMCommandSide
+import nodes from "../Charging Station Management Microservice/query-side/chargingStationManagement.operation" as CSMMQuerySide
+import nodes from "../Charging Station Search Microservice/chargingStationSearch.operation" as ChargingStationSearchService
+import nodes from "../Environmental Data Analysis Microservice/command-side/environmentalDataAnalysis.operation" as EDAMCommandSide
+import nodes from "../Environmental Data Analysis Microservice/query-side/environmentalDataAnalysis.operation" as EDAMQuerySide
+
+@technology(container_base)
+@technology(Eureka)
+Eureka is Eureka::_infrastructure.Eureka
+    with operation environment "openjdk:11-jdk-slim"
+    used by nodes
+    	BookingManagementCommandSide::BookingManagementCommandContainer,
+		BookingManagementQuerySide::BookingManagementQueryContainer,
+		CSMMCommandSide::ChargingStationManagementCommandContainer,
+		CSMMQuerySide::ChargingStationManagementQueryContainer,
+		ChargingStationSearchService::ChargingStationSearchContainer,
+		EDAMCommandSide::EnvironmentalDataAnalysisCommandContainer,
+		EDAMQuerySide::EnvironmentalDataAnalysisQueryContainer
+	{
+		    
+		    default values {
+		        hostname="eureka"
+		        port=8761
+		        imageType="SpringComponent"
+		        mavenArtifactId="Eureka"
+		        mavenGroupId="de.fhdo.puls.service.eureka"
+		        mavenVersion="0.0.1-SNAPSHOT"
+		        mavenName="eureka"
+		        programmingLanguage="Java"
+		    }
+		    
+	}
